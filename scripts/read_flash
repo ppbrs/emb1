@@ -1,0 +1,9 @@
+#!/bin/bash
+
+openocd -f /board/st_nucleo_h743zi.cfg \
+  -c init \
+  -c "reset halt" \
+  -c "flash read_bank 0 $0.flash_bank_0.bin 0 0x100000" \
+  -c "reset" \
+  -c shutdown
+

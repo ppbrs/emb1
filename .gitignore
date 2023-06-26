@@ -1,0 +1,12 @@
+*.pyc
+
+*.sublime-workspace
+
+.obsidian/workspace.json
+
+obj/
+bin/
+tmp/
+scripts/*bin
+
+*.log

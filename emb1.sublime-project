@@ -1,0 +1,238 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+		},
+		// {
+		//   "path": "/usr/share/openocd/scripts/",
+		//   "name": "/usr/share/openocd/scripts/",
+		//   // "path": "/usr/share/openocd/",
+		//   // "name": "/usr/share/openocd/",
+		// },
+		// {
+		//   "path": "./../3party/FreeRTOS-LTS",
+		// },
+		// {
+		//   "path": "./../3party/STM32CubeH7/Drivers/STM32H7xx_HAL_Driver",
+		// },
+		// {
+		//   "path": "./../3party/stlink",
+		// },
+		// {
+		// 	"path": "~/.local/lib/python3.10/site-packages/elftools",
+		// },
+		// {
+		// 	"path": "/opt/gcc-arm-none-eabi-10.3-2021.10/",
+		// },
+		{
+			"path": "~/zephyrproject/zephyr",
+		},
+	],
+	"build_systems":
+	[
+		{
+			"name": "emb1",
+			"shell_cmd": "${file}",
+			"variants":
+			[
+				{
+					"name": "STM32H743-SBX: Make.",
+					"shell_cmd": "cd ${project_path} && make stm32h743-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32H743-SBX: Rebuild with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B stm32h743-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32H743-SBX: Rebuild with LLVM.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B stm32h743-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32H743-SBX: Start GDB.",
+					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && gdb-multiarch -x app/stm32h743_sbx/openocd.gdb  ./bin/stm32h743-sbx.elf\"",
+				},
+				{
+					"name": "STM32F051-SBX: Make with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make stm32f051-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32F051-SBX: Make with LLVM.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make stm32f051-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32F051-SBX: Rebuild with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B stm32f051-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32F051-SBX: Rebuild with LLVM.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B stm32f051-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32F051-SBX: Start GDB.",
+					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && gdb-multiarch -x app/stm32f051_sbx/openocd.gdb  ./bin/stm32h743-sbx.elf\"",
+				},
+				{
+					"name": "STM32-ALL: Rebuild with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B stm32-all && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32-ALL: Rebuild with LLVM.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B stm32-all && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "Start OpenOCD on Rijeka board.",
+					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && boards/rijeka.openocd.sh; exec bash\"",
+				},
+				{
+					"name": "Start OpenOCD on Riga board.",
+					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && openocd -f boards/riga.openocd.cfg; exec bash\"",
+				},
+				{
+					"name": "Start OpenOCD on Rimini board.",
+					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && openocd -f boards/rimini.openocd.cfg; exec bash\"",
+				},
+				{
+					"name": "make clean",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make clean",
+				},
+				{
+					"name": "HOST-TESTS: Make with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make host-tests",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "HOST-TESTS: Make with LLVM.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make host-tests",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "HOST-TESTS: Rebuild with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B host-tests",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "HOST-TESTS: Rebuild with LLVM.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B host-tests",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "HOST-TESTS: Make with GNU and run.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make host-tests-run",
+					"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+				},
+				{
+					"name": "HOST-TESTS: Make with LLVM and run.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make host-tests-run",
+					"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+				},
+				{
+					"name": "bash: make executable",
+					"shell_cmd": "chmod +x ${file}",
+				},
+				{
+					"name": "clang-format-14: Format this file, dry run.",
+					"shell_cmd": "clang-format-14 ${file} --style=file --dry-run",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "clang-format-14: Format this file, edit inplace.",
+					"shell_cmd": "clang-format-14 ${file} --style=file -i",
+				},
+			],
+		},
+		{
+			"name": "emb1 zephyr",
+			"shell_cmd": "${file}",
+			"variants":
+			[
+				{
+					"name": "STM32H743-ZEPHYR-SBX: Make.",
+					"working_dir": "${project_path}/app/stm32h743_zephyr_sbx/",
+					"shell_cmd": "./project-build.sh",
+				},
+				{
+					"name": "STM32H743-ZEPHYR-SBX: Flash write.",
+					"working_dir": "${project_path}/app/stm32h743_zephyr_sbx/",
+					"shell_cmd": "./flash-write.sh",
+				},
+				{
+					"name": "STM32F051-ZEPHYR-SBX: Make.",
+					"shell_cmd": "cd ${project_path}/app/stm32f051_zephyr_sbx/ && ./project-build.sh",
+				},
+				// {
+				// 	"name": "STM32H743-ZEPHYR-SBX: Make.",
+				// 	"shell_cmd": "cd ${project_path}/../../cs/cs-011/zephyr/ && ./flash-with-west",
+				// },
+				{
+					"name": "clang-format-14: Format this file, edit inplace.",
+					"shell_cmd": "clang-format-14 ${file} --style=file -i",
+				},
+				{
+					"name": "Start OpenOCD on Rijeka board.",
+					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && boards/rijeka.openocd.sh; exec bash\"",
+				},
+				{
+					"name": "bash: make executable",
+					"shell_cmd": "chmod +x ${file}",
+				},
+				{
+					"name": "HOST-TESTS: Make with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make host-tests",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "HOST-TESTS: Rebuild with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B host-tests",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "HOST-TESTS: Make with GNU and run.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make host-tests-run",
+					"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+				},
+			],
+		},
+		{
+			"name": "emb1 tests",
+			"shell_cmd": "${file}",
+			"variants":
+			[
+				{
+					"name": "python3: Run this module locally.",
+					"shell_cmd": "python3 -u ${file}",
+					"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+				},
+				{
+					"name": "python3: Run pylint on this file.",
+					"shell_cmd": "pylint --load-plugins pylint_quotes --rcfile=${project_path}/.pylintrc ${file}",
+					"file_regex": "(...*?):([0-9]*):.*",
+				},
+				{
+					"name": "python3: Run mypy (--strict) on this file.",
+					"shell_cmd": "mypy --strict ${file}",
+					"file_regex": "(...*?):([0-9]*):.*",
+				},
+				{
+					"name": "make pytest",
+					"shell_cmd": "cd ${project_path} && make pytest",
+				},
+			],
+		},
+	],
+	"settings":
+	{
+		"tab_size": 4,
+		"auto_match_enabled": false,
+		"rulers": [ 100, 100.5, ],
+	},
+}

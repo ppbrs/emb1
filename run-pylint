@@ -1,0 +1,4 @@
+#!/bin/bash
+
+shopt -s globstar  # ** will match all files and zero or more directories and subdirectories
+pylint --rcfile=.pylintrc ./**/*.py

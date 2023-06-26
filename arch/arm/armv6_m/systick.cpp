@@ -1,0 +1,24 @@
+#include "../../../if/mcu/systick.h"
+
+#include "../../../if/mcu/tick.h"
+#include "mmreg/systick.h"
+
+namespace SysTick = armv6_m::mmreg::SysTick;
+
+namespace systick {
+}
+
+
+/**
+ * @brief Initializes the processor’s SysTick timer.
+ */
+void systick::init() {
+  SysTick::SYST.RVR = tick::systemTimerReloadValue;
+
+  SysTick::SYST.CVR = 0;
+  SysTick::CSR csr = {};
+  csr.bits.ENABLE = 1;
+  csr.bits.CLKSOURCE = 1;
+  csr.bits.TICKINT = 1;
+  SysTick::SYST.CSR.word = csr.word;
+}

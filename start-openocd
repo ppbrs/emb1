@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# TODO: make interactive choice between all available boards.
+#
+# $ openocd -f board/nucleo743.openocd.cfg
+openocd -f board/discovery051.openocd.cfg

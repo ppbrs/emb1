@@ -1,0 +1,48 @@
+{
+	"version": "2.0.0",
+	"tasks":
+	[
+		{
+			"label": "STM32F051-SBX: Make.",
+			"type": "shell",
+			"command": "clear && make stm32f051-sbx",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "STM32F051-SBX: Rebuild.",
+			"type": "shell",
+			"command": "clear && make -B stm32f051-sbx",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "STM32H743-SBX: Make.",
+			"type": "shell",
+			"command": "clear && make stm32h743-sbx",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "STM32H743-SBX: Rebuild.",
+			"type": "shell",
+			"command": "clear && make -B stm32h743-sbx",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "python3: Run this file locally.",
+			"type": "shell",
+			"command": "cd ${fileDirname} && python3 -u ${file}",
+			"group": "build",
+		},
+	]
+}

@@ -1,0 +1,54 @@
+{
+	"version": "0.2.0",
+	"configurations":
+	[
+		{
+			"name": "python3: Debug this file.",
+			"type": "python",
+			"request": "launch",
+			"program": "${file}",
+			"cwd": "${fileDirname}",
+			"console": "integratedTerminal",
+			"justMyCode": false,
+		},
+		// https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt433/guides/files/DebuggingGuide.pdf
+
+		{
+			"name": "STM32F051-SBX: Debug.",
+			"cwd": "${workspaceFolder}",
+			"executable": "./bin/stm32f051-sbx.elf",
+			"request": "launch",
+			"type": "cortex-debug",
+			"servertype": "openocd",
+			"configFiles": [
+				"boards/riga.openocd.cfg",
+			],
+			"preLaunchTask": "STM32F051-SBX: Make."
+		},
+		{
+			"name": "STM32H743-SBX: Debug.",
+			"cwd": "${workspaceFolder}",
+			"executable": "./bin/stm32h743-sbx.elf",
+			"request": "launch",
+			"type": "cortex-debug",
+			"servertype": "openocd",
+			"configFiles": [
+				"boards/rijeka.on-the-fly.openocd.cfg",
+			],
+			"preLaunchTask": "STM32H743-SBX: Make.",
+			// "showDevDebugOutput": "raw",
+		},
+		{
+			"name": "STM32H743 zephyr debug.",
+			"cwd": "${workspaceFolder}",
+			"executable": "../../zephyrproject/zephyr/build/zephyr/zephyr.elf",
+			"request": "launch",
+			"type": "cortex-debug",
+			"servertype": "openocd",
+			"configFiles": [
+				"boards/zephyr/rijeka/support/openocd.cfg",
+			],
+			"breakAfterReset": true,
+		}
+	],
+}
