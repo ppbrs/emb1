@@ -1,7 +1,6 @@
-
-#include "../arch/arm/stm32/mmreg/gpio.h"
-#include "../if/mcu/dio.h"
-#include "doubles/gpio_mock.h"
+#include "arch/arm/stm32/mmreg/gpio-mock.h"
+#include "arch/arm/stm32/mmreg/gpio.h"
+#include "if/mcu/dio.h"
 #include "gtest/gtest.h"
 #include <array>
 #include <iostream>

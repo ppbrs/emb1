@@ -11,8 +11,6 @@ else
 endif
 
 
-
-
 host_tests_objs_dir := ./obj/host-tests
 
 gtest_dir := $(realpath ./3party/googletest)
@@ -22,13 +20,13 @@ host_tests_bin_dir := $(binaries_dir)/host-tests
 
 host_tests_srcs =
 host_tests_srcs += arch/arm/stm32/dio.cpp
+host_tests_srcs += arch/arm/stm32/mmreg/gpio-mock.cpp
+host_tests_srcs += common/memory/stack-allocator-tests.cpp
 host_tests_srcs += common/protocol/process-tests.cpp
 host_tests_srcs += common/protocol/process.cpp
-host_tests_srcs += common/memory/stack-allocator-tests.cpp
-host_tests_srcs += host_tests/dio_tests.cpp
-host_tests_srcs += host_tests/doubles/gpio_mock.cpp
-host_tests_srcs += host_tests/error.cpp
-host_tests_srcs += host_tests/mmreg_tests.cpp
+host_tests_srcs += host-tests/error.cpp
+host_tests_srcs += if/mcu/dio-tests.cpp
+host_tests_srcs += if/mcu/mmreg-tests.cpp
 
 host_tests_objs =  $(patsubst %.c,   $(host_tests_objs_dir)/%.c.o,   $(filter %.c,   $(host_tests_srcs)))
 host_tests_objs += $(patsubst %.cpp, $(host_tests_objs_dir)/%.cpp.o, $(filter %.cpp, $(host_tests_srcs)))

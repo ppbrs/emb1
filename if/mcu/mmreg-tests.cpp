@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "../if/mcu/mmreg.h"
+#include "./mmreg.h"
 
 class RegistersTests : public ::testing::Test {
 };

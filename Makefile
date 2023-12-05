@@ -64,7 +64,7 @@ common_ldflags += --fatal-warnings
 
 stm32-all: stm32h743-sbx stm32f051-sbx Makefile
 
--include host_tests/host-tests.mk
+-include host-tests/host-tests.mk
 
 world: stm32-all host-tests host-tests-run Makefile
 

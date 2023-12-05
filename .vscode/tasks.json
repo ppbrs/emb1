@@ -3,6 +3,42 @@
 	"tasks":
 	[
 		{
+			"label": "HOST-TESTS: Make with GNU and run.",
+			"type": "shell",
+			"command": "clear && export EMB1_TOOLCHAIN=gnu && make host-tests-run",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "HOST-TESTS: Make with LLVM and run.",
+			"type": "shell",
+			"command": "clear && export EMB1_TOOLCHAIN=llvm && make host-tests-run",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "HOST-TESTS: Rebuild with GNU and run.",
+			"type": "shell",
+			"command": "clear && export EMB1_TOOLCHAIN=gnu && make -B host-tests-run",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "HOST-TESTS: Rebuild with LLVM and run.",
+			"type": "shell",
+			"command": "clear && export EMB1_TOOLCHAIN=llvm && make -B host-tests-run",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
 			"label": "STM32F051-SBX: Make.",
 			"type": "shell",
 			"command": "clear && make stm32f051-sbx",

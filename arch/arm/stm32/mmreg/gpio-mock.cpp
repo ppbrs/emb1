@@ -1,7 +1,7 @@
+#include "./gpio-mock.h"
 
-#include "gpio_mock.h"
-#include "../../arch/arm/stm32/mmreg/gpio.h"
-#include "../../if/mcu/mmreg.h"
+#include "arch/arm/stm32/mmreg/gpio.h"
+#include "if/mcu/mmreg.h"
 
 volatile struct stm32::mmreg::GPIO::GPIO stm32::mmreg::GPIO::GPIOA = {};
 volatile struct stm32::mmreg::GPIO::GPIO stm32::mmreg::GPIO::GPIOB = {};

@@ -108,32 +108,32 @@
 				{
 					"name": "HOST-TESTS: Make with GNU.",
 					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make host-tests",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
 				},
 				{
 					"name": "HOST-TESTS: Make with LLVM.",
 					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make host-tests",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
 				},
 				{
 					"name": "HOST-TESTS: Rebuild with GNU.",
 					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B host-tests",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
 				},
 				{
 					"name": "HOST-TESTS: Rebuild with LLVM.",
 					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B host-tests",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
 				},
 				{
 					"name": "HOST-TESTS: Make with GNU and run.",
 					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make host-tests-run",
-					"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
 				},
 				{
 					"name": "HOST-TESTS: Make with LLVM and run.",
 					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make host-tests-run",
-					"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
 				},
 				{
 					"name": "bash: make executable",
