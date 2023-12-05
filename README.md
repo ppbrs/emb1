@@ -63,3 +63,17 @@ PB3 = TRACESWO
 
 * googletest version ??? cloned to ...
 * openocd version ??? installed to ...
+
+***
+# Host tests.
+
+The **googletest** framework is used.
+Use this command to build host tests:
+```
+make host-tests
+```
+Use this command to run them:
+```
+make host-tests-run"
+```
+***
