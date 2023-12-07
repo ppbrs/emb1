@@ -1,19 +1,16 @@
-"""
-This module contains tests for the host-test subproject.
-"""
+"""Tests for the host-test subproject."""
 import logging
 import pathlib
 import shutil
 import subprocess as sp
-# Third party imports
+
 import elftools.elf.elffile  # type: ignore
 import pytest
-# Local application/library imports
 
 _logger = logging.getLogger(__name__)
 
 
-def _remove_artifacts():
+def _remove_artifacts() -> None:
     """Delete binary, object, and temporary files."""
     out_dir = pathlib.Path.cwd() / "bin"
     obj_dir = pathlib.Path.cwd() / "obj"
@@ -26,12 +23,9 @@ def _remove_artifacts():
         shutil.rmtree(tmp_dir)
 
 
-@pytest.mark.parametrize("toolchain", ["gnu", "llvm"])
+@pytest.mark.parametrize("toolchain", ["gnu", "llvm"])  # type: ignore
 def test_build_run(toolchain: str) -> None:
-    """
-    Verify that host-test can be built and runs without failures.
-    """
-
+    """Verify that host-test can be built and runs without failures."""
     target_build = "host-tests"
 
     _logger.info("Removing existing artifacts.")
