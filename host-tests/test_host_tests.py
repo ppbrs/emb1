@@ -3,6 +3,7 @@ This module contains tests for the host-test subproject.
 """
 import logging
 import pathlib
+import shutil
 import subprocess as sp
 # Third party imports
 import elftools.elf.elffile  # type: ignore
@@ -12,18 +13,29 @@ import pytest
 _logger = logging.getLogger(__name__)
 
 
+def _remove_artifacts():
+    """Delete binary, object, and temporary files."""
+    out_dir = pathlib.Path.cwd() / "bin"
+    obj_dir = pathlib.Path.cwd() / "obj"
+    tmp_dir = pathlib.Path.cwd() / "tmp"
+    if out_dir.exists():
+        shutil.rmtree(out_dir)
+    if obj_dir.exists():
+        shutil.rmtree(obj_dir)
+    if tmp_dir.exists():
+        shutil.rmtree(tmp_dir)
+
+
 @pytest.mark.parametrize("toolchain", ["gnu", "llvm"])
-# @pytest.mark.parametrize("toolchain", ["gnu"])
 def test_build_run(toolchain: str) -> None:
     """
     Verify that host-test can be built and runs without failures.
     """
 
     target_build = "host-tests"
-    out_dir = pathlib.Path.cwd() / "bin"
 
     _logger.info("Removing existing artifacts.")
-    _ = [*map(lambda p: p.unlink(), out_dir.glob(f"{target_build}.*"))]
+    _remove_artifacts()
 
     _logger.info("Building with `%s` toolchain.", toolchain)
 
@@ -49,4 +61,4 @@ def test_build_run(toolchain: str) -> None:
         assert exit_code == 0
 
     _logger.info("Removing artifacts.")
-    _ = [*map(lambda p: p.unlink(), out_dir.glob(f"{target_build}.*"))]
+    _remove_artifacts()
