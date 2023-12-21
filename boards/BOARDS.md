@@ -13,3 +13,8 @@ Based on Discovery-F051 with STM32F051R8T6.
 H743 with 4 half-bridges.
 
 ***
+# Reutlingen
+
+F745 + L6208Q
+
+***
