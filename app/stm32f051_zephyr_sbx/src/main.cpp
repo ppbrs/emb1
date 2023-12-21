@@ -1,14 +1,8 @@
-/*
- * Copyright (c) 2016 Intel Corporation
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/kernel.h>
 
 /* 1000 msec = 1 sec */
-#define SLEEP_TIME_MS 100
+#define SLEEP_TIME_MS 300
 
 /* The devicetree node identifier for the "led0" alias. */
 #define LED0_NODE DT_ALIAS(led0)
@@ -21,7 +15,7 @@
 static const struct gpio_dt_spec led0 = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 static const struct gpio_dt_spec led1 = GPIO_DT_SPEC_GET(LED1_NODE, gpios);
 
-int main(void) {
+static int gpio_init(void) {
 	int ret;
 
 	if(!gpio_is_ready_dt(&led0) || !gpio_is_ready_dt(&led1)) {
@@ -37,6 +31,12 @@ int main(void) {
 	if(ret < 0) {
 		return 0;
 	}
+	printk("I: gpio_init DONE\n");
+	return 0;
+}
+
+int main(void) {
+	int ret;
 
 	while(1) {
 		ret = gpio_pin_toggle_dt(&led0);
@@ -48,6 +48,9 @@ int main(void) {
 			return 0;
 		}
 		k_msleep(SLEEP_TIME_MS);
+		printk("D: toggle\n");
 	}
 	return 0;
 }
+
+SYS_INIT(gpio_init, APPLICATION, 90);
