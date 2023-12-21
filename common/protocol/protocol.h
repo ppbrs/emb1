@@ -21,6 +21,11 @@ class CommandEmpty {
 };
 
 
+/*
+
+
+
+*/
 class CommandRead {
 public:
 	uint32_t address;
