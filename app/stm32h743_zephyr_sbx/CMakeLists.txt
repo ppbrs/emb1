@@ -8,7 +8,11 @@ target_include_directories(app PRIVATE ../../)
 
 target_sources(
 	app PRIVATE
-	src/main.cpp
+	../../arch/arm/armv7e_m/stm32h7/stm32h743/memory.cpp
+	../../common/protocol/option.cpp
+	../../common/protocol/parser.cpp
+	../../common/protocol/prog.cpp
 	src/error.cpp
+	src/main.cpp
 	src/protocol.cpp
 )
