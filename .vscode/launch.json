@@ -1,7 +1,6 @@
 {
 	"version": "0.2.0",
-	"configurations":
-	[
+	"configurations": [
 		{
 			"name": "python3: Debug this file.",
 			"type": "python",
@@ -49,6 +48,35 @@
 				"boards/zephyr/rijeka/support/openocd.cfg",
 			],
 			"breakAfterReset": true,
-		}
+		},
+		// =========================================================================================
+		{
+			"name": "HOST-TESTS: GNU: Make and debug.",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "bin/host-tests.gnu.out",
+			"args": [
+				"--gtest_filter=RegistersTests.TestSetFunctions",
+			],
+			"stopAtEntry": true,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"MIMode": "gdb",
+			"preLaunchTask": "HOST-TESTS: GNU: Make.",
+		},
+		{
+			"name": "HOST-TESTS: LLVM: Make and debug.",
+			"type": "lldb", // This type requires CodeLLDB extension. https://github.com/vadimcn/codelldb/blob/v1.10.0/MANUAL.md 
+			"request": "launch",
+			"program": "bin/host-tests.llvm.out",
+			"args": [
+				"--gtest_filter=RegistersTests.TestSetFunctions",
+			],
+			"stopOnEntry": true, // Note: This doesn't stop in main but earlier.
+			"cwd": "${workspaceFolder}",
+			"env": {},
+			"preLaunchTask": "HOST-TESTS: LLVM: Make.",
+		},
+		// =========================================================================================
 	],
 }

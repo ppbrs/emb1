@@ -25,7 +25,7 @@ temp_dir := ./tmp
 common_cflags := -std=c2x -Wall -Wextra -MD
 
 
-common_cxxflags := -std=c++20 -Wall -Wextra -MD
+common_cxxflags := -std=c++20 -g -Wall -Wextra -MD
 
 # todo: -fvisibility=hidden for ARM.
 

@@ -1,9 +1,9 @@
 {
 	"version": "2.0.0",
-	"tasks":
-	[
+	"tasks": [
+		// =========================================================================================
 		{
-			"label": "HOST-TESTS: Make with GNU and run.",
+			"label": "HOST-TESTS: GNU: Make and run all.",
 			"type": "shell",
 			"command": "clear && export EMB1_TOOLCHAIN=gnu && make host-tests-run",
 			"group": "build",
@@ -12,16 +12,16 @@
 			},
 		},
 		{
-			"label": "HOST-TESTS: Make with LLVM and run.",
+			"label": "HOST-TESTS: GNU: Make.",
 			"type": "shell",
-			"command": "clear && export EMB1_TOOLCHAIN=llvm && make host-tests-run",
+			"command": "clear && export EMB1_TOOLCHAIN=gnu && make host-tests",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 		},
 		{
-			"label": "HOST-TESTS: Rebuild with GNU and run.",
+			"label": "HOST-TESTS: GNU: Rebuild and run all.",
 			"type": "shell",
 			"command": "clear && export EMB1_TOOLCHAIN=gnu && make -B host-tests-run",
 			"group": "build",
@@ -30,7 +30,25 @@
 			},
 		},
 		{
-			"label": "HOST-TESTS: Rebuild with LLVM and run.",
+			"label": "HOST-TESTS: LLVM: Make.",
+			"type": "shell",
+			"command": "clear && export EMB1_TOOLCHAIN=llvm && make host-tests",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "HOST-TESTS: LLVM: Make and run all.",
+			"type": "shell",
+			"command": "clear && export EMB1_TOOLCHAIN=llvm && make host-tests-run",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "HOST-TESTS: LLVM: Rebuild and run all.",
 			"type": "shell",
 			"command": "clear && export EMB1_TOOLCHAIN=llvm && make -B host-tests-run",
 			"group": "build",
@@ -38,6 +56,7 @@
 				"cwd": "${workspaceFolder}"
 			},
 		},
+		// =========================================================================================
 		{
 			"label": "STM32F051-SBX: Make.",
 			"type": "shell",

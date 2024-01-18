@@ -1,6 +1,6 @@
 {
-	"folders":
-	[
+	// =============================================================================================
+	"folders": [
 		{
 			"path": ".",
 		},
@@ -29,13 +29,13 @@
 			"path": "~/zephyrproject/zephyr",
 		},
 	],
-	"build_systems":
-	[
+	// =============================================================================================
+	"build_systems": [
+		// -----------------------------------------------------------------------------------------
 		{
 			"name": "emb1",
 			"shell_cmd": "${file}",
-			"variants":
-			[
+			"variants": [
 				{
 					"name": "STM32H743-SBX: Make.",
 					"shell_cmd": "cd ${project_path} && make stm32h743-sbx && echo -e \"\nSUCCESS\"",
@@ -106,43 +106,8 @@
 					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make clean",
 				},
 				{
-					"name": "HOST-TESTS: Make with GNU.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make host-tests",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
-				},
-				{
-					"name": "HOST-TESTS: Make with LLVM.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make host-tests",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
-				},
-				{
-					"name": "HOST-TESTS: Rebuild with GNU.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B host-tests",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
-				},
-				{
-					"name": "HOST-TESTS: Rebuild with LLVM.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B host-tests",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
-				},
-				{
-					"name": "HOST-TESTS: Make with GNU and run.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make host-tests-run",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
-				},
-				{
-					"name": "HOST-TESTS: Make with LLVM and run.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make host-tests-run",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
-				},
-				{
 					"name": "bash: make executable",
 					"shell_cmd": "chmod +x ${file}",
-				},
-				{
-					"name": "clang-format-14: Format this file, dry run.",
-					"shell_cmd": "clang-format-14 ${file} --style=file --dry-run",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
 				},
 				{
 					"name": "clang-format-14: Format this file, edit inplace.",
@@ -150,6 +115,7 @@
 				},
 			],
 		},
+		// -----------------------------------------------------------------------------------------
 		{
 			"name": "emb1 zephyr",
 			"shell_cmd": "${file}",
@@ -185,28 +151,13 @@
 					"name": "bash: make executable",
 					"shell_cmd": "chmod +x ${file}",
 				},
-				{
-					"name": "HOST-TESTS: Make with GNU.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make host-tests",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
-				},
-				{
-					"name": "HOST-TESTS: Rebuild with GNU.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B host-tests",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
-				},
-				{
-					"name": "HOST-TESTS: Make with GNU and run.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make host-tests-run",
-					"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
-				},
 			],
 		},
+		// -----------------------------------------------------------------------------------------
 		{
 			"name": "emb1 tests",
 			"shell_cmd": "${file}",
-			"variants":
-			[
+			"variants": [
 				{
 					"name": "python3: Run this module locally.",
 					"shell_cmd": "python3 -u ${file}",
@@ -228,11 +179,61 @@
 				},
 			],
 		},
+		// -----------------------------------------------------------------------------------------
+		{
+			"name": "host tests",
+			"shell_cmd": "${file}",
+			"variants": [
+				{
+					"name": "GNU: Make.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "export EMB1_TOOLCHAIN=gnu && make host-tests",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
+				},
+				{
+					"name": "GNU: Rebuild.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "export EMB1_TOOLCHAIN=gnu && make -B host-tests",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
+				},
+				{
+					"name": "GNU: Make and run all.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "export EMB1_TOOLCHAIN=gnu && make host-tests-run",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
+				},
+				{
+					"name": "LLVM: Make.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "export EMB1_TOOLCHAIN=llvm && make host-tests",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
+				},
+				{
+					"name": "LLVM: Rebuild.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "export EMB1_TOOLCHAIN=llvm && make -B host-tests",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
+				},
+				{
+					"name": "LLVM: Make and run all.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "export EMB1_TOOLCHAIN=llvm && make host-tests-run",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?: error:? (.*)$",
+				},
+				{
+					"name": "clang-format: Format this file, edit inplace.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "clang-format-14 ${file} --style=file -i",
+				},
+			],
+		},
+		// -----------------------------------------------------------------------------------------
 	],
-	"settings":
-	{
+	// =============================================================================================
+	"settings": {
 		"tab_size": 4,
 		"auto_match_enabled": false,
 		"rulers": [ 100, 100.5, ],
 	},
+	// =============================================================================================
 }
