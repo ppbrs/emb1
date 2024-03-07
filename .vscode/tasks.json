@@ -56,6 +56,15 @@
 				"cwd": "${workspaceFolder}"
 			},
 		},
+		{
+			"label": "HOST-TESTS: Run all integration tests.",
+			"type": "shell",
+			"command": "clear && pytest -m pctest -k host-tests",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
 		// =========================================================================================
 		{
 			"label": "STM32F051-SBX: Make.",

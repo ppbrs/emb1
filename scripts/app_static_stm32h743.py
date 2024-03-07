@@ -17,7 +17,6 @@ HOST, PORT = "localhost", None
 TARGET0 = "stm32h7x.cpu0"
 
 ELF_PATH = pathlib.Path.cwd().parent / "bin" / "stm32h743-sbx.elf"
-assert ELF_PATH.exists() and ELF_PATH.is_file()
 
 CONFIG = {
     mmreg_name: AppStaticReader.Config()
@@ -54,6 +53,7 @@ CONFIG.update({
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
+    assert ELF_PATH.exists() and ELF_PATH.is_file()
 
     res = AppStaticReader(
         config=CONFIG,

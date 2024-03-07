@@ -1,15 +1,9 @@
-
-
-
 """
 Application that can read and print the contents of multiple registers of
 an STM32H743 MCU connected via OpenOCD.
 """
-# Standard library imports
-# Third party imports
-# Local application/library imports
-from emb_spy import AppStatic
-from emb_spy import MmregSTM32F051
+from emb_spy import AppStaticReader, MmregSTM32F051
+
 
 HOST, PORT = "localhost", 4444  # Default port when started manually.
 # HOST, PORT = "localhost", 50002  # Port number when started by VSCode/CortexDebug.
@@ -48,4 +42,4 @@ CONFIG = {
 
 
 if __name__ == "__main__":
-    AppStatic(config=CONFIG, host=HOST, port=PORT, registers=MmregSTM32F051())()
+    AppStaticReader(config=CONFIG, host=HOST, port=PORT, registers=MmregSTM32F051())()

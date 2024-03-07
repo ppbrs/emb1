@@ -3,12 +3,10 @@
 Application that can set bits in registers according to the script.
 """
 
-# Standard library imports
 import time
-# Third party imports
-# Local application/library imports
-from registers.arm.armv7e_m.stm32.stm32h.registers_stm32h743 import RegistersSTM32H743
-from backend import Backend
+
+from emb_spy import Backend, MmregSTM32H743
+
 
 HOST, PORT = "localhost", 4444
 
@@ -48,7 +46,7 @@ class AppModifySTM32H743:
 
     def __call__(self):
 
-        regs_dict_name = RegistersSTM32H743().get_dict_name()
+        regs_dict_name = MmregSTM32H743().get_dict_name()
 
         with Backend(host=HOST, port=PORT) as backend:
 

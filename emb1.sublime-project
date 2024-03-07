@@ -155,27 +155,28 @@
 		},
 		// -----------------------------------------------------------------------------------------
 		{
-			"name": "emb1 tests",
+			"name": "integration tests",
 			"shell_cmd": "${file}",
 			"variants": [
 				{
-					"name": "python3: Run this module locally.",
-					"shell_cmd": "python3 -u ${file}",
-					"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+					"name": "Run all PC tests.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "pytest -m pctest",
 				},
 				{
-					"name": "python3: Run pylint on this file.",
-					"shell_cmd": "pylint --load-plugins pylint_quotes --rcfile=${project_path}/.pylintrc ${file}",
+					"name": "Collect all tests.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "pytest --collect-only",
+				},
+				{
+					"name": "python3: Run pylama on all repo.",
+					"shell_cmd": "cd ${project_path} && pylama -o pylama.ini",
 					"file_regex": "(...*?):([0-9]*):.*",
 				},
 				{
-					"name": "python3: Run mypy (--strict) on this file.",
-					"shell_cmd": "mypy --strict ${file}",
-					"file_regex": "(...*?):([0-9]*):.*",
-				},
-				{
-					"name": "make pytest",
-					"shell_cmd": "cd ${project_path} && make pytest",
+					"name": "python3: Run pylama on this file.",
+					"shell_cmd": "cd ${project_path} && pylama -o pylama.ini ${file}",
+					"file_regex": "(...*?):([0-9]*):([0-9]*)\\s(.*)",
 				},
 			],
 		},
@@ -224,6 +225,11 @@
 					"name": "clang-format: Format this file, edit inplace.",
 					"working_dir": "${project_path}",
 					"shell_cmd": "clang-format-14 ${file} --style=file -i",
+				},
+				{
+					"name": "Run all integration tests for host tests.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "pytest -m pctest -k host-tests",
 				},
 			],
 		},
