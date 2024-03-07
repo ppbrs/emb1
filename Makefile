@@ -3,7 +3,6 @@
 # clean
 # stm32h743_sbx (sandbox)
 # stm32f051_sbx (sandbox)
-# test
 # host_tests
 # host_tests_run
 
@@ -22,10 +21,8 @@ temp_dir := ./tmp
 # COMMON
 #
 
-common_cflags := -std=c2x -Wall -Wextra -MD
-
-
 common_cxxflags := -std=c++20 -g -Wall -Wextra -MD
+common_cflags := -std=c2x -Wall -Wextra -MD
 
 # todo: -fvisibility=hidden for ARM.
 
@@ -81,8 +78,3 @@ clean:
 	@rm -rf $(temp_dir)
 
 # ==============================================================================
-
-# .PHONY: pytest
-# pytest:
-# # 	cd scripts/reg-analyzer && pytest
-# 	cd scripts/reg-analyzer && pytest --pylint --pylint-rcfile=../../.pylintrc

@@ -40,8 +40,8 @@ lib_gtest_path := $(host_tests_objs_dir)/lib$(lib_gtest_stem).a
 
 host-tests-run: host-tests
 	@echo
-	$(info INFO: BUILDING `$@`.)
-	$(host_tests_out)
+	$(info INFO: RUNNING `$(host_tests_out)` with arguments `$(ARGS)`.)
+	$(host_tests_out) $(ARGS)
 
 host-tests: $(host_tests_out)
 	@echo
