@@ -67,6 +67,25 @@
 		},
 		// =========================================================================================
 		{
+			"label": "TOOLS: C++: Format all files in the project.",
+			"type": "shell",
+			"command": "clear && python3 tools/formatter_cpp.py",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "TOOLS: C++: Format this file.",
+			"type": "shell",
+			"command": "clear && python3 tools/formatter_cpp.py ${file}",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		// =========================================================================================
+		{
 			"label": "STM32F051-SBX: Make.",
 			"type": "shell",
 			"command": "clear && make stm32f051-sbx",

@@ -155,6 +155,47 @@
 		},
 		// -----------------------------------------------------------------------------------------
 		{
+			"name": "tools",
+			"shell_cmd": "${file}",
+			"variants": [
+				{
+					"name": "C++ formatter: Format all files in the project.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "python3 tools/formatter_cpp.py",
+				},
+				{
+					"name": "C++ formatter: Format this file.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "python3 tools/formatter_cpp.py ${file}",
+				},
+				{
+					"name": "python3: Run this module in project directory.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "python3 -u ${file}",
+					"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+				},
+				{
+					"name": "python3: Run this module in its own directory.",
+					"working_dir": "${file_path}",
+					"shell_cmd": "python3 -u ${file}",
+					"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+				},
+				{
+					"name": "python3: Run pylama on all repo.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "pylama -o pylama.ini",
+					"file_regex": "(...*?):([0-9]*):.*",
+				},
+				{
+					"name": "python3: Run pylama on this file.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "pylama -o pylama.ini ${file}",
+					"file_regex": "(...*?):([0-9]*):([0-9]*)\\s(.*)",
+				},
+			],
+		},
+		// -----------------------------------------------------------------------------------------
+		{
 			"name": "integration tests",
 			"shell_cmd": "${file}",
 			"variants": [
@@ -167,16 +208,6 @@
 					"name": "Collect all tests.",
 					"working_dir": "${project_path}",
 					"shell_cmd": "pytest --collect-only",
-				},
-				{
-					"name": "python3: Run pylama on all repo.",
-					"shell_cmd": "cd ${project_path} && pylama -o pylama.ini",
-					"file_regex": "(...*?):([0-9]*):.*",
-				},
-				{
-					"name": "python3: Run pylama on this file.",
-					"shell_cmd": "cd ${project_path} && pylama -o pylama.ini ${file}",
-					"file_regex": "(...*?):([0-9]*):([0-9]*)\\s(.*)",
 				},
 			],
 		},

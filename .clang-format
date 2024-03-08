@@ -1,16 +1,62 @@
+# Configuration file for clang-format.
+# Last checked with clang-format 16.0.6.
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
 
 ---
+# --------------------------------------------------------------------------------------------------
 BasedOnStyle: WebKit
+
+# https://www.webkit.org/code-style-guidelines/
+#
+# Indentation
+#   The contents of namespaces should not be indented.
+#   A case label should line up with its switch statement. The case statement is indented.
+# Spacing
+#   Do not place spaces around unary operators.
+#   Boolean expressions at the same nesting level that span multiple lines should have their operators on the left side of the line instead of the right side.
+#   (Overriden) Place spaces between control statements and their parentheses.
+#   Do not place spaces between a function and its parentheses, or between a parenthesis and its content.
+#   Do not place spaces between square brackets and parentheses of a lambda function but do place a space before braces.
+#   When initializing an object, place a space before the leading brace as well as between the braces and their content.
+# Line breaking
+# Braces
+# Null, false and zero
+# Floating point literals
+# Names
+# Other Punctuation
+# Pointers and References
+# #include Statements
+# “using” Statements
+# Types
+# Classes
+# Singleton pattern
+# Comments
+# Overriding Virtual Methods
+# Python
+
+# --------------------------------------------------------------------------------------------------
 AccessModifierOffset: 0
+# The extra indent or outdent of access modifiers, e.g. public:.
+
 AlwaysBreakTemplateDeclarations: true
+
 BreakBeforeBinaryOperators: NonAssignment
+
 BreakBeforeBraces: Attach
+# Attach: Always attach braces to surrounding context.
+
 BreakConstructorInitializers: AfterColon
+
 ColumnLimit: 0
+
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
+
 ConstructorInitializerIndentWidth: 8
+
 Cpp11BracedListStyle: true
+
 FixNamespaceComments: false
+
 IncludeBlocks: Merge
 IncludeCategories:
   # local includes
@@ -20,19 +66,35 @@ IncludeCategories:
   - Regex: '^<'
     Priority: 2
 IncludeIsMainRegex: "(-test)?$"
+
 IndentCaseLabels: true
+
 IndentWrappedFunctionNames: true
+
 KeepEmptyLinesAtTheStartOfBlocks: false
-MaxEmptyLinesToKeep: 3
+
+MaxEmptyLinesToKeep: 2
+
 NamespaceIndentation: None
+
 PointerAlignment: Right
+# Right: `int *a;`
+
 QualifierAlignment: Left
+# Left: `const int a;`
+
 SpaceAfterTemplateKeyword: false
 SpaceBeforeCpp11BracedList: false
+
+# This overrides WebKit's rule: Place spaces between control statements and their parentheses.
 SpaceBeforeParens: Never
+
 SpacesInContainerLiterals: false
+
 SpaceInEmptyBlock: false
+
 TabWidth: 4
+
 UseTab: ForContinuationAndIndentation
 
 ...
