@@ -1,6 +1,5 @@
-#include "gtest/gtest.h"
-
 #include "./mmreg.h"
+#include "gtest/gtest.h"
 
 class RegistersTests : public ::testing::Test {
 };
@@ -28,4 +27,3 @@ TEST_F(RegistersTests, TestSetFunctions) {
 	ASSERT_EQ(getBits(reg, msk, 0), 0b0010'0000u);
 	ASSERT_TRUE(testBitsMasked(reg, 0b0110'0000u, 0b0010'0000u, 0));
 }
-

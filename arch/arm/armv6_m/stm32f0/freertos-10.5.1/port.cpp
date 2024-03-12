@@ -40,7 +40,6 @@ extern "C" {
 #include "../../../../../if/mcu/tick.h"
 
 
-
 /* Constants required to manipulate the NVIC. */
 #define portNVIC_SYSTICK_CTRL_REG (*((volatile uint32_t *)0xe000e010))
 #define portNVIC_SYSTICK_LOAD_REG (*((volatile uint32_t *)0xe000e014))
@@ -318,7 +317,7 @@ void vClearInterruptMaskFromISR(__attribute__((unused)) uint32_t ulMask) {
 https://fastbitlab.com/free-rtos/ gives a step-by-step explanantion of this function.
 */
 [[gnu::naked]] void nvic::pendsvISR() {
-// void xPortPendSVHandler(void) {
+	// void xPortPendSVHandler(void) {
 	/* This is a naked function. */
 	__asm volatile(
 		"   .syntax unified                     \n"
@@ -369,7 +368,7 @@ https://fastbitlab.com/free-rtos/ gives a step-by-step explanantion of this func
 /*-----------------------------------------------------------*/
 
 void tick::sysTickISR() {
-// void xPortSysTickHandler(void) {
+	// void xPortSysTickHandler(void) {
 	tick::sysTickCnt++;
 
 	uint32_t ulPreviousMask;

@@ -1,8 +1,8 @@
-#include "arch/arm/stm32/mmreg/gpio.h"
 #include "./debug.h"
 #include "./rcc.h"
 #include "./tim2-3-4-5.h"
 #include "./usart.h"
+#include "arch/arm/stm32/mmreg/gpio.h"
 
 [[gnu::section(".bss.mmreg.gpioa")]] volatile struct stm32::mmreg::GPIO::GPIO stm32::mmreg::GPIO::GPIOA;
 [[gnu::section(".bss.mmreg.gpiob")]] volatile struct stm32::mmreg::GPIO::GPIO stm32::mmreg::GPIO::GPIOB;

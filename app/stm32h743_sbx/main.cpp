@@ -9,9 +9,8 @@
 #include "if/mcu/mcu-init.h"
 #include "if/mcu/systick.h"
 #include "if/mcu/tick.h"
-
-#include <cstdint>
 #include <chrono>
+#include <cstdint>
 
 namespace {
 SECTION_DATA_REGULAR StaticTask_t xTask0Buffer;

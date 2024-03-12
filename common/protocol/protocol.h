@@ -22,11 +22,11 @@ class CommandEmpty {
 
 
 class CommandRead {
-public:
+	public:
 	uint32_t address;
 	uint32_t num_words;
 
-	static constexpr std::string_view cmd {"read"};
+	static constexpr std::string_view cmd{"read"};
 
 	template<class W>
 	Error parse(const W &words) {
@@ -43,15 +43,14 @@ public:
 		return Error::OK;
 	}
 
-private:
+	private:
 	enum class State {
 		IDLE
 	};
-
 };
 
 
-using CommandVariant = 	std::variant<CommandEmpty, CommandRead>;
+using CommandVariant = std::variant<CommandEmpty, CommandRead>;
 
 
 }

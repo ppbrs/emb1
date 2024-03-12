@@ -10,7 +10,7 @@ namespace SWO {
 
 struct CODRBits {
 	uint32_t PRESCALER : 13; // SWO baud rate scaling
-	uint32_t reserved0: (32 - 13); // must be kept at reset value.
+	uint32_t reserved0 : (32 - 13); // must be kept at reset value.
 };
 union CODRUnion {
 	uint32_t word;
@@ -20,7 +20,7 @@ static_assert(sizeof(CODRUnion) == 4);
 
 struct SPPRBits {
 	uint32_t PPROT : 2; // Pin protocol
-	uint32_t reserved0: (32 - 2); // must be kept at reset value.
+	uint32_t reserved0 : (32 - 2); // must be kept at reset value.
 
 	static constexpr uint32_t PPROTManchester = 1u;
 	static constexpr uint32_t PPROTNRZ = 2u;

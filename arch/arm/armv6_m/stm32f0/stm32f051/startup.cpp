@@ -1,7 +1,6 @@
+#include "../../../../../if/mcu/chrono.h"
 #include "../../../../../if/mcu/nvic.h"
 #include "../../../../../if/mcu/tick.h"
-#include "../../../../../if/mcu/chrono.h"
-
 #include <cstdint>
 
 #if __STDC_HOSTED__ > 0
@@ -134,7 +133,7 @@ void Reset_Handler() {
 	// TODO
 	/* Set stack pointer */
 	// __asm__ volatile("mov r0, %0\n" : "=r"(&_main_stack_end));
-		// "nop\n"); // Is it necessary?
+	// "nop\n"); // Is it necessary?
 	// __asm__ volatile("mrs %0, PSP\n" : "=r"(sp)); // process stack was used
 
 
@@ -182,16 +181,19 @@ https://www.embedded.com/debugging-hard-faults-in-arm-cortex-m0-based-socs/
 */
 void HardFault_Handler() {
 	uint32_t lr, sp;
-	__asm__ volatile("mov %0, LR\n" : "=r"(lr));
-	if (lr & (1 << 2)) {
-		__asm__ volatile("mrs %0, PSP\n" : "=r"(sp)); // process stack was used
+	__asm__ volatile("mov %0, LR\n"
+					 : "=r"(lr));
+	if(lr & (1 << 2)) {
+		__asm__ volatile("mrs %0, PSP\n"
+						 : "=r"(sp)); // process stack was used
 	} else {
-		__asm__ volatile("mrs %0, MSP\n" : "=r"(sp)); // main stack was used
+		__asm__ volatile("mrs %0, MSP\n"
+						 : "=r"(sp)); // main stack was used
 	}
 	// armv7e_m::reg::SCB::CFSR cfsr;
 	// cfsr.word = armv7e_m::reg::SCB::SCB.CFSR.word;
 	// (void)cfsr;
-	FrameBasic &frameBasic = *(FrameBasic*)sp;
+	FrameBasic &frameBasic = *(FrameBasic *)sp;
 	(void)frameBasic;
 	__asm__ volatile("bkpt #0\n");
 	while(1) {

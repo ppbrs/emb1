@@ -1,7 +1,6 @@
 #pragma once
 
 #include "protocol.h"
-
 #include <cstdint>
 #include <string_view>
 #include <vector>
@@ -38,10 +37,10 @@ template<class W>
 Error parse(const W &words, CommandVariant &commandVariant) {
 	Error error = Error::OK;
 
-	commandVariant = CommandEmpty {};
+	commandVariant = CommandEmpty{};
 	if(words.size() > 0) {
 		if(words[0] == CommandRead::cmd) {
-			commandVariant = CommandRead {};
+			commandVariant = CommandRead{};
 			error = get<CommandRead>(commandVariant).parse(words);
 		} else {
 			error = Error::UNKNOWN_COMMAND;

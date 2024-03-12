@@ -4,12 +4,10 @@
 #include "common/memory/stack_arena.h"
 #include "common/protocol/process.h"
 #include "common/protocol/protocol.h"
-
-#include <zephyr/console/console.h>
-
 #include <cstring>
-#include <vector>
 #include <string_view>
+#include <vector>
+#include <zephyr/console/console.h>
 
 
 // thread1 parameters
@@ -20,7 +18,7 @@ constexpr int protocolThreadPriority = 7; // Numerically lower priorities takes 
 void protocolThreadFunc(void *, void *, void *);
 
 
-int protocolInit(){
+int protocolInit() {
 	/* Initialize pull-style access to console. */
 	console_getline_init();
 
@@ -44,7 +42,7 @@ template<class T, std::size_t BufSize = sizeof(std::string_view) * protocol::MAX
 using StackVector = std::vector<T, StackAllocator<T, BufSize, alignof(T)>>;
 
 void protocolThreadFunc(void *, void *, void *) {
-	while (1) {
+	while(1) {
 		// There is echo after every symbol.
 		// The input string gets truncated to (CONFIG_CONSOLE_INPUT_MAX_LINE_LEN - 1) characters,
 		// other characters are ignored.
@@ -54,7 +52,7 @@ void protocolThreadFunc(void *, void *, void *) {
 		// printk("D: line: %s @%p, len=%u\n", s, s, strnlen(s, CONFIG_CONSOLE_INPUT_MAX_LINE_LEN - 1));
 		printk("D: line: %s @%p, len=%u\n", s, s, strlen(s));
 
-		const std::string_view sv {s};
+		const std::string_view sv{s};
 
 		StackVector<std::string_view>::allocator_type::arena_type a;
 		StackVector<std::string_view> v{a};
@@ -67,4 +65,3 @@ void protocolThreadFunc(void *, void *, void *) {
 		printk("\n");
 	}
 }
-

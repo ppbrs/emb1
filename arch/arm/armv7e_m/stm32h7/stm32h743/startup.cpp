@@ -1,12 +1,11 @@
 
 #include "arch/arm/armv7e_m//mmreg/itm.h"
 #include "arch/arm/armv7e_m//mmreg/scb.h"
+#include "if/mcu/chrono.h"
 #include "if/mcu/nvic.h"
 #include "if/mcu/tick.h"
-#include "if/mcu/chrono.h"
-
-#include <cstdint>
 #include <array>
+#include <cstdint>
 
 #if __STDC_HOSTED__ > 0
 #error __STDC_HOSTED__ is not 0
@@ -201,15 +200,15 @@ and the start addresses, also called exception vectors, for all exception handle
 */
 
 struct Vectors {
-	void * sp;
-	std::array<void(*)(), 15> exceptionHandlers;
-	std::array<void(*)(), 150> interruptHandlers;
+	void *sp;
+	std::array<void (*)(), 15> exceptionHandlers;
+	std::array<void (*)(), 150> interruptHandlers;
 };
 static_assert(sizeof(Vectors) == 4 * (1 + 15 + 150));
 
 __attribute__((section(".isr_vector"), used)) /* 'used' attribute is similar to KEEP() */
 constexpr Vectors vectors = {
-	(void*)&_main_stack_end,
+	(void *)&_main_stack_end,
 	{
 		Reset_Handler, // Exception number = 1
 		NMI_Handler, // IRQ number = -14
@@ -379,8 +378,7 @@ constexpr Vectors vectors = {
 		0,
 		0,
 		WAKEUP_PIN_IRQHandler // IRQ149
-	}
-};
+	}};
 static_assert(sizeof(vectors) == 4 * (1 + 15 + 150));
 
 /*================= Function definitions ==================*/
@@ -549,16 +547,19 @@ GDB:
 */
 void HardFault_Handler() {
 	uint32_t lr, sp;
-	__asm__ volatile("mov %0, LR\n" : "=r"(lr));
-	if (lr & (1 << 2)) {
-		__asm__ volatile("mrs %0, PSP\n" : "=r"(sp)); // process stack was used
+	__asm__ volatile("mov %0, LR\n"
+					 : "=r"(lr));
+	if(lr & (1 << 2)) {
+		__asm__ volatile("mrs %0, PSP\n"
+						 : "=r"(sp)); // process stack was used
 	} else {
-		__asm__ volatile("mrs %0, MSP\n" : "=r"(sp)); // main stack was used
+		__asm__ volatile("mrs %0, MSP\n"
+						 : "=r"(sp)); // main stack was used
 	}
 	armv7e_m::mmreg::SCB::CFSR cfsr;
 	cfsr.word = armv7e_m::mmreg::SCB::SCB.CFSR.word;
 	(void)cfsr;
-	FrameBasic &frameBasic = *(FrameBasic*)sp;
+	FrameBasic &frameBasic = *(FrameBasic *)sp;
 	(void)frameBasic;
 	__asm__ volatile("bkpt #0\n");
 	while(1) {
@@ -573,16 +574,19 @@ only.
 */
 void MemManage_Handler() {
 	uint32_t lr, sp;
-	__asm__ volatile("mov %0, LR\n" : "=r"(lr));
-	if (lr & (1 << 2)) {
-		__asm__ volatile("mrs %0, PSP\n" : "=r"(sp)); // process stack was used
+	__asm__ volatile("mov %0, LR\n"
+					 : "=r"(lr));
+	if(lr & (1 << 2)) {
+		__asm__ volatile("mrs %0, PSP\n"
+						 : "=r"(sp)); // process stack was used
 	} else {
-		__asm__ volatile("mrs %0, MSP\n" : "=r"(sp)); // main stack was used
+		__asm__ volatile("mrs %0, MSP\n"
+						 : "=r"(sp)); // main stack was used
 	}
 	armv7e_m::mmreg::SCB::CFSR cfsr;
 	cfsr.word = armv7e_m::mmreg::SCB::SCB.CFSR.word;
 	(void)cfsr;
-	FrameBasic &frameBasic = *(FrameBasic*)sp;
+	FrameBasic &frameBasic = *(FrameBasic *)sp;
 	(void)frameBasic;
 	__asm__ volatile("bkpt #0\n");
 	while(1) {
@@ -605,16 +609,19 @@ cannot rely on stacked PC to determine the fault location if the BusFault is asy
 */
 void BusFault_Handler() {
 	uint32_t lr, sp;
-	__asm__ volatile("mov %0, LR\n" : "=r"(lr));
-	if (lr & (1 << 2)) {
-		__asm__ volatile("mrs %0, PSP\n" : "=r"(sp)); // process stack was used
+	__asm__ volatile("mov %0, LR\n"
+					 : "=r"(lr));
+	if(lr & (1 << 2)) {
+		__asm__ volatile("mrs %0, PSP\n"
+						 : "=r"(sp)); // process stack was used
 	} else {
-		__asm__ volatile("mrs %0, MSP\n" : "=r"(sp)); // main stack was used
+		__asm__ volatile("mrs %0, MSP\n"
+						 : "=r"(sp)); // main stack was used
 	}
 	armv7e_m::mmreg::SCB::CFSR cfsr;
 	cfsr.word = armv7e_m::mmreg::SCB::SCB.CFSR.word;
 	(void)cfsr;
-	FrameBasic &frameBasic = *(FrameBasic*)sp;
+	FrameBasic &frameBasic = *(FrameBasic *)sp;
 	(void)frameBasic;
 	__asm__ volatile("bkpt #0\n");
 	while(1) {
@@ -628,16 +635,19 @@ multiple. When enabled, divide-by-zero and other unaligned memory accesses are d
 */
 void UsageFault_Handler() {
 	uint32_t lr, sp;
-	__asm__ volatile("mov %0, LR\n" : "=r"(lr));
-	if (lr & (1 << 2)) {
-		__asm__ volatile("mrs %0, PSP\n" : "=r"(sp)); // process stack was used
+	__asm__ volatile("mov %0, LR\n"
+					 : "=r"(lr));
+	if(lr & (1 << 2)) {
+		__asm__ volatile("mrs %0, PSP\n"
+						 : "=r"(sp)); // process stack was used
 	} else {
-		__asm__ volatile("mrs %0, MSP\n" : "=r"(sp)); // main stack was used
+		__asm__ volatile("mrs %0, MSP\n"
+						 : "=r"(sp)); // main stack was used
 	}
 	armv7e_m::mmreg::SCB::CFSR cfsr;
 	cfsr.word = armv7e_m::mmreg::SCB::SCB.CFSR.word;
 	(void)cfsr;
-	FrameBasic &frameBasic = *(FrameBasic*)sp;
+	FrameBasic &frameBasic = *(FrameBasic *)sp;
 	(void)frameBasic;
 	__asm__ volatile("bkpt #0\n");
 	while(1) {

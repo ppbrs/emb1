@@ -1,12 +1,10 @@
 #include "if/mcu/chrono.h"
-
 #include "arch/arm/armv6_m/mmreg/nvic.h"
 #include "arch/arm/armv6_m/stm32f0/mmreg/rcc.h"
 #include "arch/arm/armv6_m/stm32f0/mmreg/tim2-3.h"
 #include "arch/arm/armv6_m/stm32f0/nvic.h"
 #include "arch/arm/armv6_m/stm32f0/tick.h"
 #include "if/mcu/mmreg.h"
-
 #include <chrono>
 // #include <cassert>
 
@@ -41,7 +39,8 @@ void chrono::steady_clock::init() {
 	TIM2::TIM2.ARR = 0xFFFF'FFFF;
 	// Generating an update event so that the value of the prescaler is applied.
 	writeBits(TIM2::TIM2.EGR.word, TIM2::EGRBits::UGSet);
-	while(!testBitsMasked(TIM2::TIM2.SR.word, TIM2::SRBits::UIFMask, TIM2::SRBits::UIFSet));
+	while(!testBitsMasked(TIM2::TIM2.SR.word, TIM2::SRBits::UIFMask, TIM2::SRBits::UIFSet))
+		;
 	clearBits(TIM2::TIM2.SR.word, TIM2::SRBits::UIFMask);
 
 	// Enable update interrupt:
@@ -72,7 +71,8 @@ void chrono::high_resolution_clock::init() {
 	TIM3::TIM3.ARR = 0xFFFF;
 	// Generating an update event so that the value of the prescaler is applied.
 	writeBits(TIM3::TIM3.EGR.word, TIM3::EGRBits::UGSet);
-	while(!testBitsMasked(TIM3::TIM3.SR.word, TIM3::SRBits::UIFMask, TIM3::SRBits::UIFSet));
+	while(!testBitsMasked(TIM3::TIM3.SR.word, TIM3::SRBits::UIFMask, TIM3::SRBits::UIFSet))
+		;
 	clearBits(TIM3::TIM3.SR.word, TIM3::SRBits::UIFMask);
 
 	// Enable update interrupt:
@@ -86,7 +86,7 @@ void chrono::high_resolution_clock::init() {
 }
 
 // This must be the highest-priority interrupt.
-void chrono::steady_clock::overflow(){
+void chrono::steady_clock::overflow() {
 	using namespace mmreg;
 	namespace TIM2 = stm32f0::mmreg::TIM2;
 	clearBits(TIM2::TIM2.SR.word, TIM2::SRBits::UIFMask);
@@ -94,7 +94,7 @@ void chrono::steady_clock::overflow(){
 }
 
 // This must be the highest-priority interrupt.
-void chrono::high_resolution_clock::overflow(){
+void chrono::high_resolution_clock::overflow() {
 	using namespace mmreg;
 	namespace TIM3 = stm32f0::mmreg::TIM3;
 	clearBits(TIM3::TIM3.SR.word, TIM3::SRBits::UIFMask);
@@ -115,46 +115,46 @@ while {
 	}
 	cntHi0 = cntHi;
 
-Case (1): 
+Case (1):
 
 Case (2):
 	There is some error in CNT because the function was interrupted.
 }
 */
 namespace std::chrono {
-	time_point<steady_clock> steady_clock::now() noexcept {
-		namespace TIM2 = stm32f0::mmreg::TIM2;
+time_point<steady_clock> steady_clock::now() noexcept {
+	namespace TIM2 = stm32f0::mmreg::TIM2;
 
-		uint32_t cntHi0 = steadyClockSeconds;
-		while(true) {
-			uint32_t cntLo = TIM2::TIM2.CNT;
-			uint32_t cntHi = steadyClockSeconds;
-			if (cntHi == cntHi0) {
-				uint64_t cnt = (((uint64_t)cntHi << tim2NumBits) + cntLo) * steadyClockClkToNs;
-				duration dur(cnt); // size = 8
-				time_point tp(dur); // size = 8
-				return tp;
-			}
-			cntHi0 = cntHi;
+	uint32_t cntHi0 = steadyClockSeconds;
+	while(true) {
+		uint32_t cntLo = TIM2::TIM2.CNT;
+		uint32_t cntHi = steadyClockSeconds;
+		if(cntHi == cntHi0) {
+			uint64_t cnt = (((uint64_t)cntHi << tim2NumBits) + cntLo) * steadyClockClkToNs;
+			duration dur(cnt); // size = 8
+			time_point tp(dur); // size = 8
+			return tp;
 		}
+		cntHi0 = cntHi;
 	}
+}
 
-	time_point<high_resolution_clock> high_resolution_clock::now() noexcept {
-		namespace TIM3 = stm32f0::mmreg::TIM3;
+time_point<high_resolution_clock> high_resolution_clock::now() noexcept {
+	namespace TIM3 = stm32f0::mmreg::TIM3;
 
-		uint32_t cntHi0 = highResolutionClockSeconds;
-		while(true) {
-			uint16_t cntLo = TIM3::TIM3.CNT;
-			uint32_t cntHi = highResolutionClockSeconds;
-			if (cntHi == cntHi0) {
-				uint64_t cnt = (((uint64_t)cntHi << tim3NumBits) + cntLo) * highResolutionClockClkToNs;
-				duration dur(cnt); // size = 8
-				time_point tp(dur); // size = 8
-				return tp;
-			}
-			cntHi0 = cntHi;
+	uint32_t cntHi0 = highResolutionClockSeconds;
+	while(true) {
+		uint16_t cntLo = TIM3::TIM3.CNT;
+		uint32_t cntHi = highResolutionClockSeconds;
+		if(cntHi == cntHi0) {
+			uint64_t cnt = (((uint64_t)cntHi << tim3NumBits) + cntLo) * highResolutionClockClkToNs;
+			duration dur(cnt); // size = 8
+			time_point tp(dur); // size = 8
+			return tp;
 		}
+		cntHi0 = cntHi;
 	}
+}
 
 }
 

@@ -8,7 +8,6 @@ namespace I2C {
 
 
 struct I2C {
-
 	uint32_t CR1;
 	uint32_t CR2;
 	uint32_t OAR1;

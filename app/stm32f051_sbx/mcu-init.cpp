@@ -1,3 +1,4 @@
+#include "if/mcu/mcu-init.h"
 #include "./io.h"
 #include "arch/arm/armv6_m/mmreg/nvic.h"
 #include "arch/arm/armv6_m/stm32f0/mmreg/rcc.h"
@@ -5,10 +6,8 @@
 #include "arch/arm/stm32/mmreg/i2c.h"
 #include "if/mcu/chrono.h"
 #include "if/mcu/i2c.h"
-#include "if/mcu/mcu-init.h"
 #include "if/mcu/mmreg.h"
 #include "if/mcu/pio.h"
-
 #include <array>
 
 //
@@ -18,42 +17,64 @@
 // LD4 (blue) for PC8 output (active high)
 //
 static constexpr std::array<DioDef, DioNames::NUM_DIO> dioDefs = {{
-	{ // LED3_GREEN
+	{// LED3_GREEN
 		stm32::mmreg::GPIO::GPIOC, 9,
 		DioDef::IoFunction::OUTPUT,
-		DioDef::IoType::PUSH_PULL, 
-		DioDef::IoSpeed::LOW, 
-		DioDef::IoBias::NONE, 
-		DioDef::IoInitState::LOGIC_LOW
-	},
-	{ // LED4_BLUE
+		DioDef::IoType::PUSH_PULL,
+		DioDef::IoSpeed::LOW,
+		DioDef::IoBias::NONE,
+		DioDef::IoInitState::LOGIC_LOW},
+	{// LED4_BLUE
 		stm32::mmreg::GPIO::GPIOC, 8,
 		DioDef::IoFunction::OUTPUT,
-		DioDef::IoType::PUSH_PULL, 
-		DioDef::IoSpeed::LOW, 
-		DioDef::IoBias::NONE, 
-		DioDef::IoInitState::LOGIC_LOW
-	},
+		DioDef::IoType::PUSH_PULL,
+		DioDef::IoSpeed::LOW,
+		DioDef::IoBias::NONE,
+		DioDef::IoInitState::LOGIC_LOW},
 }};
 
 const DioDef &dioLED3Green = dioDefs[LED3_GREEN];
 const DioDef &dioLED4Blue = dioDefs[LED4_BLUE];
 
-const dio::DioAssertFunctor<volatile struct stm32::mmreg::GPIO::GPIO, dio::AssertTypeLogicHigh> assertFuncLED3Green {dioDefs[DioNames::LED3_GREEN]};
-const dio::DioAssertFunctor<volatile struct stm32::mmreg::GPIO::GPIO, dio::AssertTypeLogicHigh> assertFuncLED4Blue {dioDefs[DioNames::LED4_BLUE]};
+const dio::DioAssertFunctor<volatile struct stm32::mmreg::GPIO::GPIO, dio::AssertTypeLogicHigh> assertFuncLED3Green{dioDefs[DioNames::LED3_GREEN]};
+const dio::DioAssertFunctor<volatile struct stm32::mmreg::GPIO::GPIO, dio::AssertTypeLogicHigh> assertFuncLED4Blue{dioDefs[DioNames::LED4_BLUE]};
 
 static constexpr std::array<PioDef, PioNames::NUM_PIO> pioDefs = {{
-	{ // I2C1_SCL, PB6
-		stm32::mmreg::GPIO::GPIOB, 6, 1, PioDef::IoType::OPEN_DRAIN, PioDef::IoSpeed::HIGH, PioDef::IoBias::PULL_UP,
+	{
+		// I2C1_SCL, PB6
+		stm32::mmreg::GPIO::GPIOB,
+		6,
+		1,
+		PioDef::IoType::OPEN_DRAIN,
+		PioDef::IoSpeed::HIGH,
+		PioDef::IoBias::PULL_UP,
 	},
-	{ // I2C1_SDA, PB7
-		stm32::mmreg::GPIO::GPIOB, 7, 1, PioDef::IoType::OPEN_DRAIN, PioDef::IoSpeed::HIGH, PioDef::IoBias::PULL_UP,
+	{
+		// I2C1_SDA, PB7
+		stm32::mmreg::GPIO::GPIOB,
+		7,
+		1,
+		PioDef::IoType::OPEN_DRAIN,
+		PioDef::IoSpeed::HIGH,
+		PioDef::IoBias::PULL_UP,
 	},
-	{ // I2C2_SCL, PB10
-		stm32::mmreg::GPIO::GPIOB, 10, 1, PioDef::IoType::OPEN_DRAIN, PioDef::IoSpeed::HIGH, PioDef::IoBias::PULL_UP,
+	{
+		// I2C2_SCL, PB10
+		stm32::mmreg::GPIO::GPIOB,
+		10,
+		1,
+		PioDef::IoType::OPEN_DRAIN,
+		PioDef::IoSpeed::HIGH,
+		PioDef::IoBias::PULL_UP,
 	},
-	{ // I2C2_SDA, PB11
-		stm32::mmreg::GPIO::GPIOB, 11, 1, PioDef::IoType::OPEN_DRAIN, PioDef::IoSpeed::HIGH, PioDef::IoBias::PULL_UP,
+	{
+		// I2C2_SDA, PB11
+		stm32::mmreg::GPIO::GPIOB,
+		11,
+		1,
+		PioDef::IoType::OPEN_DRAIN,
+		PioDef::IoSpeed::HIGH,
+		PioDef::IoBias::PULL_UP,
 	},
 }};
 
@@ -65,30 +86,32 @@ enum I2cNames {
 };
 
 static constexpr std::array<I2cDef, I2cNames::NUM_I2C> i2cDefs = {{
-	{ // I2C1
+	{
+		// I2C1
 		stm32::mmreg::I2C::I2C1,
 		pioDefs[PioNames::I2C1_SCL],
 		pioDefs[PioNames::I2C1_SDA],
 	},
-	{ // I2C2
+	{
+		// I2C2
 		stm32::mmreg::I2C::I2C2,
 		pioDefs[PioNames::I2C2_SCL],
 		pioDefs[PioNames::I2C2_SDA],
 	},
 }};
 
-void mcuInit::systemClock::initTree(){
+void mcuInit::systemClock::initTree() {
 	using namespace mmreg;
 	namespace RCC = stm32f0::mmreg::RCC;
 
 	/* List of available clocks:
-		* HSI 8 MHz RC oscillator clock
-		* HSE oscillator clock
-		* PLL clock
-		* 40 kHz low speed internal RC (LSI RC)
-		* 32.768 kHz low speed external crystal (LSE crystal)
-		* 14 MHz high speed internal RC (HSI14) dedicated for ADC
-	*/
+	 * HSI 8 MHz RC oscillator clock
+	 * HSE oscillator clock
+	 * PLL clock
+	 * 40 kHz low speed internal RC (LSI RC)
+	 * 32.768 kHz low speed external crystal (LSE crystal)
+	 * 14 MHz high speed internal RC (HSI14) dedicated for ADC
+	 */
 
 	/* Maximum core frequency is 48 MHz.
 	The maximum frequency of the AHB and the APB domains (HCLK and PCLK) is 48 MHz.
@@ -105,18 +128,21 @@ void mcuInit::systemClock::initTree(){
 	4.Enable the PLL again by setting PLLON to 1.
 	5.Wait until PLLRDY is set. */
 	clearBits(RCC::RCC.CR.word, RCC::CRBits::PLLONMask);
-	while (getBits(RCC::RCC.CR.word, RCC::CRBits::PLLRDYMask));
+	while(getBits(RCC::RCC.CR.word, RCC::CRBits::PLLRDYMask))
+		;
 	setBitsMasked(RCC::RCC.CFGR.word, RCC::CFGRBits::PLLMULMask, RCC::CFGRBits::PLLMULx12);
 	setBitsMasked(RCC::RCC.CFGR.word, RCC::CFGRBits::PLLSRCMask, RCC::CFGRBits::PLLSRCHSI);
 	setBitsMasked(RCC::RCC.CFGR.word, RCC::CFGRBits::PPREMask, RCC::CFGRBits::PPRENoDiv);
 	setBitsMasked(RCC::RCC.CFGR.word, RCC::CFGRBits::HPREMask, RCC::CFGRBits::HPRENoDiv);
 
 	setBitsMasked(RCC::RCC.CR.word, RCC::CRBits::PLLONMask, RCC::CRBits::PLLONOn);
-	while(!getBits(RCC::RCC.CR.word, RCC::CRBits::PLLRDYMask));
+	while(!getBits(RCC::RCC.CR.word, RCC::CRBits::PLLRDYMask))
+		;
 
 	/* After a system reset, the HSI oscillator is selected as system clock. */
 	setBitsMasked(RCC::RCC.CFGR.word, RCC::CFGRBits::SWMask, RCC::CFGRBits::SWPLL);
-	while(getBits(RCC::RCC.CFGR.word, RCC::CFGRBits::SWSMask) != RCC::CFGRBits::SWSPLL);
+	while(getBits(RCC::RCC.CFGR.word, RCC::CFGRBits::SWSMask) != RCC::CFGRBits::SWSPLL)
+		;
 
 	/* Enable IO ports */
 	setBitsMasked(RCC::RCC.AHBENR.word,
@@ -134,10 +160,10 @@ void mcuInit::systemClock::initChrono() {
 	chrono::high_resolution_clock::init();
 }
 
-void mcuInit::io::init(){
+void mcuInit::io::init() {
 	dio::configure(dioDefs);
 }
 
-void mcuInit::comm::init(){
+void mcuInit::comm::init() {
 	i2c::configure(i2cDefs);
 }

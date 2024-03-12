@@ -1,10 +1,8 @@
 #include "app-chrono.h"
-
 #include "./../freertos/freertos.h"
 #include "./../io.h"
 #include "common/linker.h"
 #include "if/mcu/debug.h"
-
 #include <chrono>
 #include <cstdint>
 
@@ -26,7 +24,6 @@ void task_func(void *pvParameters);
 }
 
 void app_chrono::start() {
-
 	xTaskCreateStatic(task_func,
 		nullptr,
 		configMINIMAL_STACK_SIZE,
@@ -34,7 +31,6 @@ void app_chrono::start() {
 		tskIDLE_PRIORITY,
 		(uint32_t *)&xStackBuffer,
 		&xTaskBuffer);
-
 }
 
 namespace {
@@ -42,7 +38,6 @@ void task_func(void *pvParameters) {
 	(void)pvParameters;
 	bool b = false;
 	while(true) {
-
 		using std::chrono::time_point, std::chrono::steady_clock, std::chrono::duration, std::chrono::nanoseconds, std::chrono::microseconds, std::chrono::high_resolution_clock;
 		time_point<steady_clock> tpS0 = steady_clock::now();
 		time_point<high_resolution_clock> tpH0 = high_resolution_clock::now();

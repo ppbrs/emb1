@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstdint>
 #include <concepts>
+#include <cstdint>
 
 namespace mmreg {
 
@@ -11,32 +11,32 @@ typename M is not restricted yet, because it can be an enum (e.g. OMode)
 */
 
 template<std::unsigned_integral T, typename M>
-void clearBits(volatile T &reg, M mask, std::size_t offset=0){
+void clearBits(volatile T &reg, M mask, std::size_t offset = 0) {
 	reg = reg & (~(static_cast<T>(mask) << offset));
 }
 
 template<std::unsigned_integral T, typename M>
-void setBits(volatile T &reg, M bits, std::size_t offset=0){
+void setBits(volatile T &reg, M bits, std::size_t offset = 0) {
 	reg = reg | (static_cast<T>(bits) << offset);
 }
 
 template<std::unsigned_integral T, typename M>
-void writeBits(volatile T &reg, M bits, std::size_t offset=0){
+void writeBits(volatile T &reg, M bits, std::size_t offset = 0) {
 	reg = (static_cast<T>(bits) << offset);
 }
 
 template<std::unsigned_integral T, typename M>
-void setBitsMasked(volatile T &reg, M mask, M bits, std::size_t offset=0){
+void setBitsMasked(volatile T &reg, M mask, M bits, std::size_t offset = 0) {
 	reg = (reg & (~(static_cast<T>(mask) << offset))) | (static_cast<T>(bits) << offset);
 }
 
 template<std::unsigned_integral T, typename M>
-T getBits(const volatile T &reg, M mask, std::size_t offset=0){
+T getBits(const volatile T &reg, M mask, std::size_t offset = 0) {
 	return (reg >> offset) & static_cast<T>(mask);
 }
 
 template<std::unsigned_integral T, typename M>
-bool testBitsMasked(volatile T &reg, M mask, M bits, std::size_t offset=0){
+bool testBitsMasked(volatile T &reg, M mask, M bits, std::size_t offset = 0) {
 	return (reg & (static_cast<T>(mask) << offset)) == (static_cast<T>(bits) << offset);
 }
 

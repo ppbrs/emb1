@@ -7,7 +7,6 @@ namespace mmreg {
 namespace USART {
 
 
-
 struct USART {
 	uint32_t CR1;
 	uint32_t CR2;

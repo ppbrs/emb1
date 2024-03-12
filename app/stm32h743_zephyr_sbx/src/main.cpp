@@ -5,7 +5,6 @@
  */
 
 #include "protocol.h"
-
 #include <zephyr/console/console.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/gpio.h>
@@ -77,7 +76,7 @@ void thread0Func(void *, void *, void *) {
 
 		k_msleep(500);
 
-		if (--cnt == 0) {
+		if(--cnt == 0) {
 			printk("I: thread0Func DONE\n");
 			return;
 		}

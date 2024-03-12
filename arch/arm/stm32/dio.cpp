@@ -1,8 +1,7 @@
 
 #include "if/mcu/dio.h"
-
-#include "if/mcu/mmreg.h"
 #include "arch/arm/stm32/mmreg/gpio.h"
+#include "if/mcu/mmreg.h"
 
 // using GPIOStm32 = volatile struct stm32::mmreg::GPIO::GPIO;
 using DioDefStm32 = dio::DioDef<volatile struct stm32::mmreg::GPIO::GPIO>;

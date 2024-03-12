@@ -1,13 +1,12 @@
 #include "if/mcu/debug.h"
-
 #include "arch/arm/armv7e_m//mmreg/debug.h"
 #include "arch/arm/armv7e_m/mmreg/itm.h"
-#include "arch/arm/stm32/mmreg/gpio.h"
 #include "arch/arm/armv7e_m/stm32h7/mmreg/debug.h" // todo
+#include "arch/arm/stm32/mmreg/gpio.h"
 #include "if/mcu/mmreg.h"
 
 namespace debug {
-	constexpr uint32_t swoBaudRate = 2'000'000;
+constexpr uint32_t swoBaudRate = 2'000'000;
 }
 
 
@@ -50,12 +49,14 @@ void debug::swvSendChar(int8_t ch) {
 	// auto &stimulusReg2 = armv7e_m::mmreg::ITM::ITM.STIM[2];
 	// auto &stimulusReg3 = armv7e_m::mmreg::ITM::ITM.STIM[3];
 
-	while(!(stimulusReg0.read.FIFOREADY & 1));
+	while(!(stimulusReg0.read.FIFOREADY & 1))
+		;
 	stimulusReg0.write.u8 = (int8_t)ch;
 	stimulusReg0.write.u16 = (int8_t)ch + 1;
 	stimulusReg0.write.u32 = (int8_t)ch + 2;
 
-	while(!(stimulusReg1.read.FIFOREADY & 1));
+	while(!(stimulusReg1.read.FIFOREADY & 1))
+		;
 	stimulusReg1.write.u8 = (int8_t)ch + 16;
 	stimulusReg1.write.u16 = (int8_t)ch + 16 + 1;
 	stimulusReg1.write.u32 = (int8_t)ch + 16 + 2;

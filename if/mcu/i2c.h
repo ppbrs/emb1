@@ -1,7 +1,6 @@
 #pragma once
 
 #include "pio.h"
-
 #include <cstdint>
 #include <ranges>
 
@@ -21,7 +20,7 @@ void configure(const I2cDef<I2C, GPIO> &i2cDef);
 
 template<std::ranges::range T>
 void configure(const T &i2cDefs) {
-	for (auto &i2cDef: i2cDefs) {
+	for(auto &i2cDef : i2cDefs) {
 		configure(i2cDef);
 	}
 }

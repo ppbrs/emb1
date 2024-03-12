@@ -1,10 +1,10 @@
 #pragma once
 //
-// Project-scope IO configuration. 
+// Project-scope IO configuration.
 //
 
-#include "if/mcu/dio.h"
 #include "arch/arm/stm32/mmreg/gpio.h"
+#include "if/mcu/dio.h"
 
 enum DioNames {
 	LED2,

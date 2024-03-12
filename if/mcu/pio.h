@@ -13,10 +13,15 @@ struct PioDef {
 	uint8_t pinNumber;
 	uint8_t alternateFunction;
 
-	enum IoType : uint8_t {PUSH_PULL, OPEN_DRAIN} ioType;
-	enum IoSpeed : uint8_t {LOW, MEDIUM, HIGH, VERY_HIGH} ioSpeed;
-	enum IoBias : uint8_t {NONE, PULL_UP, PULL_DOWN } ioBias;
-
+	enum IoType : uint8_t { PUSH_PULL,
+		OPEN_DRAIN } ioType;
+	enum IoSpeed : uint8_t { LOW,
+		MEDIUM,
+		HIGH,
+		VERY_HIGH } ioSpeed;
+	enum IoBias : uint8_t { NONE,
+		PULL_UP,
+		PULL_DOWN } ioBias;
 };
 
 }

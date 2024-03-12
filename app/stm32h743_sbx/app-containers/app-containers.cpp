@@ -1,8 +1,6 @@
 #include "app-containers.h"
-
 #include "common/memory/stack_allocator.h"
 #include "common/memory/stack_arena.h"
-
 #include <vector>
 
 /*
@@ -15,7 +13,6 @@ using StackVector = std::vector<T, StackAllocator<T, BufSize, alignof(T)>>;
 
 
 void app_containers::start() {
-
 	// Create the stack-based arena from which to allocate
 	StackVector<ValueType>::allocator_type::arena_type a;
 	// Create the vector which uses that arena.
@@ -26,6 +23,4 @@ void app_containers::start() {
 	v.push_back(2);
 	v.push_back(3);
 	v.insert(v.cbegin(), 4);
-
-
 }

@@ -87,7 +87,6 @@ struct CFGRBits {
 	static constexpr uint32_t SWHSI = (0b00u << 0);
 	static constexpr uint32_t SWHSE = (0b01u << 0);
 	static constexpr uint32_t SWPLL = (0b10u << 0);
-
 };
 static_assert(sizeof(CFGRBits) == sizeof(uint32_t));
 union CFGR {
@@ -194,7 +193,6 @@ struct APB1ENRBits {
 	static constexpr uint32_t I2C1ENSet = I2C1ENMask;
 	static constexpr uint32_t I2C2ENMask = (0b1u << 22);
 	static constexpr uint32_t I2C2ENSet = I2C2ENMask;
-
 };
 union APB1ENR {
 	uint32_t word;
@@ -230,7 +228,7 @@ struct CFGR3Bits {
 	uint32_t CECSW : 1;
 	uint32_t USBSW : 1;
 	uint32_t ADCSW : 1;
-	uint32_t reserved3: 7;
+	uint32_t reserved3 : 7;
 	uint32_t USART2SW : 2;
 	uint32_t USART3SW : 3;
 

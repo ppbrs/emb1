@@ -1,15 +1,12 @@
-#include "gtest/gtest.h"
-
 #include "common/memory/stack_allocator.h"
 #include "common/memory/stack_arena.h"
-
+#include "gtest/gtest.h"
 #include <vector>
 
 class StackAllocatorTests : public ::testing::Test {
 };
 
 TEST_F(StackAllocatorTests, Basic) {
-
 	{
 		constexpr std::size_t vecSize = 8; // elements
 		constexpr std::size_t bufSize = sizeof(uint32_t) * vecSize; // bytes
@@ -29,5 +26,4 @@ TEST_F(StackAllocatorTests, Basic) {
 		vec.push_back(1);
 		// vec.push_back(1);
 	}
-
 }
