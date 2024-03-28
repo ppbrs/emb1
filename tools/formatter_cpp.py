@@ -7,8 +7,18 @@ import sys
 import pytest
 
 CLANG_FORMAT = "clang-format"
-GLOBS_FORMAT = ("*.cpp", "*.h", ".c")
-GLOBS_SKIP = ("./3party/**/*", "./tmp/**/*")
+GLOBS_FORMAT = (
+    "*.cpp",
+    "*.h",
+    ".c"
+)
+GLOBS_SKIP = (
+    "./3party/**/*",
+    "./tmp/**/*",
+    "./tmp/**/*",
+    "./app/stm32h743_zephyr_sbx/build/**/*",
+    "./app/stm32f051_zephyr_sbx/build/**/*",
+)
 
 
 def _get_proj_dir() -> pathlib.PosixPath:

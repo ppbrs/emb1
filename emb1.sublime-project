@@ -33,7 +33,7 @@
 	"build_systems": [
 		// -----------------------------------------------------------------------------------------
 		{
-			"name": "emb1",
+			"name": "Baremetal projects",
 			"shell_cmd": "${file}",
 			"variants": [
 				{
@@ -117,28 +117,40 @@
 		},
 		// -----------------------------------------------------------------------------------------
 		{
-			"name": "emb1 zephyr",
+			"name": "Zephyr OS based projects",
 			"shell_cmd": "${file}",
 			"variants":
 			[
 				{
 					"name": "STM32H743-ZEPHYR-SBX: Make.",
 					"working_dir": "${project_path}/app/stm32h743_zephyr_sbx/",
-					"shell_cmd": "./project-build.sh",
+					"shell_cmd": "./prj-build-flash.sh make",
 				},
 				{
-					"name": "STM32H743-ZEPHYR-SBX: Flash write.",
+					"name": "STM32H743-ZEPHYR-SBX: Rebuild.",
 					"working_dir": "${project_path}/app/stm32h743_zephyr_sbx/",
-					"shell_cmd": "./flash-write.sh",
+					"shell_cmd": "./prj-build-flash.sh rebuild",
+				},
+				{
+					"name": "STM32H743-ZEPHYR-SBX: Make and flash.",
+					"working_dir": "${project_path}/app/stm32h743_zephyr_sbx/",
+					"shell_cmd": "./prj-build-flash.sh flash",
 				},
 				{
 					"name": "STM32F051-ZEPHYR-SBX: Make.",
-					"shell_cmd": "cd ${project_path}/app/stm32f051_zephyr_sbx/ && ./project-build.sh",
+					"working_dir": "${project_path}/app/stm32f051_zephyr_sbx/",
+					"shell_cmd": "./prj-build-flash.sh make",
 				},
-				// {
-				// 	"name": "STM32H743-ZEPHYR-SBX: Make.",
-				// 	"shell_cmd": "cd ${project_path}/../../cs/cs-011/zephyr/ && ./flash-with-west",
-				// },
+				{
+					"name": "STM32F051-ZEPHYR-SBX: Rebuild.",
+					"working_dir": "${project_path}/app/stm32f051_zephyr_sbx/",
+					"shell_cmd": "./prj-build-flash.sh rebuild",
+				},
+				{
+					"name": "STM32F051-ZEPHYR-SBX: Make and flash.",
+					"working_dir": "${project_path}/app/stm32f051_zephyr_sbx/",
+					"shell_cmd": "./prj-build-flash.sh flash",
+				},
 				{
 					"name": "clang-format-14: Format this file, edit inplace.",
 					"shell_cmd": "clang-format-14 ${file} --style=file -i",

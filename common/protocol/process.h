@@ -41,7 +41,7 @@ Error parse(const W &words, CommandVariant &commandVariant) {
 	if(words.size() > 0) {
 		if(words[0] == CommandRead::cmd) {
 			commandVariant = CommandRead{};
-			error = get<CommandRead>(commandVariant).parse(words);
+			error = std::get<CommandRead>(commandVariant).parse(words);
 		} else {
 			error = Error::UNKNOWN_COMMAND;
 		}
