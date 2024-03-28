@@ -2,11 +2,10 @@
 """
 Application that can set bits in registers according to the script.
 """
-
+# pylint: disable-all  # This file will probably be removed or fully reworked.
 import time
 
 from emb_spy import Backend, MmregSTM32H743
-
 
 HOST, PORT = "localhost", 4444
 
@@ -41,11 +40,16 @@ class AppModifySTM32H743:
     Application that can set bits in registers according to the script.
     """
 
-    def __init__(self, script):
+    def __init__(self, script: list[tuple[str, str, int, float]]) -> None:
+        """
+        Stub.
+        """
         self.script = script
 
-    def __call__(self):
-
+    def __call__(self) -> None:
+        """
+        Stub.
+        """
         regs_dict_name = MmregSTM32H743().get_dict_name()
 
         with Backend(host=HOST, port=PORT) as backend:

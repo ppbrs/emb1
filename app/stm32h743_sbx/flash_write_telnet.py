@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 """
-Connect to an OpenOCD target and perform a series of commands.
+Connect to an OpenOCD target and write the application binary to it.
+
 Don't forget to start OpenOCD beforehand:
     openocd -f serpens/openocd.cfg
     openocd -f vega/openocd.cfg
 """
 import pathlib
 from telnetlib import Telnet
-
 
 ELF_PATH = pathlib.PosixPath("../../bin/stm32h743-sbx.elf").absolute()
 

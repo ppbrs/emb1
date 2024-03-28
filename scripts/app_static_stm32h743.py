@@ -1,17 +1,15 @@
 #!/usr/bin/python3
 """
-Application that can read and print the contents of multiple registers of
-an STM32H743 MCU connected via OpenOCD.
+Application that can read and print multiple STM32H743's registers via OpenOCD.
 """
-# Standard library imports
-import ctypes
+# pylint: disable-all  # This file will probably be removed or fully reworked.
+# import ctypes
 import logging
 import pathlib
-# Third party imports
-# Local application/library imports
+
 from emb_spy import AppStaticReader, MmregSTM32H743
 
-HOST, PORT = "localhost", 4444
+# HOST, PORT = "localhost", 4444
 HOST, PORT = "localhost", None
 
 TARGET0 = "stm32h7x.cpu0"

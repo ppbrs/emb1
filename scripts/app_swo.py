@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+A script for capturing SWO output.
+"""
 import logging
 import pathlib
 

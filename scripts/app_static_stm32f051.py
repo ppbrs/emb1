@@ -1,9 +1,8 @@
 """
-Application that can read and print the contents of multiple registers of
-an STM32H743 MCU connected via OpenOCD.
+Application that can read and print multiple STM32F051's registers.
 """
+# pylint: disable-all  # This file will probably be removed or fully reworked.
 from emb_spy import AppStaticReader, MmregSTM32F051
-
 
 HOST, PORT = "localhost", 4444  # Default port when started manually.
 # HOST, PORT = "localhost", 50002  # Port number when started by VSCode/CortexDebug.
