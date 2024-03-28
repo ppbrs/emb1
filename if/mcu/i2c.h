@@ -1,13 +1,14 @@
 #pragma once
 
 #include "pio.h"
-#include <cstdint>
+// #include <cstdint>
 #include <ranges>
 
 namespace i2c {
 
 template<typename I2C, typename GPIO>
-struct I2cDef {
+struct
+	I2cDef {
 	I2C &i2c;
 	const pio::PioDef<GPIO> &sclDef;
 	const pio::PioDef<GPIO> &sdaDef;

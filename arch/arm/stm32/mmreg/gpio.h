@@ -1,10 +1,11 @@
 #pragma once
-
 #include <cstdint>
 
 namespace stm32 {
 namespace mmreg {
 namespace GPIO {
+
+// -------------------------------------------------------------------------------------------------
 enum Mode : uint32_t {
 	MODE_IN = 0U,
 	MODE_OUT = 1U,
@@ -12,34 +13,6 @@ enum Mode : uint32_t {
 	MODE_AN = 3U,
 	MODE_MASK = 3U,
 };
-
-enum OType : uint32_t {
-	OTYPE_PP = 0U,
-	OTYPE_OD = 1U,
-	OTYPE_MASK = 1U,
-};
-
-enum OData : uint16_t {
-	ODATA_LOW = 0U,
-	ODATA_HIGH = 1U,
-	ODATA_MASK = 1U,
-};
-
-enum OSpeed : uint32_t {
-	OSPEED_LOW = 0U,
-	OSPEED_MEDIUM = 1U,
-	OSPEED_HIGH = 2U,
-	OSPEED_VERY_HIGH = 3U,
-	OSPEED_MASK = 3U,
-};
-
-enum PUPD : uint32_t {
-	PUPD_NONE = 0U,
-	PUPD_PU = 1U,
-	PUPD_PD = 2U,
-	PUPD_MASK = 3U,
-};
-
 struct MODERBits {
 	uint32_t MODER0 : 2;
 	uint32_t MODER1 : 2;
@@ -69,7 +42,13 @@ union MODER {
 	static constexpr uint32_t alternatFunctionMode = 0b10;
 	static constexpr uint32_t analogMode = 0b11;
 };
+// -------------------------------------------------------------------------------------------------
 
+enum OType : uint32_t {
+	OTYPE_PP = 0U,
+	OTYPE_OD = 1U,
+	OTYPE_MASK = 1U,
+};
 struct OTYPERBits {
 	uint32_t OTYPER0 : 1;
 	uint32_t OTYPER1 : 1;
@@ -96,6 +75,23 @@ union OTYPER {
 	OTYPERBits bits;
 };
 
+// -------------------------------------------------------------------------------------------------
+
+enum OData : uint16_t {
+	ODATA_LOW = 0U,
+	ODATA_HIGH = 1U,
+	ODATA_MASK = 1U,
+};
+
+// -------------------------------------------------------------------------------------------------
+
+enum OSpeed : uint32_t {
+	OSPEED_LOW = 0U,
+	OSPEED_MEDIUM = 1U,
+	OSPEED_HIGH = 2U,
+	OSPEED_VERY_HIGH = 3U,
+	OSPEED_MASK = 3U,
+};
 struct OSPEEDRBits {
 	uint32_t OSPEEDR0 : 2;
 	uint32_t OSPEEDR1 : 2;
@@ -127,6 +123,14 @@ union OSPEEDR {
 	static constexpr uint32_t veryHighSpeed = 0b11;
 };
 
+// -------------------------------------------------------------------------------------------------
+
+enum PUPD : uint32_t {
+	PUPD_NONE = 0U,
+	PUPD_PU = 1U,
+	PUPD_PD = 2U,
+	PUPD_MASK = 3U,
+};
 struct PUPDRBits {
 	uint32_t PUPDR0 : 2;
 	uint32_t PUPDR1 : 2;
@@ -152,6 +156,44 @@ union PUPDR {
 	PUPDRBits bits;
 };
 
+// -------------------------------------------------------------------------------------------------
+
+enum class AFR : uint32_t {
+	MASK = 3U,
+};
+struct AFRLBits {
+	uint32_t AFRL0 : 4;
+	uint32_t AFRL1 : 4;
+	uint32_t AFRL2 : 4;
+	uint32_t AFRL3 : 4;
+	uint32_t AFRL4 : 4;
+	uint32_t AFRL5 : 4;
+	uint32_t AFRL6 : 4;
+	uint32_t AFRL7 : 4;
+};
+static_assert(sizeof(AFRLBits) == 4u);
+union AFRL {
+	uint32_t word;
+	AFRLBits bits;
+};
+
+struct AFRHBits {
+	uint32_t AFRH8 : 4;
+	uint32_t AFRH9 : 4;
+	uint32_t AFRH10 : 4;
+	uint32_t AFRH11 : 4;
+	uint32_t AFRH12 : 4;
+	uint32_t AFRH13 : 4;
+	uint32_t AFRH14 : 4;
+	uint32_t AFRH15 : 4;
+};
+static_assert(sizeof(AFRHBits) == 4u);
+union AFRH {
+	uint32_t word;
+	AFRHBits bits;
+};
+
+// -------------------------------------------------------------------------------------------------
 struct IDRBits {
 	uint32_t IDR0 : 1;
 	uint32_t IDR1 : 1;
@@ -172,12 +214,12 @@ struct IDRBits {
 	uint32_t rsvd : 16;
 };
 static_assert(sizeof(IDRBits) == 4u);
-
 union IDR {
 	// uint32_t word;
 	uint16_t halfword;
 	IDRBits bits;
 };
+// -------------------------------------------------------------------------------------------------
 
 struct ODRBits {
 	uint32_t ODR0 : 1;
@@ -205,6 +247,7 @@ union ODR {
 	uint16_t halfword;
 	ODRBits bits;
 };
+// -------------------------------------------------------------------------------------------------
 
 struct BSRRBits {
 	uint32_t BS0 : 1;
@@ -253,6 +296,8 @@ union BSRR {
 	BSRRBits bits;
 };
 
+// -------------------------------------------------------------------------------------------------
+
 struct LCKRBits {
 	uint32_t LCK : 16;
 	uint32_t LCKK : 1;
@@ -265,40 +310,7 @@ union LCKR {
 	LCKRBits bits;
 };
 
-struct AFRLBits {
-	uint32_t AFRL0 : 4;
-	uint32_t AFRL1 : 4;
-	uint32_t AFRL2 : 4;
-	uint32_t AFRL3 : 4;
-	uint32_t AFRL4 : 4;
-	uint32_t AFRL5 : 4;
-	uint32_t AFRL6 : 4;
-	uint32_t AFRL7 : 4;
-};
-static_assert(sizeof(AFRLBits) == 4u);
-
-union AFRL {
-	uint32_t word;
-	AFRLBits bits;
-};
-
-struct AFRHBits {
-	uint32_t AFRH8 : 4;
-	uint32_t AFRH9 : 4;
-	uint32_t AFRH10 : 4;
-	uint32_t AFRH11 : 4;
-	uint32_t AFRH12 : 4;
-	uint32_t AFRH13 : 4;
-	uint32_t AFRH14 : 4;
-	uint32_t AFRH15 : 4;
-};
-static_assert(sizeof(AFRHBits) == 4u);
-
-union AFRH {
-	uint32_t word;
-	AFRHBits bits;
-};
-
+// -------------------------------------------------------------------------------------------------
 struct GPIO {
 	union MODER MODER;
 	union OTYPER OTYPER;
@@ -328,3 +340,5 @@ extern volatile struct GPIO GPIOK;
 }
 }
 }
+
+using GpioRegsStm32 = volatile stm32::mmreg::GPIO::GPIO;

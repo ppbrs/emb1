@@ -7,21 +7,29 @@ PIO = Peripheral IO = inputs-outputs belonging to peripherals like I2C, SPI.
 
 namespace pio {
 
-template<typename GPIO>
+template<typename GpioRegs>
 struct PioDef {
-	volatile GPIO &gpio;
-	uint8_t pinNumber;
-	uint8_t alternateFunction;
-
-	enum IoType : uint8_t { PUSH_PULL,
-		OPEN_DRAIN } ioType;
-	enum IoSpeed : uint8_t { LOW,
+	GpioRegs &gpioRegs; // e.g. GPIOA.
+	uint8_t pinNumber; // 0..15.
+	uint8_t alternateFunction; // AF0..AF7.
+	enum class IoType : uint8_t {
+		PUSH_PULL,
+		OPEN_DRAIN
+	} ioType;
+	enum class IoSpeed : uint8_t {
+		LOW,
 		MEDIUM,
 		HIGH,
-		VERY_HIGH } ioSpeed;
-	enum IoBias : uint8_t { NONE,
+		VERY_HIGH
+	} ioSpeed;
+	enum class IoBias : uint8_t {
+		NONE,
 		PULL_UP,
-		PULL_DOWN } ioBias;
+		PULL_DOWN
+	} ioBias;
 };
+
+template<typename GpioRegs>
+void configure(const PioDef<GpioRegs> &pioDef);
 
 }

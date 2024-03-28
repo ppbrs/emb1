@@ -1,10 +1,7 @@
 #pragma once
 
 namespace protocol {
-
-
 int init();
-
 }
 
 inline int protocolInit() {

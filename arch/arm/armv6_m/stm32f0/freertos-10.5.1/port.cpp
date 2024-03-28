@@ -385,6 +385,11 @@ void tick::sysTickISR() {
 }
 /*-----------------------------------------------------------*/
 
+void nvic::svcISR() {
+	// It's an empty function and is not used in FreeRTOS.
+}
+/*-----------------------------------------------------------*/
+
 /*
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.

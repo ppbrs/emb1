@@ -6,24 +6,27 @@ from typing import Generator
 import pytest
 import serial
 
-from integration_tests.serial_port import SerialPort
+from integration_tests.sport import SPort
 
 print(f"conftest.py: {sys.path=}")
 
 
 @pytest.fixture  # type: ignore
-def serial_port() -> Generator[SerialPort, None, None]:
-    """Connect to the default serial port and provide a SerialPort object."""
-    serial_obj = serial.Serial(
-        port="/dev/ttyACM0",
+def sport() -> Generator[SPort, None, None]:
+    """
+    Connect to the default serial port and provide a SPort object.
+    """
+    port = SPort.get_default_port()
+    pyserial_obj = serial.Serial(
+        port=port,
         baudrate=115200,
         timeout=0.3,  # read timeout
     )
     time.sleep(0.2)
-    serial_obj.reset_input_buffer()
+    pyserial_obj.reset_input_buffer()
 
-    yield SerialPort(serial_obj=serial_obj)
+    yield SPort(pyserial_obj=pyserial_obj)
 
     time.sleep(0.2)
-    serial_obj.reset_input_buffer()
-    serial_obj.close()
+    pyserial_obj.reset_input_buffer()
+    pyserial_obj.close()

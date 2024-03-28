@@ -33,27 +33,17 @@
 	"build_systems": [
 		// -----------------------------------------------------------------------------------------
 		{
-			"name": "Baremetal projects",
+			"name": "Baremetal Riga",
 			"shell_cmd": "${file}",
 			"variants": [
 				{
-					"name": "STM32H743-SBX: Make.",
-					"shell_cmd": "cd ${project_path} && make stm32h743-sbx && echo -e \"\nSUCCESS\"",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+					"name": "Start OpenOCD.",
+					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && openocd -f boards/riga.openocd.cfg; exec bash\"",
 				},
 				{
-					"name": "STM32H743-SBX: Rebuild with GNU.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B stm32h743-sbx && echo -e \"\nSUCCESS\"",
+					"name": "Make all with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make riga-comm-00 && make stm32f051-sbx && echo -e \"\nSUCCESS\"",
 					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
-				},
-				{
-					"name": "STM32H743-SBX: Rebuild with LLVM.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B stm32h743-sbx && echo -e \"\nSUCCESS\"",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
-				},
-				{
-					"name": "STM32H743-SBX: Start GDB.",
-					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && gdb-multiarch -x app/stm32h743_sbx/openocd.gdb  ./bin/stm32h743-sbx.elf\"",
 				},
 				{
 					"name": "STM32F051-SBX: Make with GNU.",
@@ -76,26 +66,63 @@
 					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
 				},
 				{
-					"name": "STM32F051-SBX: Start GDB.",
-					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && gdb-multiarch -x app/stm32f051_sbx/openocd.gdb  ./bin/stm32h743-sbx.elf\"",
-				},
-				{
-					"name": "STM32-ALL: Rebuild with GNU.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B stm32-all && echo -e \"\nSUCCESS\"",
+					"name": "RIGA-COMM-00: Make with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make riga-comm-00 && echo -e \"\nSUCCESS\"",
 					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
 				},
 				{
-					"name": "STM32-ALL: Rebuild with LLVM.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B stm32-all && echo -e \"\nSUCCESS\"",
+					"name": "RIGA-COMM-00: Make with LLVM.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make riga-comm-00 && echo -e \"\nSUCCESS\"",
 					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "RIGA-COMM-00: Rebuild with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B riga-comm-00 && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "RIGA-COMM-00: Rebuild with LLVM.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B riga-comm-00 && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "RIGA-COMM-00: Program via telnet.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "python3 scripts/flash_write_openocd.py --telnet --target stm32f0x.cpu --elf bin/riga-comm-00.gnu.elf",
+				},
+				// {
+				// 	"name": "STM32F051-SBX: Start GDB.",
+				// 	"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && gdb-multiarch -x app/stm32f051_sbx/openocd.gdb  ./bin/stm32h743-sbx.elf\"",
+				// },
+			],
+		},
+		// -----------------------------------------------------------------------------------------
+		{
+			"name": "Baremetal Rijeka",
+			"shell_cmd": "${file}",
+			"variants": [
+				{
+					"name": "STM32H743-SBX: Make.",
+					"shell_cmd": "cd ${project_path} && make stm32h743-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32H743-SBX: Rebuild with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B stm32h743-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32H743-SBX: Rebuild with LLVM.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B stm32h743-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32H743-SBX: Start GDB.",
+					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && gdb-multiarch -x app/stm32h743_sbx/openocd.gdb  ./bin/stm32h743-sbx.elf\"",
 				},
 				{
 					"name": "Start OpenOCD on Rijeka board.",
 					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && boards/rijeka.openocd.sh; exec bash\"",
-				},
-				{
-					"name": "Start OpenOCD on Riga board.",
-					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && openocd -f boards/riga.openocd.cfg; exec bash\"",
 				},
 				{
 					"name": "Start OpenOCD on Rimini board.",

@@ -2,7 +2,7 @@
 
 cmake_minimum_required(VERSION 3.20.0)
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-project(z_h743_prj00)
+project(stm32h743_zephyr_sbx)
 
 target_include_directories(app PRIVATE ../../)
 

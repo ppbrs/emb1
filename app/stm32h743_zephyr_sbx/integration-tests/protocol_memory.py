@@ -10,12 +10,12 @@ Regions of memory on this platform that can be read:
 import itertools
 import logging
 
-from integration_tests.serial_port import SerialPort
+from integration_tests.sport import SPort
 
 _logger = logging.getLogger()
 
 
-def test_good(serial_port: SerialPort) -> None:
+def test_good(sport: SPort) -> None:
     """Test the `memory` command with correct options."""
     size_variants = range(1, 9)
     format_variants = ("u8", "u16", "u32", "u8h", "u16h", "u32h", "i8", "i16", "i32", )
@@ -26,8 +26,8 @@ def test_good(serial_port: SerialPort) -> None:
             cmd = f"memory -a 0 -f {format_} -s {size_}"
         else:
             cmd = f"memory --address 0 --format {format_} --size {size_}"
-        serial_port.write_line(cmd)
-        line = serial_port.read_line()
+        sport.write_line(cmd)
+        line = sport.read_line()
         comps = line.split()
         assert len(comps) == 2 + size_, \
             f"Got {len(comps)} tokens in response, expected {1 + size_}."
@@ -35,7 +35,7 @@ def test_good(serial_port: SerialPort) -> None:
     _logger.info("%d variants were tested.", cnt)
 
 
-def test_bad_size(serial_port: SerialPort) -> None:
+def test_bad_size(sport: SPort) -> None:
     """Size more than 8 is not supported; size less than 1 makes no sense."""
     cmd_resp_pairs = [
         ("memory -a 0 -f u32 -s 0", "memory: ERROR: Wrong size."),
@@ -46,12 +46,12 @@ def test_bad_size(serial_port: SerialPort) -> None:
     ]
     for i, pair in enumerate(cmd_resp_pairs):
         cmd, resp_exp = pair
-        serial_port.write_line(cmd)
-        resp_got = serial_port.read_line()
+        sport.write_line(cmd)
+        resp_got = sport.read_line()
         assert resp_got.startswith(resp_exp), f"#{i}: Got `{resp_got}`."
 
 
-def test_bad_format(serial_port: SerialPort) -> None:
+def test_bad_format(sport: SPort) -> None:
     """Check that the expected error message is sent when the format is not supported."""
     cmd_resp_pairs = [
         ("memory -a 0 -s 1 -f qwer", "memory: ERROR: Unknown format."),
@@ -59,12 +59,12 @@ def test_bad_format(serial_port: SerialPort) -> None:
     ]
     for i, pair in enumerate(cmd_resp_pairs):
         cmd, resp_exp = pair
-        serial_port.write_line(cmd)
-        resp_got = serial_port.read_line()
+        sport.write_line(cmd)
+        resp_got = sport.read_line()
         assert resp_got.startswith(resp_exp), f"#{i}: Got `{resp_got}`."
 
 
-def test_bad_address(serial_port: SerialPort) -> None:
+def test_bad_address(sport: SPort) -> None:
     """Check that the expected error message is sent when there is a problem with address."""
     cmd_resp_pairs = [
         # Parsing problems:
@@ -97,29 +97,29 @@ def test_bad_address(serial_port: SerialPort) -> None:
     ]
     for i, pair in enumerate(cmd_resp_pairs):
         cmd, resp_exp = pair
-        serial_port.write_line(cmd)
-        resp_got = serial_port.read_line()
+        sport.write_line(cmd)
+        resp_got = sport.read_line()
         assert resp_got.startswith(resp_exp), f"#{i}: Got `{resp_got}`."
 
 
-def test_bad_option(serial_port: SerialPort) -> None:
+def test_bad_option(sport: SPort) -> None:
     """Check that the expected error message is sent when the option is not supported."""
     cmd_resp_pairs = [
         ("memory -a 0 -s 1 -f u8 -o 123", "protocol: ERROR: Unknown option."),
     ]
     for i, pair in enumerate(cmd_resp_pairs):
         cmd, resp_exp = pair
-        serial_port.write_line(cmd)
-        resp_got = serial_port.read_line()
+        sport.write_line(cmd)
+        resp_got = sport.read_line()
         assert resp_got.startswith(resp_exp), f"#{i}: Got `{resp_got}`."
 
 
-def test_help(serial_port: SerialPort) -> None:
+def test_help(sport: SPort) -> None:
     """Check the help option."""
-    serial_port.write_line("memory -h")
-    resp = serial_port.read_all()
+    sport.write_line("memory -h")
+    resp = sport.read_all()
     assert len(resp) > 1
 
-    serial_port.write_line("memory --help")
-    resp = serial_port.read_all()
+    sport.write_line("memory --help")
+    resp = sport.read_all()
     assert len(resp) > 1

@@ -3,9 +3,6 @@
 #include "option.h"
 #include "parse-result.h"
 #include <array>
-#include <iostream>
-
-using std::cout, std::endl;
 
 namespace protocol {
 /*

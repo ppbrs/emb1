@@ -37,8 +37,8 @@ host_tests_objs = $(patsubst %.cpp,   $(host_tests_objs_dir)/%.cpp.o, $(filter %
 host_tests_objs +=  $(patsubst %.c,   $(host_tests_objs_dir)/%.c.o,   $(filter %.c,   $(host_tests_srcs)))
 host_tests_deps = $(host_tests_objs:.o=.d)
 
-host_tests_incl_dirs := ./
-host_tests_incl_dirs += $(gtest_dir)/googletest/include
+host_tests_incs := ./
+host_tests_incs += $(gtest_dir)/googletest/include
 
 lib_gtest_path := $(host_tests_objs_dir)/lib$(lib_gtest_stem).a
 
@@ -70,7 +70,7 @@ host_tests_main:
 	@mkdir -p $(shell dirname $(host_tests_objs_dir)/host-tests/main.o)
 	@$(host_toolchain_cpp) \
 		$(common_cxxflags) \
-		$(foreach D, $(host_tests_incl_dirs), -I$(D)) \
+		$(foreach D, $(host_tests_incs), -I$(D)) \
 		-c host-tests/main.cpp \
 		-o $(host_tests_objs_dir)/host-tests/main.o
 
@@ -95,7 +95,7 @@ $(host_tests_objs_dir)/%.cpp.o: %.cpp Makefile
 	@$(host_toolchain_cpp) \
 		$(common_cxxflags) \
 		-MD \
-		$(foreach D, $(host_tests_incl_dirs), -I$(D)) \
+		$(foreach D, $(host_tests_incs), -I$(D)) \
 		-c $< -o $@
 
 -include $(host_tests_deps)

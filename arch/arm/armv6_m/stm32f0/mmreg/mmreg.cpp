@@ -1,5 +1,6 @@
-#include "./rcc.h"
-#include "./tim2-3.h"
+#include "arch/arm/armv6_m/stm32f0/mmreg/rcc.h"
+#include "arch/arm/armv6_m/stm32f0/mmreg/tim2-3.h"
+#include "arch/arm/armv6_m/stm32f0/mmreg/usart.h"
 #include "arch/arm/stm32/mmreg/gpio.h"
 #include "arch/arm/stm32/mmreg/i2c.h"
 
@@ -14,3 +15,5 @@
 [[gnu::section(".bss.mmreg.tim3")]] volatile struct stm32f0::mmreg::TIM3::TIM3 stm32f0::mmreg::TIM3::TIM3;
 [[gnu::section(".bss.mmreg.i2c1")]] volatile struct stm32::mmreg::I2C::I2C stm32::mmreg::I2C::I2C1;
 [[gnu::section(".bss.mmreg.i2c2")]] volatile struct stm32::mmreg::I2C::I2C stm32::mmreg::I2C::I2C2;
+[[gnu::section(".bss.mmreg.usart1")]] volatile struct stm32f0::mmreg::USART::USART stm32f0::mmreg::USART::USART1;
+[[gnu::section(".bss.mmreg.usart2")]] volatile struct stm32f0::mmreg::USART::USART stm32f0::mmreg::USART::USART2;

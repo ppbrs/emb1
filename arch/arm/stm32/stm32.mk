@@ -20,7 +20,7 @@ endif
 
 
 
-stm32_incl_dirs = ./
+stm32_incs = ./
 
 stm32_cflags := $(common_cflags)
 stm32_cxxflags := $(common_cxxflags)
@@ -35,7 +35,7 @@ else ifeq ($(EMB1_TOOLCHAIN),llvm)
 	stm32_cxxflags += --sysroot=/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi
 
 	# This is needed because <cstdint> uses <bits/c++config.h>:
-	stm32_incl_dirs += /opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi
+	stm32_incs += /opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi
 endif
 
 stm32_cflags += -nostdlib

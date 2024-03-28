@@ -122,6 +122,17 @@
 				"cwd": "${workspaceFolder}"
 			},
 		},
+		// =========================================================================================
+		{
+			"label": "RIGA-COMM-00: Make with GNU.",
+			"type": "shell",
+			"command": "clear && export EMB1_TOOLCHAIN=gnu && make riga-comm-00",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		// =========================================================================================
 		{
 			"label": "python3: Run this file locally.",
 			"type": "shell",

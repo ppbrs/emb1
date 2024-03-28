@@ -10,23 +10,33 @@ namespace dio {
 
 // todo: Convert stm32::reg::GPIO::GPIO to a generic type
 // so that this structure stays generic to any MCU architecture.
-template<typename GPIO>
+template<typename GpioRegs>
 struct DioDef {
-	GPIO &gpio;
+	GpioRegs &gpioRegs;
 	// volatile struct stm32::reg::GPIO::GPIO &gpio;
 	uint8_t pinNumber;
-	enum IoFunction : uint8_t { INPUT,
-		OUTPUT } ioFunction;
-	enum IoType : uint8_t { PUSH_PULL,
-		OPEN_DRAIN } ioType;
-	enum IoSpeed : uint8_t { LOW,
+	enum class IoFunction : uint8_t {
+		INPUT,
+		OUTPUT,
+		DONT_CARE
+	} ioFunction;
+	enum class IoType : uint8_t {
+		PUSH_PULL,
+		OPEN_DRAIN
+	} ioType;
+	enum class IoSpeed : uint8_t {
+		LOW,
 		MEDIUM,
 		HIGH,
-		VERY_HIGH } ioSpeed;
-	enum IoBias : uint8_t { NONE,
+		VERY_HIGH
+	} ioSpeed;
+	enum class IoBias : uint8_t {
+		NONE,
 		PULL_UP,
-		PULL_DOWN } ioBias;
-	enum IoInitState : uint8_t { LOGIC_LOW,
+		PULL_DOWN
+	} ioBias;
+	enum class IoInitState : uint8_t {
+		LOGIC_LOW,
 		LOGIC_HIGH,
 		DONT_CARE,
 	} ioInitState;
@@ -67,8 +77,9 @@ class DioAssertFunctor {
 	public:
 	constexpr DioAssertFunctor(const DioDef<GPIO> &dioDef) :
 			dioDef(dioDef) {}
+
+	/* Function call operator. */
 	void operator()(bool enable) const {
-		(void)enable;
 		if(enable == Assert::valWhenAsserted) {
 			dioDef.setLogicHigh();
 		} else {

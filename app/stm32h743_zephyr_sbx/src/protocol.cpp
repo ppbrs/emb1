@@ -1,4 +1,3 @@
-
 #include "./protocol.h"
 #include "common/protocol/parser.h"
 #include "common/protocol/prog.h"
@@ -27,7 +26,6 @@ using ProgVar = std::variant<
 	ProgMemory,
 	ProgRandom>;
 using OptProgVar = std::optional<ProgVar>;
-
 
 void threadFunc(void *, void *, void *) {
 	while(1) {

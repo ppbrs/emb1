@@ -1,6 +1,6 @@
-#include "../../../if/mcu/systick.h"
-#include "../../../if/mcu/tick.h"
-#include "mmreg/systick.h"
+#include "if/mcu/systick.h"
+#include "arch/arm/armv6_m/mmreg/systick.h"
+#include "if/mcu/tick.h"
 
 namespace SysTick = armv6_m::mmreg::SysTick;
 

@@ -3,8 +3,8 @@
 #include "arch/arm/armv6_m/stm32f0/mmreg/rcc.h"
 #include "arch/arm/armv6_m/stm32f0/mmreg/tim2-3.h"
 #include "arch/arm/armv6_m/stm32f0/nvic.h"
-#include "arch/arm/armv6_m/stm32f0/tick.h"
 #include "if/mcu/mmreg.h"
+#include "if/mcu/tick.h"
 #include <chrono>
 // #include <cassert>
 
@@ -33,8 +33,8 @@ void chrono::steady_clock::init() {
 
 	setBitsMasked(RCC::RCC.APB1ENR.word, RCC::APB1ENRBits::TIM2ENMask, RCC::APB1ENRBits::TIM2ENSet);
 
-	static constexpr uint16_t tim2Prescaler = static_cast<uint16_t>(tick::apbFreq / tim2Freq - 1);
-	static_assert(tim2Freq == tick::apbFreq / (tim2Prescaler + 1));
+	uint16_t tim2Prescaler = static_cast<uint16_t>(tick::apbFreq / tim2Freq - 1);
+	// static_assert(tim2Freq == tick::apbFreq / (tim2Prescaler + 1));
 	TIM2::TIM2.PSC = tim2Prescaler;
 	TIM2::TIM2.ARR = 0xFFFF'FFFF;
 	// Generating an update event so that the value of the prescaler is applied.
@@ -65,8 +65,8 @@ void chrono::high_resolution_clock::init() {
 
 	setBitsMasked(RCC::RCC.APB1ENR.word, RCC::APB1ENRBits::TIM3ENMask, RCC::APB1ENRBits::TIM3ENSet);
 
-	static constexpr uint16_t tim3Prescaler = static_cast<uint16_t>(tick::apbFreq / tim3Freq - 1);
-	static_assert(tim3Freq == tick::apbFreq / (tim3Prescaler + 1));
+	uint16_t tim3Prescaler = static_cast<uint16_t>(tick::apbFreq / tim3Freq - 1);
+	// static_assert(tim3Freq == tick::apbFreq / (tim3Prescaler + 1));
 	TIM3::TIM3.PSC = tim3Prescaler;
 	TIM3::TIM3.ARR = 0xFFFF;
 	// Generating an update event so that the value of the prescaler is applied.

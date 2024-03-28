@@ -29,7 +29,7 @@ extern volatile struct I2C I2C2;
 }
 }
 
-
+using I2CRegsStm32 = volatile stm32::mmreg::I2C::I2C;
 /*
 I2C control register 1 (I2C_CR1) 0x00
 I2C control register 2 (I2C_CR2) 0x04

@@ -193,6 +193,9 @@ struct APB1ENRBits {
 	static constexpr uint32_t I2C1ENSet = I2C1ENMask;
 	static constexpr uint32_t I2C2ENMask = (0b1u << 22);
 	static constexpr uint32_t I2C2ENSet = I2C2ENMask;
+
+	static constexpr uint32_t USART2ENMask = (0b1u << 17);
+	static constexpr uint32_t USART2ENSet = USART2ENMask;
 };
 union APB1ENR {
 	uint32_t word;

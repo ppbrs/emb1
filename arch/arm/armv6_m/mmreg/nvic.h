@@ -14,9 +14,11 @@ struct NVIC {
 	uint32_t pad3[31];
 	uint32_t ICPR;
 	uint32_t pad4[(0xE400 - 0xE284) / 4];
-	uint8_t IPR[32];
+	uint32_t IPR[8];
 };
-static_assert(sizeof(NVIC) == (0xE420 - 0xE100));
+static constexpr uint32_t IPRMask = 0xFF;
+
+static_assert(sizeof(NVIC) == (0xE000E420 - 0xE000E100));
 
 extern volatile NVIC NVIC;
 

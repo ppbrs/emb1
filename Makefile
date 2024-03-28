@@ -56,14 +56,11 @@ common_ldflags += --fatal-warnings
 # APPLICATIONS
 #
 
--include app/stm32h743_sbx/stm32h743-sbx.mk
--include app/stm32f051_sbx/stm32f051-sbx.mk
-
-stm32-all: stm32h743-sbx stm32f051-sbx Makefile
+-include app/stm32h743-sbx/stm32h743-sbx.mk
+-include app/stm32f051-sbx/stm32f051-sbx.mk
+-include app/riga-comm-00/riga-comm-00.mk
 
 -include host-tests/host-tests.mk
-
-world: stm32-all host-tests host-tests-run Makefile
 
 # ==============================================================================
 #
