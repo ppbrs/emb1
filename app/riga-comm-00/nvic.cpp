@@ -45,8 +45,8 @@ __attribute__((section(".interrupt_vectors"), used)) void (*const interruptVecto
 	nvic::defaultHandler, // ADC1_COMP_IRQHandler,
 	nvic::defaultHandler, // TIM1_BRK_UP_TRG_COM_IRQHandler,
 	nvic::defaultHandler, // TIM1_CC_IRQHandler,
-	chrono::steady_clock::overflow, /*TIM2_IRQHandler*/ // IRQ15
-	chrono::high_resolution_clock::overflow, /*TIM3_IRQHandler*/ // IRQ16
+	nvic::defaultHandler, /*TIM2_IRQHandler*/ // IRQ15
+	nvic::defaultHandler, /*TIM3_IRQHandler*/ // IRQ16
 	nvic::defaultHandler, // TIM6_DAC_IRQHandler,
 	nullptr,
 	nvic::defaultHandler, // TIM14_IRQHandler,

@@ -6,7 +6,6 @@
 #include "arch/arm/armv6_m/stm32f0/mmreg/rcc.h"
 #include "arch/arm/armv6_m/stm32f0/usart.h"
 #include "common/console/console.h"
-#include "if/mcu/chrono.h"
 #include "if/mcu/mmreg.h"
 #include "if/mcu/pio.h"
 #include "if/mcu/usart.h"
@@ -132,8 +131,6 @@ void mcuInit::systemClock::initTree() {
 }
 
 void mcuInit::systemClock::initChrono() {
-	chrono::steady_clock::init();
-	chrono::high_resolution_clock::init();
 }
 
 void mcuInit::io::init() {

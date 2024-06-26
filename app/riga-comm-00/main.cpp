@@ -14,24 +14,36 @@ constexpr uint32_t task1StackSizeBytes = 512;
 constexpr uint32_t task1StackSize = task1StackSizeBytes / sizeof(StackType_t);
 StackType_t task1Stack[task1StackSize];
 
-const uint32_t idleSTackSizeBytes = 512;
-constexpr uint32_t idleSTackSize = idleSTackSizeBytes / sizeof(StackType_t);
+// the memory for use by the RTOS Idle task
+const uint32_t idleStackSizeBytes = 512;
+constexpr uint32_t idleStackSize = idleStackSizeBytes / sizeof(StackType_t);
 StaticTask_t idleTCB;
-StackType_t idleStack[idleSTackSize];
+StackType_t idleStack[idleStackSize];
 
-uint64_t task1DurSNs = 0;
-uint64_t task1DurHNs = 0;
-uint64_t task1DurSUs = 0;
-uint64_t task1DurHUs = 0;
+// the memory for use by the RTOS Daemon/Timer Service task
+const uint32_t timersStackSizeBytes = 512;
+constexpr uint32_t timersStackSize = timersStackSizeBytes / sizeof(StackType_t);
+StaticTask_t timersTCB;
+StackType_t timersStack[timersStackSize];
 
+constinit StaticTimer_t timer1Buffer = {};
 
 void task1Func(void *);
+void timer1Callback(TimerHandle_t);
 
 extern "C" void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
 	StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize) {
 	*ppxIdleTaskTCBBuffer = &idleTCB;
 	*ppxIdleTaskStackBuffer = idleStack;
-	*pulIdleTaskStackSize = idleSTackSize;
+	*pulIdleTaskStackSize = idleStackSize;
+}
+
+extern "C" void vApplicationGetTimerTaskMemory(StaticTask_t **ppxTimerTaskTCBBuffer,
+	StackType_t **ppxTimerTaskStackBuffer,
+	uint32_t *pulTimerTaskStackSize) {
+	*ppxTimerTaskTCBBuffer = &timersTCB;
+	*ppxTimerTaskStackBuffer = timersStack;
+	*pulTimerTaskStackSize = timersStackSize;
 }
 
 /*
@@ -43,32 +55,25 @@ extern "C" void vApplicationIdleHook() {
 }
 
 void task1Func(void *) {
-	while(true) {
-		using std::chrono::time_point, std::chrono::steady_clock, std::chrono::duration, std::chrono::nanoseconds, std::chrono::microseconds, std::chrono::high_resolution_clock;
-		time_point<steady_clock> tpS0 = steady_clock::now();
-		time_point<high_resolution_clock> tpH0 = high_resolution_clock::now();
+	xTimerCreateStatic(
+		nullptr, // pcTimerName
+		1000, // xTimerPeriod,
+		true, // uxAutoReload,
+		nullptr, // pvTimerID,
+		timer1Callback, // pxCallbackFunction
+		&timer1Buffer); // pxTimerBuffer
 
+	while(true) {
 		if(tick::sysTickCnt & (1 << 6)) {
 			assertFuncLED3Green(true);
 		} else {
 			assertFuncLED3Green(false);
-			// usart::func();
 		}
 		taskYIELD();
-
-		time_point<steady_clock> tpS1 = steady_clock::now();
-		time_point<high_resolution_clock> tpH1 = high_resolution_clock::now();
-		duration durS = tpS1 - tpS0;
-		duration durH = tpH1 - tpH0;
-		nanoseconds durSNs = duration_cast<nanoseconds>(durS);
-		nanoseconds durHNs = duration_cast<nanoseconds>(durH);
-		microseconds durSUs = duration_cast<microseconds>(durS);
-		microseconds durHUs = duration_cast<microseconds>(durH);
-		task1DurSNs = durSNs.count();
-		task1DurHNs = durHNs.count();
-		task1DurSUs = durSUs.count();
-		task1DurHUs = durHUs.count();
 	}
+}
+
+void timer1Callback(TimerHandle_t) {
 }
 
 }

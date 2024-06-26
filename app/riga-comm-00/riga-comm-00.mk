@@ -29,10 +29,10 @@ riga_comm_00_srcs += $(app_dir)/nvic.cpp
 riga_comm_00_srcs += $(app_dir)/tick.cpp
 riga_comm_00_srcs += $(riga_comm_00_freertos_srcs)
 riga_comm_00_srcs += $(stm32f051_srcs)
-riga_comm_00_srcs += ./arch/arm/armv6_m/stm32f0/chrono.cpp
 riga_comm_00_srcs += ./arch/arm/armv6_m/stm32f0/stm32f051/startup.cpp
 riga_comm_00_srcs += ./common/console/console.cpp
 riga_comm_00_srcs += ./libc/stubs.cpp
+riga_comm_00_srcs += ./libc/string.cpp
 
 riga_comm_00_objs =  $(patsubst %.c,   $(riga_comm_00_build_dir)/%.c.o,   $(filter %.c,   $(riga_comm_00_srcs)))
 riga_comm_00_objs += $(patsubst %.cpp, $(riga_comm_00_build_dir)/%.cpp.o, $(filter %.cpp, $(riga_comm_00_srcs)))
