@@ -23,6 +23,7 @@ riga_comm_00_freertos_srcs += ./arch/arm/armv6_m/stm32f0/freertos-10.5.1/port.cp
 riga_comm_00_freertos_srcs += $(app_dir)/freertos/freertos_custom.cpp
 
 riga_comm_00_srcs :=
+riga_comm_00_srcs += $(app_dir)/app.cpp
 riga_comm_00_srcs += $(app_dir)/main.cpp
 riga_comm_00_srcs += $(app_dir)/mcu-init.cpp
 riga_comm_00_srcs += $(app_dir)/nvic.cpp
@@ -30,7 +31,6 @@ riga_comm_00_srcs += $(app_dir)/tick.cpp
 riga_comm_00_srcs += $(riga_comm_00_freertos_srcs)
 riga_comm_00_srcs += $(stm32f051_srcs)
 riga_comm_00_srcs += ./arch/arm/armv6_m/stm32f0/stm32f051/startup.cpp
-riga_comm_00_srcs += ./common/console/console.cpp
 riga_comm_00_srcs += ./libc/stubs.cpp
 riga_comm_00_srcs += ./libc/string.cpp
 

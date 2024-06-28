@@ -1,8 +1,8 @@
 // This source file belongs to riga-comm-00 project.
+#include "./app.h"
 #include "./freertos/freertos.h"
 #include "./io.h"
 #include "arch/arm/armv6_m/stm32f0/usart.h"
-#include "common/console/console.h"
 #include "if/mcu/mcu-init.h"
 #include "if/mcu/systick.h"
 #include "if/mcu/tick.h"
@@ -15,13 +15,13 @@ constexpr uint32_t task1StackSize = task1StackSizeBytes / sizeof(StackType_t);
 StackType_t task1Stack[task1StackSize];
 
 // the memory for use by the RTOS Idle task
-const uint32_t idleStackSizeBytes = 512;
+constexpr uint32_t idleStackSizeBytes = 512;
 constexpr uint32_t idleStackSize = idleStackSizeBytes / sizeof(StackType_t);
 StaticTask_t idleTCB;
 StackType_t idleStack[idleStackSize];
 
 // the memory for use by the RTOS Daemon/Timer Service task
-const uint32_t timersStackSizeBytes = 512;
+constexpr uint32_t timersStackSizeBytes = 512;
 constexpr uint32_t timersStackSize = timersStackSizeBytes / sizeof(StackType_t);
 StaticTask_t timersTCB;
 StackType_t timersStack[timersStackSize];
@@ -29,7 +29,7 @@ StackType_t timersStack[timersStackSize];
 constinit StaticTimer_t timer1Buffer = {};
 
 void task1Func(void *);
-void timer1Callback(TimerHandle_t);
+void timer1HzCallback(TimerHandle_t);
 
 extern "C" void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
 	StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize) {
@@ -51,7 +51,7 @@ Idle hook is used for not important tasks:
 * Flashing the blue led when a byte was received by console.
 */
 extern "C" void vApplicationIdleHook() {
-	console::processLeds([](bool enable) { assertFuncLED4Blue(enable); });
+	app::processLeds([](bool enable) { assertFuncLED4Blue(enable); });
 }
 
 void task1Func(void *) {
@@ -60,7 +60,7 @@ void task1Func(void *) {
 		1000, // xTimerPeriod,
 		true, // uxAutoReload,
 		nullptr, // pvTimerID,
-		timer1Callback, // pxCallbackFunction
+		timer1HzCallback, // pxCallbackFunction
 		&timer1Buffer); // pxTimerBuffer
 
 	while(true) {
@@ -73,7 +73,8 @@ void task1Func(void *) {
 	}
 }
 
-void timer1Callback(TimerHandle_t) {
+void timer1HzCallback(TimerHandle_t) {
+	app::pollFrom1HzTimer();
 }
 
 }

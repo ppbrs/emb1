@@ -7,8 +7,19 @@
 #include "if/mcu/nvic.h"
 #include <array>
 
+namespace usart {
 namespace {
-std::array<void (*)(uint8_t), 2> isrRxFuncArr = {};
+std::array<ConsumeByteFromISR*, 2> consumeByteFromISRArr = {};
+std::array<GetNextByte*, 2> getNextByteArr = {};
+
+void notifyDataReady1() {
+	mmreg::setBitsMasked(stm32f0::mmreg::USART::USART1.CR1.word, 1u, 1u, 7u); // TXEIE
+}
+void notifyDataReady2() {
+	mmreg::setBitsMasked(stm32f0::mmreg::USART::USART2.CR1.word, 1u, 1u, 7u);
+}
+
+}
 }
 
 // Partial specialization of usart::configure<T>:
@@ -17,14 +28,15 @@ void usart::configure<UsartRegsF0, GpioRegsF0>(const UsartDefF0 &usartDef) {
 	pio::configure(usartDef.txPioDef);
 	pio::configure(usartDef.rxPioDef);
 
-	if(usartDef.initFunc) {
-		usartDef.initFunc();
-	}
 
 	if(&usartDef.regs == &stm32f0::mmreg::USART::USART1) {
-		isrRxFuncArr[0] = usartDef.isrRxFunc;
+		usartDef.initFunc(notifyDataReady1);
+		consumeByteFromISRArr[0] = usartDef.consumeByteFromISR;
+		getNextByteArr[0] = usartDef.getNextByte;
 	} else if(&usartDef.regs == &stm32f0::mmreg::USART::USART2) {
-		isrRxFuncArr[1] = usartDef.isrRxFunc;
+		usartDef.initFunc(notifyDataReady2);
+		consumeByteFromISRArr[1] = usartDef.consumeByteFromISR;
+		getNextByteArr[1] = usartDef.getNextByte;
 	} else {
 		// fatal error
 	}
@@ -66,6 +78,14 @@ void usart::isr2() {
 		volatile uint8_t byte = USART2.RDR;
 		if(isrRxFuncArr[1]) {
 			isrRxFuncArr[1](byte);
+		}
+	}
+	if(isr.bits.TXE) {
+		auto nextByte = getNextByteArr[1];
+		if(nextByte.has_value()) {
+			USART2.TDR = nextByte.value;
+		} else {
+			mmreg::clearBits(stm32f0::mmreg::USART::USART1.CR1.word, stm32f0::mmreg::USART::CR1::bits::TXEIEMask); // TXEIE
 		}
 	}
 }

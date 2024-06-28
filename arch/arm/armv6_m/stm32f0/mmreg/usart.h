@@ -30,6 +30,7 @@ struct CR1Bits {
 	uint32_t EOBIE : 1; // Bit 27 EOBIE: End of Block interrupt enable
 	uint32_t M1 : 1; // Bit 28 M1: Word length
 	uint32_t reserved0 : 3;
+	static constexpr uint32_t TXEIEMask = (1 << 7);
 };
 union CR1Union {
 	CR1Bits bits;

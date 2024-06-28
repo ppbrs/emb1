@@ -27,27 +27,27 @@
 			"preLaunchTask": "STM32F051-SBX: Make.",
 		},
 		{
-			"name": "RIGA-COMM-00: Debug (cortex-debug).",
+			"name": "RIGA-COMM-00: GNU: Debug (cortex-debug).",
 			"type": "cortex-debug",
 			"cwd": "${workspaceFolder}",
-			"executable": "./bin/riga-comm-00.elf",
+			"executable": "./bin/riga-comm-00.gnu.elf",
 			"request": "launch",
 			"servertype": "openocd",
 			"configFiles": [
 				"boards/riga.openocd.cfg",
 			],
-			"preLaunchTask": "RIGA-COMM-00: Make with GNU.",
+			"preLaunchTask": "RIGA-COMM-00: GNU: Make.",
 		},
 		{
 			// Debug the executable that is already loaded to flash.
-			"name": "RIGA-COMM-00: Debug (openocd).",
+			"name": "RIGA-COMM-00: GNU: Debug (openocd).",
 			// Before connecting, start OpenOCD.
 			"type": "gdb", // "Native Debug" extension is required.
 			
 			"gdbpath": "gdb-multiarch",
 			"request": "attach",
 			"cwd": "${workspaceFolder}",
-			"executable": "./bin/riga-comm-00.elf",
+			"executable": "./bin/riga-comm-00.gnu.elf",
 			"target": "localhost:3333", // gdb server for master.cpu0
 			
 			"remote": true,
@@ -59,7 +59,7 @@
 			],
 		
 			
-			"preLaunchTask": "RIGA-COMM-00: Make with GNU.",
+			"preLaunchTask": "RIGA-COMM-00: GNU: Make.",
 		},
 		// =========================================================================================
 		{

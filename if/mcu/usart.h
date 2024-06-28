@@ -2,17 +2,36 @@
 
 #include "pio.h"
 #include <ranges>
+#include <optional>
 
 
 namespace usart {
+
+/* Callback to the driver when application needs to send sth. */
+using NotifyDataReady = void (&)();
+
+using InitFunc = void (&)(NotifyDataReady);
+using ConsumeByteFromISR = void (&)(uint8_t);
+using GetNextByte = std::optional<uint8_t> (&)();
+
 
 template<typename USART, typename GPIO>
 struct UsartDef {
 	USART &regs;
 	const pio::PioDef<GPIO> &txPioDef;
 	const pio::PioDef<GPIO> &rxPioDef;
-	void (*initFunc)();
-	void (*isrRxFunc)(uint8_t);
+
+	/* A function that initializes USART client.
+	This function is called before RTOS.
+	*/
+	InitFunc initFunc;
+
+	/* A function that consumes data received by USART.
+	This function is called from ISR. */
+	ConsumeByteFromISR consumeByteFromISR;
+
+	/* A function that requests data for transmission by USART. */
+	GetNextByte getNextByte;
 };
 
 

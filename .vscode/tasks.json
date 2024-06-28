@@ -124,9 +124,18 @@
 		},
 		// =========================================================================================
 		{
-			"label": "RIGA-COMM-00: Make with GNU.",
+			"label": "RIGA-COMM-00: GNU: Make.",
 			"type": "shell",
 			"command": "clear && export EMB1_TOOLCHAIN=gnu && make riga-comm-00",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "RIGA-COMM-00: LLVM: Make.",
+			"type": "shell",
+			"command": "clear && export EMB1_TOOLCHAIN=llvm && make riga-comm-00",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"

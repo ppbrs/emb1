@@ -1,11 +1,11 @@
 // This source file belongs to riga-comm-00 project.
 #include "if/mcu/mcu-init.h"
+#include "./app.h"
 #include "./io.h"
 #include "./usart.h"
 #include "arch/arm/armv6_m/mmreg/nvic.h"
 #include "arch/arm/armv6_m/stm32f0/mmreg/rcc.h"
 #include "arch/arm/armv6_m/stm32f0/usart.h"
-#include "common/console/console.h"
 #include "if/mcu/mmreg.h"
 #include "if/mcu/pio.h"
 #include "if/mcu/usart.h"
@@ -69,8 +69,9 @@ static constexpr std::array<UsartDefF0, (size_t)UsartNames::NUM> usartDefs = {{
 		stm32f0::mmreg::USART::USART2, // regs
 		pioDefs[(size_t)PioNames::USART2_TX], // txPioDef
 		pioDefs[(size_t)PioNames::USART2_RX], // rxPioDef
-		console::init, // initFunc
-		console::byteReceived, // isrRxFunc
+		app::init, // initFunc
+		app::consumeByteFromISR, // consumeByteFromISR
+		app::getNextTxByte, // isrGetNextTx
 	},
 }};
 
