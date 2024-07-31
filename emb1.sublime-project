@@ -33,7 +33,73 @@
 	"build_systems": [
 		// -----------------------------------------------------------------------------------------
 		{
-			"name": "Baremetal projects",
+			"name": "Baremetal Riga",
+			"shell_cmd": "${file}",
+			"variants": [
+				{
+					"name": "Start OpenOCD.",
+					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && openocd -f boards/riga.openocd.cfg; exec bash\"",
+				},
+				{
+					"name": "Make all with GNU.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make riga-comm-00 && make stm32f051-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32F051-SBX: GNU: Make.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make stm32f051-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32F051-SBX: LLVM: Make.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make stm32f051-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32F051-SBX: GNU: Rebuild.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B stm32f051-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "STM32F051-SBX: LLVM: Rebuild.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B stm32f051-sbx && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "RIGA-COMM-00: GNU: Make.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make riga-comm-00 && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "RIGA-COMM-00: LLVM: Make.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make riga-comm-00 && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "RIGA-COMM-00: GNU: Rebuild.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B riga-comm-00 && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "RIGA-COMM-00: LLVM: Rebuild.",
+					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B riga-comm-00 && echo -e \"\nSUCCESS\"",
+					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+				},
+				{
+					"name": "RIGA-COMM-00: GNU: Program via Telnet.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "python3 scripts/flash_write_openocd.py --telnet --target stm32f0x.cpu --elf bin/riga-comm-00.gnu.elf",
+				},
+				{
+					"name": "RIGA-COMM-00: GNU: Program via SWD.",
+					"working_dir": "${project_path}",
+					"shell_cmd": "python3 scripts/flash_write_openocd.py --swd --openocd-config boards/riga.openocd.cfg --elf bin/riga-comm-00.gnu.elf",
+				},
+			],
+		},
+		// -----------------------------------------------------------------------------------------
+		{
+			"name": "Baremetal Rijeka",
 			"shell_cmd": "${file}",
 			"variants": [
 				{
@@ -56,46 +122,8 @@
 					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && gdb-multiarch -x app/stm32h743_sbx/openocd.gdb  ./bin/stm32h743-sbx.elf\"",
 				},
 				{
-					"name": "STM32F051-SBX: Make with GNU.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make stm32f051-sbx && echo -e \"\nSUCCESS\"",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
-				},
-				{
-					"name": "STM32F051-SBX: Make with LLVM.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make stm32f051-sbx && echo -e \"\nSUCCESS\"",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
-				},
-				{
-					"name": "STM32F051-SBX: Rebuild with GNU.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B stm32f051-sbx && echo -e \"\nSUCCESS\"",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
-				},
-				{
-					"name": "STM32F051-SBX: Rebuild with LLVM.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B stm32f051-sbx && echo -e \"\nSUCCESS\"",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
-				},
-				{
-					"name": "STM32F051-SBX: Start GDB.",
-					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && gdb-multiarch -x app/stm32f051_sbx/openocd.gdb  ./bin/stm32h743-sbx.elf\"",
-				},
-				{
-					"name": "STM32-ALL: Rebuild with GNU.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=gnu && make -B stm32-all && echo -e \"\nSUCCESS\"",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
-				},
-				{
-					"name": "STM32-ALL: Rebuild with LLVM.",
-					"shell_cmd": "cd ${project_path} && export EMB1_TOOLCHAIN=llvm && make -B stm32-all && echo -e \"\nSUCCESS\"",
-					"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
-				},
-				{
 					"name": "Start OpenOCD on Rijeka board.",
 					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && boards/rijeka.openocd.sh; exec bash\"",
-				},
-				{
-					"name": "Start OpenOCD on Riga board.",
-					"shell_cmd": "gnome-terminal --full-screen -- bash -c \"cd ${project_path} && openocd -f boards/riga.openocd.cfg; exec bash\"",
 				},
 				{
 					"name": "Start OpenOCD on Rimini board.",

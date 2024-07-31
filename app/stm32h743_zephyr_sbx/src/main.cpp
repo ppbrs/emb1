@@ -1,9 +1,3 @@
-/*
- * Copyright (c) 2016 Intel Corporation
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 #include "protocol.h"
 #include <zephyr/console/console.h>
 #include <zephyr/device.h>
@@ -12,6 +6,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/sys/__assert.h>
 #include <zephyr/sys/printk.h>
+
 
 /* 1000 msec = 1 sec */
 #define SLEEP_TIME_MS 300
@@ -99,6 +94,7 @@ int main(void) {
 		thread0_priority, // prio
 		0, // options
 		K_MSEC(1000)); // delay, K_NO_WAIT
+	(void)tid0;
 
 	while(1) {
 		ret = gpio_pin_toggle_dt(&led0);

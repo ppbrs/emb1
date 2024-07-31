@@ -20,11 +20,13 @@
 #
 # SOURCE FILES
 #
-stm32f051_srcs := 
-stm32f051_srcs += ./if/mcu/mcu-init.cpp
+stm32f051_srcs = 
+stm32f051_srcs += ./arch/arm/armv6_m/stm32f0/usart.cpp
+stm32f051_srcs += ./arch/arm/armv6_m/systick.cpp
 stm32f051_srcs += ./arch/arm/stm32/dio.cpp
 stm32f051_srcs += ./arch/arm/stm32/i2c.cpp
-stm32f051_srcs += ./arch/arm/armv6_m/systick.cpp
+stm32f051_srcs += ./arch/arm/stm32/pio.cpp
+stm32f051_srcs += ./if/mcu/mcu-init.cpp
 stm32f051_srcs += $(wildcard ./arch/arm/armv6_m/mmreg/*.cpp)
 stm32f051_srcs += $(wildcard ./arch/arm/armv6_m/stm32f0/mmreg/*.cpp)
 stm32f051_srcs += $(wildcard ./libc/*.cpp)

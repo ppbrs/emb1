@@ -9,5 +9,5 @@ freertos_kernel_1051_srcs += 3party/FreeRTOS-Kernel-10.5.1/stream_buffer.c
 freertos_kernel_1051_srcs += 3party/FreeRTOS-Kernel-10.5.1/tasks.c
 freertos_kernel_1051_srcs += 3party/FreeRTOS-Kernel-10.5.1/timers.c
 
-freertos_kernel_1051_incl_dirs := 
-freertos_kernel_1051_incl_dirs += 3party/FreeRTOS-Kernel-10.5.1/include
+freertos_kernel_1051_incs := 
+freertos_kernel_1051_incs += 3party/FreeRTOS-Kernel-10.5.1/include

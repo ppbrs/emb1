@@ -1,16 +1,16 @@
 #include "./mmreg.h"
-#include "gtest/gtest.h"
+#include "3party/googletest/googletest/include/gtest/gtest.h"
 
-class RegistersTests : public ::testing::Test {
+class MmregTests : public ::testing::Test {
 };
 
-TEST_F(RegistersTests, TestSetFunctions) {
+TEST_F(MmregTests, TestSetClearGetFunctions) {
 	using mmreg::setBits, mmreg::clearBits, mmreg::testBitsMasked, mmreg::getBits, mmreg::setBitsMasked;
 	uint32_t reg, msk, bts;
 
-	reg = 0;
+	reg = 0b1000'0001u;
 	setBits(reg, 1, 3);
-	ASSERT_EQ(reg, 0b1000u);
+	ASSERT_EQ(reg, 0b1000'1001u);
 
 	reg = 0b1111'1111u;
 	clearBits(reg, 1, 7);

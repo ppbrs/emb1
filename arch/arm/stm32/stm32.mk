@@ -20,13 +20,20 @@ endif
 
 
 
-stm32_incl_dirs = ./
+stm32_incs = ./
 
 stm32_cflags := $(common_cflags)
 stm32_cxxflags := $(common_cxxflags)
 stm32_ldflags := $(common_ldflags)
 
 ifeq ($(EMB1_TOOLCHAIN),gnu)
+
+	stm32_cflags += -fcallgraph-info
+	stm32_cflags += -fdump-rtl-expand
+
+	stm32_cxxflags += -fcallgraph-info
+	stm32_cxxflags += -fdump-rtl-expand
+
 else ifeq ($(EMB1_TOOLCHAIN),llvm)
 	stm32_cflags += --target=arm-none-eabi
 	stm32_cxxflags += --target=arm-none-eabi
@@ -35,14 +42,16 @@ else ifeq ($(EMB1_TOOLCHAIN),llvm)
 	stm32_cxxflags += --sysroot=/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi
 
 	# This is needed because <cstdint> uses <bits/c++config.h>:
-	stm32_incl_dirs += /opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi
+	stm32_incs += /opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi
 endif
 
+stm32_cflags += -fstack-usage
 stm32_cflags += -nostdlib
 stm32_cflags += -fno-exceptions
 stm32_cflags += -ffreestanding
 stm32_cflags += -ggdb -g3
 
+stm32_cxxflags += -fstack-usage
 stm32_cxxflags += -nostdlib
 stm32_cxxflags += -fno-exceptions
 stm32_cxxflags += -ffreestanding

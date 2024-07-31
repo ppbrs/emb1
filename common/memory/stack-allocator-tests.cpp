@@ -1,6 +1,6 @@
+#include "3party/googletest/googletest/include/gtest/gtest.h"
 #include "common/memory/stack_allocator.h"
 #include "common/memory/stack_arena.h"
-#include "gtest/gtest.h"
 #include <vector>
 
 class StackAllocatorTests : public ::testing::Test {

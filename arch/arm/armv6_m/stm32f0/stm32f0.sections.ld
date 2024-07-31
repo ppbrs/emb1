@@ -7,8 +7,18 @@ This file is supposed to be included from within a SECTIONS block of a linker sc
 /* =========================================================================*/
 
 /* The startup code goes first into FLASH */
-.isr_vector : ALIGN(4) {
-	KEEP(*(.isr_vector))
+.initial_sp_value : ALIGN(4) {
+	KEEP(*(.initial_sp_value))
+	. = ALIGN(4);
+} >flash_region
+
+.exception_vectors : ALIGN(4) {
+	KEEP(*(.exception_vectors))
+	. = ALIGN(4);
+} >flash_region
+
+.interrupt_vectors : ALIGN(4) {
+	KEEP(*(.interrupt_vectors))
 	. = ALIGN(4);
 } >flash_region
 
@@ -96,7 +106,7 @@ _bss_end = ADDR(.bss) + SIZEOF(.bss);
 
 /* Limit of the Main Stack, which is used for exception handlers and the startup code
 	 (i.e. before the scheduler has started). */
-_main_stack_size = 0x100;
+_main_stack_size = 0x180;
 _main_stack_start = ADDR(main_stack);
 _main_stack_end = ADDR(main_stack) + SIZEOF(main_stack);
 

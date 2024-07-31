@@ -13,7 +13,8 @@ void sysTickISR();
 
 extern uint32_t sysTickCnt;
 
-// extern constexpr uint32_t sysFreq;
-// extern constexpr uint32_t apbFreq;
-// extern constexpr uint32_t ahbFreq;
+extern const uint32_t sysFreq;
+extern const uint32_t apbFreq;
+extern const uint32_t ahbFreq;
+
 }

@@ -1,0 +1,12 @@
+[tool.isort]
+# https://pycqa.github.io/isort/docs/configuration/options.html
+
+line_length = 100
+wrap_length = 100
+
+# "multi_line_output" defines how from imports wrap
+# when they extend past the line_length limit.
+# https://pycqa.github.io/isort/docs/configuration/multi_line_output_modes.html
+# 7 = don't wrap
+# multi_line_output = 7
+force_single_line = "True"
