@@ -9,13 +9,17 @@ ifeq ($(EMB1_TOOLCHAIN),llvm)
 # 	stm32_toolchain_ld := ld.lld-14
 	stm32_toolchain_ld := arm-none-eabi-10.3-ld
 else
-	stm32_toolchain_cpp:=arm-none-eabi-10.3-g++
-	stm32_toolchain_c:=arm-none-eabi-10.3-gcc
-	stm32_toolchain_objdump := arm-none-eabi-10.3-objdump
-	stm32_toolchain_readelf := arm-none-eabi-10.3-readelf
-	stm32_toolchain_objcopy := arm-none-eabi-10.3-objcopy
-	stm32_toolchain_size := arm-none-eabi-10.3-size
-	stm32_toolchain_ld := arm-none-eabi-10.3-ld
+	ifeq ($(EMB1_TOOLCHAIN),gnu)
+		stm32_toolchain_cpp:=arm-none-eabi-10.3-g++
+		stm32_toolchain_c:=arm-none-eabi-10.3-gcc
+		stm32_toolchain_objdump := arm-none-eabi-10.3-objdump
+		stm32_toolchain_readelf := arm-none-eabi-10.3-readelf
+		stm32_toolchain_objcopy := arm-none-eabi-10.3-objcopy
+		stm32_toolchain_size := arm-none-eabi-10.3-size
+		stm32_toolchain_ld := arm-none-eabi-10.3-ld
+	else
+$(error EMB1_TOOLCHAIN ($(EMB1_TOOLCHAIN)) not supported.)
+	endif
 endif
 
 
@@ -34,15 +38,19 @@ ifeq ($(EMB1_TOOLCHAIN),gnu)
 	stm32_cxxflags += -fcallgraph-info
 	stm32_cxxflags += -fdump-rtl-expand
 
-else ifeq ($(EMB1_TOOLCHAIN),llvm)
-	stm32_cflags += --target=arm-none-eabi
-	stm32_cxxflags += --target=arm-none-eabi
+else
+	ifeq ($(EMB1_TOOLCHAIN),llvm)
+		stm32_cflags += --target=arm-none-eabi
+		stm32_cxxflags += --target=arm-none-eabi
 
-	stm32_cflags += --sysroot=/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi
-	stm32_cxxflags += --sysroot=/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi
+		stm32_cflags += --sysroot=/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi
+		stm32_cxxflags += --sysroot=/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi
 
-	# This is needed because <cstdint> uses <bits/c++config.h>:
-	stm32_incs += /opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi
+		stm32_incs += /opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1
+		# The following is needed because <cstdint> (residing in the directory above)
+		# uses <bits/c++config.h>:
+		stm32_incs += /opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi
+	endif
 endif
 
 stm32_cflags += -fstack-usage

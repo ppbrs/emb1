@@ -7,7 +7,7 @@ import logging
 
 import elftools.elf.elffile  # type: ignore
 import pytest
-from cpp_demangle import demangle  # type: ignore  # pylint: disable=no-name-in-module
+from emb_spy import demangle  # type: ignore  # pylint: disable=no-name-in-module
 
 from integration_tests.build import build_helper  # pylint: disable=import-error
 

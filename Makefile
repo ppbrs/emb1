@@ -6,6 +6,16 @@
 # host_tests
 # host_tests_run
 
+
+# ==============================================================================
+#
+# TOOLCHAINS
+#
+
+ifndef EMB1_TOOLCHAIN
+$(error EMB1_TOOLCHAIN is not set)
+endif
+
 # ==============================================================================
 #
 # DIRECTORIES

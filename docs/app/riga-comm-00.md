@@ -1,5 +1,5 @@
 # riga-comm-00
-## overview
+## Overview
 
 The PC sends random ascii messages at 115200 bps.
 The board sends out statistics every second about received bytes and messages.
@@ -8,8 +8,8 @@ The board can be in two modes:
 * Report mode (default)
 * Echo mode
 
-When the board receives XON character (Ctrl+q, 0x11, 17), it switches to the echo mode.
-When the board receives XOFF character (Ctrl+s, 0x13, 19), it switches to the report mode.
+When the board receives XON character (Ctrl+q, 0x11, 17), it switches to the **echo** mode.
+When the board receives XOFF character (Ctrl+s, 0x13, 19), it switches to the **report** mode.
 
 This particular application uses FreeRTOS stream buffers.
 
@@ -19,12 +19,14 @@ Goals:
 
 ***
 ## TODO
+
 * Add integration tests.
 * Get rid of `app::pollFromTask` and use notifications instead.
 * Investigate thread safety.
 
-***
-## echo mode
+
+## Echo Mode
+
 ```mermaid
 sequenceDiagram
 	participant USART_ISR
@@ -54,12 +56,13 @@ sequenceDiagram
 
 	opt
 		app.pollFromTask->>StreamBuffer: xStreamBufferBytesAvailable()
-		StreamBuffer-->>app.pollFromTask: yes
+		StreamBuffer-->>app.pollFromTask: no
 	end
 
 ```
-***
-## report mode
+
+## Report Mode
+
 Firmware sends a report string every second.
 ```mermaid
 sequenceDiagram
@@ -81,4 +84,3 @@ sequenceDiagram
 		USART_ISR->>USART_ISR: disable TXEI
 	end
 ```
-***
