@@ -1,3 +1,22 @@
 {
-  "readableLineLength": false
+  "readableLineLength": false,
+  "attachmentFolderPath": "./res",
+  "useMarkdownLinks": true,
+  "newLinkFormat": "absolute",
+  "pdfExportSettings": {
+    "includeName": false,
+    "pageSize": "A5",
+    "landscape": true,
+    "margin": "0",
+    "downscalePercent": 100
+  },
+  "showLineNumber": true,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "_inbox",
+  "autoPairBrackets": false,
+  "autoPairMarkdown": false,
+  "alwaysUpdateLinks": true,
+  "trashOption": "local",
+  "vimMode": true,
+  "showUnsupportedFiles": true
 }
