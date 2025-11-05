@@ -2,55 +2,59 @@
 	"version": "2.0.0",
 	"tasks": [
 		// =========================================================================================
+		//
+		// host-tests
+		//
+		// =========================================================================================
 		{
-			"label": "HOST-TESTS: GNU: Make and run all.",
+			"label": "host-tests: GNU-13: Make and run all.",
 			"type": "shell",
-			"command": "clear && export EMB1_TOOLCHAIN=gnu && make host-tests-run",
+			"command": "clear; make host-tests-run EMB1_HOST_TOOLCHAIN=gnu-13",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 		},
 		{
-			"label": "HOST-TESTS: GNU: Make.",
+			"label": "host-tests: GNU-13: Make.",
 			"type": "shell",
-			"command": "clear && export EMB1_TOOLCHAIN=gnu && make host-tests",
+			"command": "clear; make host-tests EMB1_HOST_TOOLCHAIN=gnu-13",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 		},
 		{
-			"label": "HOST-TESTS: GNU: Rebuild and run all.",
+			"label": "host-tests: GNU-13: Rebuild and run all.",
 			"type": "shell",
-			"command": "clear && export EMB1_TOOLCHAIN=gnu && make -B host-tests-run",
+			"command": "clear; make -B host-tests-run EMB1_HOST_TOOLCHAIN=gnu-13",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 		},
 		{
-			"label": "HOST-TESTS: LLVM: Make.",
+			"label": "host-tests: LLVM-18: Make.",
 			"type": "shell",
-			"command": "clear && export EMB1_TOOLCHAIN=llvm && make host-tests",
+			"command": "clear; make host-tests EMB1_HOST_TOOLCHAIN=llvm-18",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 		},
 		{
-			"label": "HOST-TESTS: LLVM: Make and run all.",
+			"label": "host-tests: LLVM-18: Make and run all.",
 			"type": "shell",
-			"command": "clear && export EMB1_TOOLCHAIN=llvm && make host-tests-run",
+			"command": "clear; make host-tests-run EMB1_HOST_TOOLCHAIN=llvm-18",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 		},
 		{
-			"label": "HOST-TESTS: LLVM: Rebuild and run all.",
+			"label": "host-tests: LLVM-18: Rebuild and run all.",
 			"type": "shell",
-			"command": "clear && export EMB1_TOOLCHAIN=llvm && make -B host-tests-run",
+			"command": "clear; make -B host-tests-run EMB1_HOST_TOOLCHAIN=llvm-18",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"
@@ -86,56 +90,119 @@
 			},
 		},
 		// =========================================================================================
+		//
+		// stm32f051-sbx
+		//
+		// =========================================================================================
 		{
-			"label": "STM32F051-SBX: Make.",
+			"label": "stm32f051-sbx: GNU-10.3: Make.",
 			"type": "shell",
-			"command": "clear && make stm32f051-sbx",
+			"command": "clear; make stm32f051-sbx EMB1_TOOLCHAIN=gnu-arm-none-eabi-10.3",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 		},
 		{
-			"label": "STM32F051-SBX: Rebuild.",
+			"label": "stm32f051-sbx: GNU-10.3: Rebuild.",
 			"type": "shell",
-			"command": "clear && make -B stm32f051-sbx",
-			"group": "build",
-			"options": {
-				"cwd": "${workspaceFolder}"
-			},
-		},
-		{
-			"label": "STM32H743-SBX: Make.",
-			"type": "shell",
-			"command": "clear && make stm32h743-sbx",
-			"group": "build",
-			"options": {
-				"cwd": "${workspaceFolder}"
-			},
-		},
-		{
-			"label": "STM32H743-SBX: Rebuild.",
-			"type": "shell",
-			"command": "clear && make -B stm32h743-sbx",
+			"command": "clear; make -B stm32f051-sbx EMB1_TOOLCHAIN=gnu-arm-none-eabi-10.3",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 		},
 		// =========================================================================================
+		//
+		// stm32h743-sbx
+		//
+		// =========================================================================================
 		{
-			"label": "RIGA-COMM-00: GNU: Make.",
+			"label": "stm32h743-sbx: GNU-10.3: Make.",
 			"type": "shell",
-			"command": "clear && export EMB1_TOOLCHAIN=gnu && make riga-comm-00",
+			"command": "clear; make stm32h743-sbx EMB1_TOOLCHAIN=gnu-arm-none-eabi-10.3",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 		},
 		{
-			"label": "RIGA-COMM-00: LLVM: Make.",
+			"label": "stm32h743-sbx: GNU-10.3: Rebuild.",
 			"type": "shell",
-			"command": "clear && export EMB1_TOOLCHAIN=llvm && make riga-comm-00",
+			"command": "clear; make -B stm32h743-sbx EMB1_TOOLCHAIN=gnu-arm-none-eabi-10.3",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		// =========================================================================================
+		//
+		// riga-comm-00
+		//
+		// =========================================================================================
+		{
+			"label": "riga-comm-00: GNU-10.3: Make.",
+			"type": "shell",
+			"command": "clear; make riga-comm-00 EMB1_TOOLCHAIN=gnu-arm-none-eabi-10.3",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "riga-comm-00: GNU-14.3: Make.",
+			"type": "shell",
+			"command": "clear; make riga-comm-00 EMB1_TOOLCHAIN=gnu-arm-none-eabi-14.3",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		// =========================================================================================
+		//
+		// stm32f0-arithmetic-renode
+		//
+		// =========================================================================================
+		{
+			"label": "stm32f0-arithmetic-renode: GNU-10.3: Make.",
+			"type": "shell",
+			"command": "clear; make -B stm32f0-arithmetic-renode EMB1_TOOLCHAIN=gnu-arm-none-eabi-10.3",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "stm32f0-arithmetic-renode: GNU-14.3: Make.",
+			"type": "shell",
+			"command": "clear; make -B stm32f0-arithmetic-renode EMB1_TOOLCHAIN=gnu-arm-none-eabi-14.3",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "stm32f0-arithmetic-renode: GNU-14.3: Start Renode on Telnet, port 4444.",
+			"type": "shell",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}",
+			},
+			"command": "clear; gnome-terminal --full-screen -- bash -c 'date; pwd; echo; ./3party/renode_portable/renode -p --port 4444 app/stm32f0-arithmetic-renode/stm32f0-arithmetic-renode.gnu-arm-none-eabi-14.3.resc; echo; echo Renode exited; exec bash'",
+		},
+		{
+			"label": "stm32f0-arithmetic-renode: GNU-14.3: Start Renode in console.",
+			"type": "shell",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}",
+			},
+			"command": "clear; gnome-terminal --full-screen -- bash -c 'date; pwd; echo; ./3party/renode_portable/renode -p --console app/stm32f0-arithmetic-renode/stm32f0-arithmetic-renode.gnu-arm-none-eabi-14.3.resc; echo; echo Renode exited; exec bash'",
+		},
+		{
+			"label": "stm32f0-arithmetic-renode: GNU-14.3: Renode simulation.",
+			"type": "shell",
+			"command": "clear; export EMB1_TOOLCHAIN=gnu-arm-none-eabi-14.3; python3 app/stm32f0-arithmetic-renode/renode-tests/renode_test.py",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"

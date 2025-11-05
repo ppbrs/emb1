@@ -8,4 +8,10 @@
 	"editor.renderWhitespace": "all", // for showing whitespaces as dots
 	"editor.rulers": [100, 100.5],
 	"workbench.panel.defaultLocation": "right",
+	"files.associations": {
+		"cstdint": "cpp",
+		"compare": "cpp",
+		"format": "cpp",
+		"array": "cpp"
+	},
 }

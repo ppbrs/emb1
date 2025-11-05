@@ -1,9 +1,6 @@
 #include "if/mcu/nvic.h"
+#include "if/mcu/tick.h"
 #include <cstdint>
-
-#if __STDC_HOSTED__ > 0
-#error __STDC_HOSTED__ is not 0
-#endif
 
 extern int main();
 
@@ -98,13 +95,13 @@ https://www.embedded.com/debugging-hard-faults-in-arm-cortex-m0-based-socs/
 void nvic::hardFaultHandler() {
 	uint32_t lr, sp;
 	__asm__ volatile("mov %0, LR\n"
-					 : "=r"(lr));
+		: "=r"(lr));
 	if(lr & (1 << 2)) {
 		__asm__ volatile("mrs %0, PSP\n"
-						 : "=r"(sp)); // process stack was used
+			: "=r"(sp)); // process stack was used
 	} else {
 		__asm__ volatile("mrs %0, MSP\n"
-						 : "=r"(sp)); // main stack was used
+			: "=r"(sp)); // main stack was used
 	}
 	// armv7e_m::reg::SCB::CFSR cfsr;
 	// cfsr.word = armv7e_m::reg::SCB::SCB.CFSR.word;
@@ -117,21 +114,21 @@ void nvic::hardFaultHandler() {
 	}
 }
 
-void svcHandler() {
+[[gnu::weak]] void nvic::svcISR() {
 	__asm__ volatile("bkpt #0\n");
 	while(1) {
 		__asm("nop");
 	}
 }
 
-void pendSvHandler() {
+[[gnu::weak]] void nvic::pendsvISR() {
 	__asm__ volatile("bkpt #0\n");
 	while(1) {
 		__asm("nop");
 	}
 }
 
-void sysTickHandler() {
+[[gnu::weak]] void tick::sysTickISR() {
 	__asm__ volatile("bkpt #0\n");
 	while(1) {
 		__asm("nop");

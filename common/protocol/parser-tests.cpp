@@ -29,7 +29,7 @@ struct TestData {
 		std::string_view cmd,
 		ParseResult resultExpect = ParseResult::UNKNOWN_COMMAND,
 		std::function<void(Prog)> checkFunc = [](Prog) {}) :
-			cmd(cmd), resultExpect(resultExpect), checkFunc(checkFunc){};
+			cmd(cmd), resultExpect(resultExpect), checkFunc(checkFunc) {};
 };
 
 class ProtocolParserTestsProgUnknown : public ::testing::TestWithParam<TestData<ProgUnknown>> {};

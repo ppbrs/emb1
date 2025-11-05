@@ -12,9 +12,29 @@
 # TOOLCHAINS
 #
 
-ifndef EMB1_TOOLCHAIN
-$(error EMB1_TOOLCHAIN is not set)
+# TODO: EMB1_TOOLCHAIN is for embedded platforms; rename it so that it's not ambiguous.
+ifeq ($(EMB1_TOOLCHAIN),llvm-18)
+else
+	ifeq ($(EMB1_TOOLCHAIN),gnu-arm-none-eabi-10.3)
+	else
+		ifeq ($(EMB1_TOOLCHAIN),gnu-arm-none-eabi-14.3)
+		else
+$(warning EMB1_TOOLCHAIN ($(EMB1_TOOLCHAIN)) is not set or not supported.)
+		endif
+	endif
 endif
+
+ifeq ($(EMB1_HOST_TOOLCHAIN),llvm-18)
+else
+	ifeq ($(EMB1_HOST_TOOLCHAIN),gnu-13)
+	else
+$(warning EMB1_HOST_TOOLCHAIN ($(EMB1_HOST_TOOLCHAIN)) is not set or not supported.)
+	endif
+endif
+
+$(info I: EMB1_TOOLCHAIN: `$(EMB1_TOOLCHAIN)`.)
+$(info I: EMB1_HOST_TOOLCHAIN: `$(EMB1_HOST_TOOLCHAIN)`.)
+
 
 # ==============================================================================
 #
@@ -31,24 +51,28 @@ temp_dir := ./tmp
 # COMMON
 #
 
+common_c_cxx_flags :=
+
 common_cxxflags := -std=c++20 -g -Wall -Wextra -MD
 common_cflags := -std=c2x -Wall -Wextra -MD
 
 # todo: -fvisibility=hidden for ARM.
 
 # All warnings being treated as errors:
-common_cflags += -Werror
-common_cxxflags += -Werror
+common_c_cxx_flags += -Werror
 
 # Typical for embedded:
-common_cflags += -fshort-enums
-common_cxxflags += -fshort-enums
+common_c_cxx_flags += -fshort-enums
 # whereas -fno-short-enums is typical for hosted.
 
+# With clang++, '-save-temps' gives warning: inconsistent use of MD5 checksums.
+# common_c_cxx_flags += -save-temps
 
+common_cxxflags += $(common_c_cxx_flags)
+common_cflags += $(common_c_cxx_flags)
 
 common_ldflags :=
-common_ldflags += --gc-sections
+common_ldflags += --gc-sections  # Used during linking to remove unused functions and data sections, reducing the final binary size.
 common_ldflags += --fatal-warnings
 # common_ldflags += --verbose
 
@@ -66,11 +90,16 @@ common_ldflags += --fatal-warnings
 # APPLICATIONS
 #
 
--include app/stm32h743-sbx/stm32h743-sbx.mk
--include app/stm32f051-sbx/stm32f051-sbx.mk
--include app/riga-comm-00/riga-comm-00.mk
+ifneq ($(EMB1_TOOLCHAIN),)
+	-include app/stm32h743-sbx/stm32h743-sbx.mk
+	-include app/stm32f051-sbx/stm32f051-sbx.mk
+	-include app/riga-comm-00/riga-comm-00.mk
+	-include app/stm32f0-arithmetic-renode/stm32f0-arithmetic-renode.mk
+endif
 
--include host-tests/host-tests.mk
+ifneq ($(EMB1_HOST_TOOLCHAIN),)
+	-include host-tests/host-tests.mk
+endif
 
 # ==============================================================================
 #
@@ -79,7 +108,7 @@ common_ldflags += --fatal-warnings
 
 .PHONY: clean
 clean:
-	$(info INFO: CLEANING)
+	$(info I: CLEANING)
 	@rm -rf $(objects_dir)
 	@rm -rf $(binaries_dir)
 	@rm -rf $(temp_dir)

@@ -24,7 +24,7 @@ def _remove_artifacts() -> None:
 
 
 @pytest.mark.pctest  # type: ignore
-@pytest.mark.parametrize("toolchain", ["gnu", "llvm"])  # type: ignore
+@pytest.mark.parametrize("toolchain", ["gnu-13", "llvm-18"])  # type: ignore
 def test_build_run(toolchain: str) -> None:
     """Verify that host-test can be built and runs without failures."""
     target_build = "host-tests"
@@ -35,7 +35,7 @@ def test_build_run(toolchain: str) -> None:
 
     _logger.info("Building with `%s` toolchain.", toolchain)
 
-    cmd = f"export EMB1_TOOLCHAIN={toolchain} && make -B {target_build}"
+    cmd = f"make -B {target_build} EMB1_HOST_TOOLCHAIN={toolchain}"
     with sp.Popen(args=[cmd], shell=True, stdout=sp.PIPE, stderr=sp.PIPE) as child:
         exit_code = child.wait()
         assert exit_code == 0
@@ -49,7 +49,7 @@ def test_build_run(toolchain: str) -> None:
 
     _logger.info("Running tests.")
 
-    cmd = f"export EMB1_TOOLCHAIN={toolchain} && make {target_run}"
+    cmd = f"make {target_run} EMB1_HOST_TOOLCHAIN={toolchain}"
     with sp.Popen(args=[cmd], shell=True, stdout=sp.PIPE, stderr=sp.PIPE) as child:
         exit_code = child.wait()
         assert exit_code == 0

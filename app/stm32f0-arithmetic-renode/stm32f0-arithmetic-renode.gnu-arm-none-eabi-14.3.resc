@@ -1,0 +1,29 @@
+
+$name?="stm32f0-arithmetic-renode"
+
+# Create a machine:
+mach create $name
+# Once a machine is created, it contains only one peripheral - the system bus called simply sysbus.
+# There is no memory or CPU, so the machine is not yet ready to execute any code.
+
+# Load a predefined platform
+# machine LoadPlatformDescription @platforms/cpus/stm32f0.repl
+machine LoadPlatformDescription @./renode/stm32f0.repl
+
+# Load a binary
+sysbus LoadELF @bin/stm32f0-arithmetic-renode.gnu-arm-none-eabi-14.3.elf
+
+# Enable GDB
+machine StartGdbServer 3333
+
+# sysbus.cpu LogFunctionNames True
+logFile @app/stm32f0-arithmetic-renode/renode.log
+
+log "IsStarted:"
+sysbus.cpu IsStarted
+
+log "PC"
+sysbus.cpu PC
+
+log "_main_stack_end"
+sysbus GetSymbolAddress "_main_stack_end"

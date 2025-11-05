@@ -152,7 +152,7 @@ static UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
 /*
  * The number of SysTick increments that make up one tick period.
  */
-#if(configUSE_TICKLESS_IDLE == 1)
+#if (configUSE_TICKLESS_IDLE == 1)
 static uint32_t ulTimerCountsForOneTick = 0;
 #endif /* configUSE_TICKLESS_IDLE */
 
@@ -160,7 +160,7 @@ static uint32_t ulTimerCountsForOneTick = 0;
  * The maximum number of tick periods that can be suppressed is limited by the
  * 24 bit resolution of the SysTick timer.
  */
-#if(configUSE_TICKLESS_IDLE == 1)
+#if (configUSE_TICKLESS_IDLE == 1)
 static uint32_t xMaximumPossibleSuppressedTicks = 0;
 #endif /* configUSE_TICKLESS_IDLE */
 
@@ -168,7 +168,7 @@ static uint32_t xMaximumPossibleSuppressedTicks = 0;
  * Compensate for the CPU cycles that pass while the SysTick is stopped (low
  * power functionality only.
  */
-#if(configUSE_TICKLESS_IDLE == 1)
+#if (configUSE_TICKLESS_IDLE == 1)
 static uint32_t ulStoppedTimerCompensation = 0;
 #endif /* configUSE_TICKLESS_IDLE */
 
@@ -177,7 +177,7 @@ static uint32_t ulStoppedTimerCompensation = 0;
  * FreeRTOS API functions are not called from interrupts that have been assigned
  * a priority above configMAX_SYSCALL_INTERRUPT_PRIORITY.
  */
-#if(configASSERT_DEFINED == 1)
+#if (configASSERT_DEFINED == 1)
 static uint8_t ucMaxSysCallPriority = 0;
 static uint32_t ulMaxPRIGROUPValue = 0;
 
@@ -296,7 +296,7 @@ BaseType_t xPortStartScheduler(void) {
 	 * See https://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html */
 	configASSERT(configMAX_SYSCALL_INTERRUPT_PRIORITY);
 
-#if(configASSERT_DEFINED == 1)
+#if (configASSERT_DEFINED == 1)
 	{
 		volatile uint32_t ulOriginalPriority;
 
@@ -508,7 +508,7 @@ void tick::sysTickISR() {
 }
 /*-----------------------------------------------------------*/
 
-#if(configUSE_TICKLESS_IDLE == 1)
+#if (configUSE_TICKLESS_IDLE == 1)
 
 __attribute__((weak)) void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
 	uint32_t ulReloadValue, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ulSysTickDecrementsLeft;
@@ -522,7 +522,7 @@ __attribute__((weak)) void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTi
 	/* Enter a critical section but don't use the taskENTER_CRITICAL()
 	 * method as that will mask interrupts that should exit sleep mode. */
 	__asm volatile("cpsid i" ::
-					   : "memory");
+			: "memory");
 	__asm volatile("dsb");
 	__asm volatile("isb");
 
@@ -532,7 +532,7 @@ __attribute__((weak)) void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTi
 		/* Re-enable interrupts - see comments above the cpsid instruction
 		 * above. */
 		__asm volatile("cpsie i" ::
-						   : "memory");
+				: "memory");
 	} else {
 		/* Stop the SysTick momentarily.  The time the SysTick is stopped for
 		 * is accounted for as best it can be, but using the tickless mode will
@@ -588,7 +588,7 @@ __attribute__((weak)) void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTi
 
 		if(xModifiableIdleTime > 0) {
 			__asm volatile("dsb" ::
-							   : "memory");
+					: "memory");
 			__asm volatile("wfi");
 			__asm volatile("isb");
 		}
@@ -599,7 +599,7 @@ __attribute__((weak)) void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTi
 		 * out of sleep mode to execute immediately.  See comments above
 		 * the cpsid instruction above. */
 		__asm volatile("cpsie i" ::
-						   : "memory");
+				: "memory");
 		__asm volatile("dsb");
 		__asm volatile("isb");
 
@@ -608,7 +608,7 @@ __attribute__((weak)) void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTi
 		 * any slippage between the time maintained by the RTOS and calendar
 		 * time. */
 		__asm volatile("cpsid i" ::
-						   : "memory");
+				: "memory");
 		__asm volatile("dsb");
 		__asm volatile("isb");
 
@@ -651,7 +651,7 @@ __attribute__((weak)) void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTi
 			 * number of SysTick decrements remaining until the expected idle
 			 * time would have ended. */
 			ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
-#if(portNVIC_SYSTICK_CLK_BIT_CONFIG != portNVIC_SYSTICK_CLK_BIT)
+#if (portNVIC_SYSTICK_CLK_BIT_CONFIG != portNVIC_SYSTICK_CLK_BIT)
 			{
 				/* If the SysTick is not using the core clock, the current-
 				 * value register might still be zero here.  In that case, the
@@ -687,7 +687,7 @@ __attribute__((weak)) void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTi
 		 * to receive the standard value immediately. */
 		portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
 		portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
-#if(portNVIC_SYSTICK_CLK_BIT_CONFIG == portNVIC_SYSTICK_CLK_BIT)
+#if (portNVIC_SYSTICK_CLK_BIT_CONFIG == portNVIC_SYSTICK_CLK_BIT)
 		{
 			portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
 		}
@@ -713,7 +713,7 @@ __attribute__((weak)) void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTi
 
 		/* Exit with interrupts enabled. */
 		__asm volatile("cpsie i" ::
-						   : "memory");
+				: "memory");
 	}
 }
 
@@ -726,7 +726,7 @@ __attribute__((weak)) void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTi
  */
 __attribute__((weak)) void vPortSetupTimerInterrupt(void) {
 /* Calculate the constants required to configure the tick interrupt. */
-#if(configUSE_TICKLESS_IDLE == 1)
+#if (configUSE_TICKLESS_IDLE == 1)
 	{
 		ulTimerCountsForOneTick = (configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ);
 		xMaximumPossibleSuppressedTicks = portMAX_24_BIT_NUMBER / ulTimerCountsForOneTick;
@@ -757,7 +757,7 @@ static void vPortEnableVFP(void) {
 }
 /*-----------------------------------------------------------*/
 
-#if(configASSERT_DEFINED == 1)
+#if (configASSERT_DEFINED == 1)
 
 void vPortValidateInterruptPriority(void) {
 	uint32_t ulCurrentInterrupt;
@@ -765,7 +765,7 @@ void vPortValidateInterruptPriority(void) {
 
 	/* Obtain the number of the currently executing interrupt. */
 	__asm volatile("mrs %0, ipsr"
-				   : "=r"(ulCurrentInterrupt)::"memory");
+		: "=r"(ulCurrentInterrupt)::"memory");
 
 	/* Is the interrupt number a user defined interrupt? */
 	if(ulCurrentInterrupt >= portFIRST_USER_INTERRUPT_NUMBER) {

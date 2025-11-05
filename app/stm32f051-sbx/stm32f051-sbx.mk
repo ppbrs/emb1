@@ -55,6 +55,10 @@ stm32f051_sbx_lds := $(app_dir)/stm32f051-sbx.ld
 
 stm32f051_sbx_ldflags := $(stm32_ldflags)
 
+# Use libgcc
+stm32f051_sbx_ldflags += -L$(stm32_toolchain_root_dir)/lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/
+stm32f051_sbx_ldflags += -lgcc
+
 # ------------------------------------------------------------------------------
 # compiling
 
@@ -116,8 +120,6 @@ $(stm32f051_sbx_elf): $(stm32f051_sbx_objs) Makefile
 		$(foreach D, $(stm32f051_sbx_lds), -T$(D)) \
 		-Map=$(stm32f051_sbx_map) \
 		$(stm32f051_sbx_ldflags) \
-		-L/opt/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/ \
-		-lgcc \
 		-o $(stm32f051_sbx_elf)
 
 #

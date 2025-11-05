@@ -57,7 +57,7 @@ typedef portSTACK_TYPE StackType_t;
 typedef long BaseType_t;
 typedef unsigned long UBaseType_t;
 
-#if(configUSE_16_BIT_TICKS == 1)
+#if (configUSE_16_BIT_TICKS == 1)
 typedef uint16_t TickType_t;
 #define portMAX_DELAY (TickType_t)0xffff
 #else
@@ -86,7 +86,7 @@ typedef uint32_t TickType_t;
 		/* Barriers are normally not required but do ensure the code is completely \
 		 * within the specified behaviour for the architecture. */                 \
 		__asm volatile("dsb" ::                                                    \
-						   : "memory");                                            \
+				: "memory");                                                       \
 		__asm volatile("isb");                                                     \
 	}
 
@@ -138,15 +138,15 @@ __attribute__((always_inline)) static inline uint8_t ucPortCountLeadingZeros(uin
 	uint8_t ucReturn;
 
 	__asm volatile("clz %0, %1"
-				   : "=r"(ucReturn)
-				   : "r"(ulBitmap)
-				   : "memory");
+		: "=r"(ucReturn)
+		: "r"(ulBitmap)
+		: "memory");
 
 	return ucReturn;
 }
 
 /* Check the configuration. */
-#if(configMAX_PRIORITIES > 32)
+#if (configMAX_PRIORITIES > 32)
 #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
 #endif
 
@@ -182,7 +182,7 @@ portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt(void) {
 
 	/* Obtain the number of the currently executing interrupt. */
 	__asm volatile("mrs %0, ipsr"
-				   : "=r"(ulCurrentInterrupt)::"memory");
+		: "=r"(ulCurrentInterrupt)::"memory");
 
 	if(ulCurrentInterrupt == 0) {
 		xReturn = pdFALSE;
@@ -241,7 +241,7 @@ portFORCE_INLINE static void vPortSetBASEPRI(uint32_t ulNewMaskValue) {
 /*-----------------------------------------------------------*/
 
 #define portMEMORY_BARRIER() __asm volatile("" :: \
-												: "memory")
+		: "memory")
 
 #ifdef __cplusplus
 }

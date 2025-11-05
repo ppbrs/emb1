@@ -1,14 +1,18 @@
 #
 # toolchain-specific settings:
 #
-ifeq ($(EMB1_TOOLCHAIN),llvm)
-	host_toolchain_c := clang-14
-	host_toolchain_cpp := clang++-14
-	toolchain := $(EMB1_TOOLCHAIN)
-else
-	host_toolchain_c := gcc-12
-	host_toolchain_cpp := g++-12
+ifeq ($(EMB1_HOST_TOOLCHAIN),llvm-18)
+	host_toolchain_c := clang-18
+	host_toolchain_cpp := clang++-18
 endif
+
+ifeq ($(EMB1_HOST_TOOLCHAIN),gnu-13)
+	host_toolchain_c := gcc-13
+	host_toolchain_cpp := g++-13
+endif
+
+# For suffixes:
+toolchain := $(EMB1_HOST_TOOLCHAIN)
 
 host_tests_out := $(binaries_dir)/host-tests.$(toolchain).out
 host_tests_objs_dir := ./obj/host-tests/$(toolchain)
@@ -48,12 +52,12 @@ lib_gtest_path := $(host_tests_objs_dir)/lib$(lib_gtest_stem).a
 
 host-tests-run: host-tests
 	@echo
-	$(info INFO: RUNNING `$(host_tests_out)` with arguments `$(ARGS)`.)
+	$(info I: RUNNING `$(host_tests_out)` with arguments `$(ARGS)`.)
 	$(host_tests_out) $(ARGS)
 
 host-tests: $(host_tests_out)
 	@echo
-	$(info INFO: BUILDING `$@`.)
+	$(info I: BUILDING `$@`.)
 
 $(host_tests_out): host_tests_main $(lib_gtest_path) $(host_tests_objs) Makefile
 	@mkdir -p $(binaries_dir)
@@ -70,7 +74,7 @@ $(host_tests_out): host_tests_main $(lib_gtest_path) $(host_tests_objs) Makefile
 .PHONY: host_tests_main
 host_tests_main:
 	@echo
-	$(info INFO: BUILDING `host_tests_main` FROM `host-tests/main.cpp`.)
+	$(info I: BUILDING `host_tests_main` FROM `host-tests/main.cpp`.)
 	@mkdir -p $(shell dirname $(host_tests_objs_dir)/host-tests/main.o)
 	@$(host_toolchain_cpp) \
 		$(host_tests_cxxflags) \
@@ -81,20 +85,20 @@ host_tests_main:
 
 $(lib_gtest_path):
 	@echo
-	$(info INFO: BUILDING `$@`.)
+	$(info I: BUILDING `$@`.)
 	@mkdir -p $(gtest_temp_dir); \
 		cd $(gtest_temp_dir) && \
 		export CC=$(host_toolchain_c) CXX=$(host_toolchain_cpp) && \
 		cmake $(gtest_dir) && \
 		cmake --build . --target gtest
 
-	$(info INFO: COPYING `$(gtest_temp_dir)/lib/libgtest.a` to `$(lib_gtest_path)`.)
+	$(info I: COPYING `$(gtest_temp_dir)/lib/libgtest.a` to `$(lib_gtest_path)`.)
 	@mkdir -p $(host_tests_objs_dir)
 	@cp $(gtest_temp_dir)/lib/libgtest.a $(lib_gtest_path)
 
 $(host_tests_objs_dir)/%.cpp.o: %.cpp Makefile
 	@echo
-	$(info INFO: BUILDING `$@` FROM `$<`.)
+	$(info I: BUILDING `$@` FROM `$<`.)
 	@mkdir -p $(shell dirname $@)
 	@$(host_toolchain_cpp) \
 		$(host_tests_cxxflags) \

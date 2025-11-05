@@ -8,6 +8,10 @@
 #include "if/mcu/tick.h"
 #include <chrono>
 
+#if __STDC_HOSTED__ == 0
+#error __STDC_HOSTED__ is 0  // This app uses newlib-nano
+#endif
+
 namespace {
 StaticTask_t task1TCB;
 constexpr uint32_t task1StackSizeBytes = 512;

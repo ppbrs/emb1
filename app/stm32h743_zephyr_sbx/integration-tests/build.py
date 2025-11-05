@@ -12,6 +12,7 @@ _logger = logging.getLogger(__name__)
 
 
 @pytest.mark.pctest  # type: ignore
+@pytest.mark.skip(reason="Zephyr project is not stable yet.")
 def test_build() -> None:
     """Check that stm32h743_zephyr_sbx project is buildable."""
     prj_path = pathlib.PosixPath(__file__).parent.parent

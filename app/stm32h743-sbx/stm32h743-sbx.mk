@@ -62,6 +62,9 @@ stm32h743_sbx_lds := $(app_dir)/$(app_name).ld
 
 stm32h743_sbx_ldflags := $(stm32_ldflags)
 
+stm32h743_sbx_ldflags += -L$(stm32_toolchain_root_dir)/arm-none-eabi/lib/thumb/v7e-m+fp/hard/
+stm32h743_sbx_ldflags += -L$(stm32_toolchain_root_dir)/lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+fp/hard/
+
 # ------------------------------------------------------------------------------
 # compiling
 
@@ -72,11 +75,13 @@ stm32h743_sbx_cflags += -mfloat-abi=hard
 stm32h743_sbx_cflags += -mcpu=cortex-m7
 stm32h743_sbx_cflags += -mfpu=fpv5-d16
 stm32h743_sbx_cflags += -march=armv7e-m
+stm32h743_sbx_cflags += -ffreestanding  # Note: This defines __STDC_HOSTED__ > 0
 
 stm32h743_sbx_cxxflags += -mfloat-abi=hard
 stm32h743_sbx_cxxflags += -mcpu=cortex-m7
 stm32h743_sbx_cxxflags += -mfpu=fpv5-d16
 stm32h743_sbx_cxxflags += -march=armv7e-m
+stm32h743_sbx_cxxflags += -ffreestanding  # Note: This defines __STDC_HOSTED__ > 0
 
 # ------------------------------------------------------------------------------
 
@@ -114,8 +119,6 @@ $(stm32h743_sbx_elf): $(stm32h743_sbx_objs) Makefile
 		$(foreach D, $(stm32h743_sbx_lds), -T$(D)) \
 		-Map=$(stm32h743_sbx_map) \
 		$(stm32h743_sbx_ldflags) \
-		-L/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/lib/thumb/v7e-m+fp/hard/ \
-		-L/opt/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+fp/hard/ \
 		-o $(stm32h743_sbx_elf)
 
 #

@@ -1,72 +1,115 @@
+# ==================================================================================================
+# stm32.mk
+#
+# This file is included at the beginning of individual project makefiles,
+# e.g. stm32f0-arithmetic-renode.mk
+# ==================================================================================================
 
-ifeq ($(EMB1_TOOLCHAIN),llvm)
-	stm32_toolchain_cpp:=clang++
-	stm32_toolchain_c:=clang
-	stm32_toolchain_objdump := llvm-objdump-14
-	stm32_toolchain_readelf := llvm-readelf-14
-	stm32_toolchain_objcopy := llvm-objcopy-14
-	stm32_toolchain_size := llvm-size-14
-# 	stm32_toolchain_ld := ld.lld-14
-	stm32_toolchain_ld := arm-none-eabi-10.3-ld
-else
-	ifeq ($(EMB1_TOOLCHAIN),gnu)
-		stm32_toolchain_cpp:=arm-none-eabi-10.3-g++
-		stm32_toolchain_c:=arm-none-eabi-10.3-gcc
-		stm32_toolchain_objdump := arm-none-eabi-10.3-objdump
-		stm32_toolchain_readelf := arm-none-eabi-10.3-readelf
-		stm32_toolchain_objcopy := arm-none-eabi-10.3-objcopy
-		stm32_toolchain_size := arm-none-eabi-10.3-size
-		stm32_toolchain_ld := arm-none-eabi-10.3-ld
-	else
-$(error EMB1_TOOLCHAIN ($(EMB1_TOOLCHAIN)) not supported.)
-	endif
-endif
-
-
-
-stm32_incs = ./
-
+# Note: common_cflags, common_cxxflags, common_ldflags are defined in Makefile.
+stm32_incs := ./
 stm32_cflags := $(common_cflags)
 stm32_cxxflags := $(common_cxxflags)
 stm32_ldflags := $(common_ldflags)
 
-ifeq ($(EMB1_TOOLCHAIN),gnu)
 
+# --------------------------------------------------------------------------------------------------
+# LLVM
+
+ifeq ($(EMB1_TOOLCHAIN),llvm-18)
+
+# 	stm32_toolchain_root_dir := 
+	stm32_toolchain_cpp := /usr/bin/clang++-18
+	stm32_toolchain_c := /usr/bin/clang-18
+	stm32_toolchain_objdump := /usr/bin/llvm-objdump-18
+	stm32_toolchain_readelf := /usr/bin/llvm-readelf-18
+	stm32_toolchain_objcopy := /usr/bin/llvm-objcopy-18
+	stm32_toolchain_size := /usr/bin/llvm-size-18
+
+# Clang is often a "bare" compiler without a built-in C library.
+# We need usually borrow it from the GNU Arm Toolchain.
+	stm32_toolchain_gnu_root_dir := ../emb1-tools-infra/toolchains/gnu-arm-none-eabi-14.3/
+
+	stm32_libgcc_dir = $(stm32_toolchain_gnu_root_dir)/lib/gcc/arm-none-eabi/14.3.1/
+
+	stm32_c_cxx_flags := --target=arm-none-eabi
+
+#	How to find my GNU sysroot?
+#	$ ./arm-none-eabi-c++ -print-sysroot
+#		emb1-tools-infra/toolchains/gnu-arm-none-eabi-14.3/bin/../arm-none-eabi
+	stm32_c_cxx_flags += --sysroot=$(stm32_toolchain_gnu_root_dir)/arm-none-eabi/
+
+	stm32_incs += $(stm32_toolchain_gnu_root_dir)/arm-none-eabi/include/c++/14.3.1
+#	The following is needed because <cstdint> (residing in the directory above)
+#	uses <bits/c++config.h>:
+	stm32_incs += $(stm32_toolchain_gnu_root_dir)/arm-none-eabi/include/c++/14.3.1/arm-none-eabi
+
+	stm32_cflags += $(stm32_c_cxx_flags)
+	stm32_cxxflags += $(stm32_c_cxx_flags)
+
+# Linking with GCC 14.3:
+	stm32_toolchain_cpp_ld := $(stm32_toolchain_gnu_root_dir)/bin/arm-none-eabi-g++
+
+# 	stm32_cxxflags += -fuse-ld=lld
+# 	stm32_toolchain_ld := /usr/bin/ld.lld-18
+# 	stm32_toolchain_ld := arm-none-eabi-14.3-ld
+
+endif
+# --------------------------------------------------------------------------------------------------
+# GNU
+
+ifeq ($(EMB1_TOOLCHAIN),gnu-arm-none-eabi-10.3)
+	stm32_toolchain_root_dir := ../emb1-tools-infra/toolchains/gnu-arm-none-eabi-10.3
+	stm32_toolchain_cpp := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-g++
+	stm32_toolchain_cpp_ld := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-g++
+	stm32_toolchain_c := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-gcc
+	stm32_toolchain_objdump := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-objdump
+	stm32_toolchain_readelf := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-readelf
+	stm32_toolchain_objcopy := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-objcopy
+	stm32_toolchain_size := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-size
+	stm32_toolchain_ld := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-ld
+	stm32_libgcc_dir = $(stm32_toolchain_root_dir)/lib/gcc/arm-none-eabi/10.3.1
+endif
+
+ifeq ($(EMB1_TOOLCHAIN),gnu-arm-none-eabi-14.3)
+	stm32_toolchain_root_dir := ../emb1-tools-infra/toolchains/gnu-arm-none-eabi-14.3
+	stm32_toolchain_cpp := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-g++
+	stm32_toolchain_cpp_ld := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-g++
+	stm32_toolchain_c := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-gcc
+	stm32_toolchain_objdump := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-objdump
+	stm32_toolchain_readelf := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-readelf
+	stm32_toolchain_objcopy := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-objcopy
+	stm32_toolchain_size := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-size
+	stm32_toolchain_ld := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-ld
+	stm32_libgcc_dir = $(stm32_toolchain_root_dir)/lib/gcc/arm-none-eabi/14.3.1
+endif
+
+# TODO: fix this generic gnu
+ifeq ($(EMB1_TOOLCHAIN),gnu)
+# use $(findstring find,in)
 	stm32_cflags += -fcallgraph-info
 	stm32_cflags += -fdump-rtl-expand
 
 	stm32_cxxflags += -fcallgraph-info
 	stm32_cxxflags += -fdump-rtl-expand
-
-else
-	ifeq ($(EMB1_TOOLCHAIN),llvm)
-		stm32_cflags += --target=arm-none-eabi
-		stm32_cxxflags += --target=arm-none-eabi
-
-		stm32_cflags += --sysroot=/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi
-		stm32_cxxflags += --sysroot=/opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi
-
-		stm32_incs += /opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1
-		# The following is needed because <cstdint> (residing in the directory above)
-		# uses <bits/c++config.h>:
-		stm32_incs += /opt/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi
-	endif
 endif
+# --------------------------------------------------------------------------------------------------
 
+stm32_cflags += -mabi=aapcs
 stm32_cflags += -fstack-usage
 stm32_cflags += -nostdlib
 stm32_cflags += -fno-exceptions
-stm32_cflags += -ffreestanding
 stm32_cflags += -ggdb -g3
+stm32_cflags += -ffunction-sections  # Instructs the compiler to place each function into its own linker section.
+stm32_cflags += -fdata-sections  # Instructs the compiler to place each data variable into its own linker section.
 
+stm32_cxxflags += -mabi=aapcs  # Use ARM Procedure Call Standard (AAPCS)
 stm32_cxxflags += -fstack-usage
 stm32_cxxflags += -nostdlib
 stm32_cxxflags += -fno-exceptions
-stm32_cxxflags += -ffreestanding
 stm32_cxxflags += -fno-rtti
 stm32_cxxflags += -ggdb -g3
-stm32_cxxflags += -ffunction-sections
-stm32_cxxflags += -fdata-sections
+stm32_cxxflags += -ffunction-sections  # Instructs the compiler to place each function into its own linker section.
+stm32_cxxflags += -fdata-sections  # Instructs the compiler to place each data variable into its own linker section.
 
 
 # TODO: check https://blog.aureliocolosimo.it/posts/stm32-bare-metal-made-easy

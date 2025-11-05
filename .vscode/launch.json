@@ -3,10 +3,10 @@
 	"configurations": [
 		{
 			"name": "python3: Debug this file.",
-			"type": "python",
+			"type": "debugpy",
 			"request": "launch",
 			"program": "${file}",
-			"cwd": "${fileDirname}",
+			"cwd": "${workspaceFolder}",
 			"console": "integratedTerminal",
 			"justMyCode": false,
 		},
@@ -115,6 +115,19 @@
 			"env": {},
 			"preLaunchTask": "HOST-TESTS: LLVM: Make.",
 		},
+		// =========================================================================================
+		{
+			"name": "stm32f0-arithmetic-renode: GNU-14.3: Debug application.",
+			"type": "cppdbg",
+			"request": "launch",
+			// "preLaunchTask": "Run Renode",
+			// "postDebugTask": "Close Renode",
+			"miDebuggerServerAddress": "localhost:3333",
+			"miDebuggerPath": "gdb-multiarch",
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/bin/stm32f0-arithmetic-renode.gnu-arm-none-eabi-14.3.elf",
+			"stopAtEntry": true,
+		}
 		// =========================================================================================
 	],
 }

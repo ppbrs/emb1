@@ -7,11 +7,6 @@
 #include <array>
 #include <cstdint>
 
-#if __STDC_HOSTED__ > 0
-#error __STDC_HOSTED__ is not 0
-#endif
-
-
 /*================== function prototypes ==================*/
 extern int main();
 extern "C" void __libc_init_array();
@@ -548,13 +543,13 @@ GDB:
 void HardFault_Handler() {
 	uint32_t lr, sp;
 	__asm__ volatile("mov %0, LR\n"
-					 : "=r"(lr));
+		: "=r"(lr));
 	if(lr & (1 << 2)) {
 		__asm__ volatile("mrs %0, PSP\n"
-						 : "=r"(sp)); // process stack was used
+			: "=r"(sp)); // process stack was used
 	} else {
 		__asm__ volatile("mrs %0, MSP\n"
-						 : "=r"(sp)); // main stack was used
+			: "=r"(sp)); // main stack was used
 	}
 	armv7e_m::mmreg::SCB::CFSR cfsr;
 	cfsr.word = armv7e_m::mmreg::SCB::SCB.CFSR.word;
@@ -575,13 +570,13 @@ only.
 void MemManage_Handler() {
 	uint32_t lr, sp;
 	__asm__ volatile("mov %0, LR\n"
-					 : "=r"(lr));
+		: "=r"(lr));
 	if(lr & (1 << 2)) {
 		__asm__ volatile("mrs %0, PSP\n"
-						 : "=r"(sp)); // process stack was used
+			: "=r"(sp)); // process stack was used
 	} else {
 		__asm__ volatile("mrs %0, MSP\n"
-						 : "=r"(sp)); // main stack was used
+			: "=r"(sp)); // main stack was used
 	}
 	armv7e_m::mmreg::SCB::CFSR cfsr;
 	cfsr.word = armv7e_m::mmreg::SCB::SCB.CFSR.word;
@@ -610,13 +605,13 @@ cannot rely on stacked PC to determine the fault location if the BusFault is asy
 void BusFault_Handler() {
 	uint32_t lr, sp;
 	__asm__ volatile("mov %0, LR\n"
-					 : "=r"(lr));
+		: "=r"(lr));
 	if(lr & (1 << 2)) {
 		__asm__ volatile("mrs %0, PSP\n"
-						 : "=r"(sp)); // process stack was used
+			: "=r"(sp)); // process stack was used
 	} else {
 		__asm__ volatile("mrs %0, MSP\n"
-						 : "=r"(sp)); // main stack was used
+			: "=r"(sp)); // main stack was used
 	}
 	armv7e_m::mmreg::SCB::CFSR cfsr;
 	cfsr.word = armv7e_m::mmreg::SCB::SCB.CFSR.word;
@@ -636,13 +631,13 @@ multiple. When enabled, divide-by-zero and other unaligned memory accesses are d
 void UsageFault_Handler() {
 	uint32_t lr, sp;
 	__asm__ volatile("mov %0, LR\n"
-					 : "=r"(lr));
+		: "=r"(lr));
 	if(lr & (1 << 2)) {
 		__asm__ volatile("mrs %0, PSP\n"
-						 : "=r"(sp)); // process stack was used
+			: "=r"(sp)); // process stack was used
 	} else {
 		__asm__ volatile("mrs %0, MSP\n"
-						 : "=r"(sp)); // main stack was used
+			: "=r"(sp)); // main stack was used
 	}
 	armv7e_m::mmreg::SCB::CFSR cfsr;
 	cfsr.word = armv7e_m::mmreg::SCB::SCB.CFSR.word;

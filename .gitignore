@@ -9,4 +9,10 @@ bin/
 tmp/
 scripts/*bin
 
+*.bc
+*.ii
+*.s
+
 *.log
+
+3party/renode_portable

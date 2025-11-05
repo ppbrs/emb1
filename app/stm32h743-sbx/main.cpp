@@ -12,6 +12,10 @@
 #include <chrono>
 #include <cstdint>
 
+#if __STDC_HOSTED__ > 0
+#error __STDC_HOSTED__ is not 0  // This project uses --ffreestanding
+#endif
+
 namespace {
 SECTION_DATA_REGULAR StaticTask_t xTask0Buffer;
 StackType_t xStack0Buffer[configMINIMAL_STACK_SIZE] SECTION_BSS_FAST;

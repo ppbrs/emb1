@@ -101,9 +101,9 @@ protocol::ParseResult protocol::ProgRandom::parse() {
 /*
 This function is supposed to be overriden in the application.
 */
-[[gnu::weak]] void protocol::ProgMemory::execute(){};
+[[gnu::weak]] void protocol::ProgMemory::execute() {};
 
 /*
 This function is supposed to be overriden in the application.
 */
-[[gnu::weak]] void protocol::ProgRandom::execute(){};
+[[gnu::weak]] void protocol::ProgRandom::execute() {};

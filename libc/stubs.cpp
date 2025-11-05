@@ -25,6 +25,7 @@ multiple definition of `abort'
 Without this definition, linker reports:
 undefined reference to `abort'
 */
-extern "C" [[gnu::weak]] void abort(void) {
+extern "C" [[gnu::weak, gnu::noreturn]] void abort(void) {
 	enterInfiniteLoop();
+	__builtin_unreachable();
 }

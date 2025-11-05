@@ -9,7 +9,7 @@ template<typename GPIO>
 class GpioMock {
 	public:
 	GpioMock(GPIO &gpio) :
-			gpio(gpio){};
+			gpio(gpio) {};
 	void update();
 	void reset();
 

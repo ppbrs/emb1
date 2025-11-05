@@ -57,7 +57,7 @@ typedef portSTACK_TYPE StackType_t;
 typedef long BaseType_t;
 typedef unsigned long UBaseType_t;
 
-#if(configUSE_16_BIT_TICKS == 1)
+#if (configUSE_16_BIT_TICKS == 1)
 typedef uint16_t TickType_t;
 #define portMAX_DELAY (TickType_t)0xffff
 #else
@@ -103,9 +103,9 @@ extern void vClearInterruptMaskFromISR(uint32_t ulMask) __attribute__((naked));
 #define portSET_INTERRUPT_MASK_FROM_ISR() ulSetInterruptMaskFromISR()
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR(x) vClearInterruptMaskFromISR(x)
 #define portDISABLE_INTERRUPTS() __asm volatile(" cpsid i " :: \
-													: "memory")
+		: "memory")
 #define portENABLE_INTERRUPTS() __asm volatile(" cpsie i " :: \
-												   : "memory")
+		: "memory")
 #define portENTER_CRITICAL() vPortEnterCritical()
 #define portEXIT_CRITICAL() vPortExitCritical()
 
@@ -125,7 +125,7 @@ extern void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime);
 #define portNOP()
 
 #define portMEMORY_BARRIER() __asm volatile("" :: \
-												: "memory")
+		: "memory")
 
 #ifdef __cplusplus
 }

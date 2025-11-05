@@ -3,6 +3,7 @@
 PIO = Peripheral IO = inputs-outputs belonging to peripherals like I2C, SPI.
 */
 
+#include <cstdint>
 #include <cstdio>
 
 namespace pio {

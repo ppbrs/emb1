@@ -6,7 +6,7 @@ import sys
 
 import pytest
 
-CLANG_FORMAT = "clang-format"
+CLANG_FORMAT = "clang-format-19"
 GLOBS_FORMAT = (
     "*.cpp",
     "*.h",

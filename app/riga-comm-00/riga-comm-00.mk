@@ -59,6 +59,11 @@ riga_comm_00_lds := $(app_dir)/$(app_name).ld
 
 riga_comm_00_ldflags := $(stm32_ldflags)
 
+# Use libgcc
+riga_comm_00_ldflags += -L$(stm32_libgcc_dir)/thumb/v6-m/nofp/
+riga_comm_00_ldflags += -lgcc
+
+
 # ------------------------------------------------------------------------------
 # compiling
 
@@ -120,8 +125,6 @@ $(riga_comm_00_elf): $(riga_comm_00_objs) Makefile
 		$(foreach D, $(riga_comm_00_lds), -T$(D)) \
 		-Map=$(riga_comm_00_map) \
 		$(riga_comm_00_ldflags) \
-		-L/opt/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/ \
-		-lgcc \
 		-o $(riga_comm_00_elf)
 
 #

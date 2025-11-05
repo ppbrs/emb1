@@ -44,14 +44,14 @@ class ProgBase {
 
 class ProgUnknown final : public ProgBase {
 	public:
-	ProgUnknown(){};
+	ProgUnknown() {};
 	static constexpr std::string_view progToken = "";
 	static constexpr std::string_view helpString = "";
-	virtual void collect(const std::string_view &) override{};
+	virtual void collect(const std::string_view &) override {};
 	virtual ParseResult parse() override {
 		return ParseResult::UNKNOWN_COMMAND;
 	};
-	virtual void execute() override{};
+	virtual void execute() override {};
 };
 
 class ProgMemory final : public ProgBase {
