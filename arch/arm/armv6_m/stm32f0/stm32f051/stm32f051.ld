@@ -3,16 +3,23 @@ MEMORY {
 	/* Main flash memory. */
 	flash_region (RX) : ORIGIN = 0x08000000, LENGTH = 64K /* for STM32F051x8 */
 
-	/*
-	0x1FFF EC00 - 0x1FFF F7FF 3 KBSystem memory
-	0x1FFF F800 - 0x1FFF FBFF 1 KBOption bytes
-	*/
+	/* 0x1FFF EC00 - 0x1FFF F7FF 3 KBSystem memory */
+	/* 0x1FFF F800 - 0x1FFF FBFF 1 KBOption bytes */
 
 	/* Main system SRAM. */
 	sram_region (WXA) : ORIGIN = 0x20000000, LENGTH = 8K
+
+	stm32f0_periph_region (WR) : ORIGIN = 0x40000000, LENGTH = 0x08001800
+
+	cortexm0_periph_region (WR) : ORIGIN = 0xE0000000, LENGTH = 0x00100000 
 }
 
+/* check this: https://developer.arm.com/documentation/107976/21-1-1/Map-code-and-data-to-your-target-device/Linker-scripts/Linker-script-PHDRS-command */
+
 SECTIONS {
+
+	INCLUDE arch/arm/armv6_m/armv6-m.sections.ld /* sysregs at E0000000 */
+
 	apb (0x40000000) : AT(0x40000000) {
 		. = 0x00000; KEEP(*(.bss.mmreg.tim2))
 		. = 0x00400; KEEP(*(.bss.mmreg.tim3))
@@ -54,13 +61,13 @@ SECTIONS {
 	ahb1 (0x40020000) : AT(0x40020000) {
 		. = 0x1000; KEEP(*(.bss.mmreg.rcc))
 
-	/*
-	0x4002 0000 - 0x400203FF DMA
-	0x4002 0400 - 0x400207FF DMA2
-	0x4002 2000 - 0x400223FF FLASH interface
-	0x4002 3000 - 0x400233FF CRC
-	0x4002 4000 - 0x400243FF TSC
-	*/
+		/*
+		0x4002 0000 - 0x400203FF DMA
+		0x4002 0400 - 0x400207FF DMA2
+		0x4002 2000 - 0x400223FF FLASH interface
+		0x4002 3000 - 0x400233FF CRC
+		0x4002 4000 - 0x400243FF TSC
+		*/
 	}
 
 	ahb2 (0x48000000) : AT(0x48000000) {
@@ -72,6 +79,5 @@ SECTIONS {
 		. = 0x1400; KEEP(*(.bss.mmreg.gpiof))
 	}
 
-	INCLUDE arch/arm/armv6_m/armv6-m.sections.ld
-	INCLUDE arch/arm/armv6_m/stm32f0/stm32f0.sections.ld
+	INCLUDE arch/arm/armv6_m/stm32f0/stm32f0.sections.ld /* flash, sram SECTIONS */
 }

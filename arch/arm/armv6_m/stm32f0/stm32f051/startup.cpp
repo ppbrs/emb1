@@ -1,4 +1,5 @@
 #include "if/mcu/nvic.h"
+#include "if/mcu/tick.h"
 #include <cstdint>
 
 #if __STDC_HOSTED__ > 0
@@ -117,21 +118,21 @@ void nvic::hardFaultHandler() {
 	}
 }
 
-void svcHandler() {
+[[gnu::weak]] void nvic::svcISR() {
 	__asm__ volatile("bkpt #0\n");
 	while(1) {
 		__asm("nop");
 	}
 }
 
-void pendSvHandler() {
+[[gnu::weak]] void nvic::pendsvISR() {
 	__asm__ volatile("bkpt #0\n");
 	while(1) {
 		__asm("nop");
 	}
 }
 
-void sysTickHandler() {
+[[gnu::weak]] void tick::sysTickISR() {
 	__asm__ volatile("bkpt #0\n");
 	while(1) {
 		__asm("nop");

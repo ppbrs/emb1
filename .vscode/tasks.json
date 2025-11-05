@@ -142,6 +142,30 @@
 			},
 		},
 		// =========================================================================================
+		//
+		// stm32f0-arithmetic-renode
+		//
+		// =========================================================================================
+		{
+			"label": "stm32f0-arithmetic-renode: GNU: Make.",
+			"type": "shell",
+			"command": "clear && export EMB1_TOOLCHAIN=gnu && make -B stm32f0-arithmetic-renode",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "stm32f0-arithmetic-renode: Start Renode (Telnet, --port 4444)",
+			"type": "shell",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}",
+			},
+			// "command": "clear; gnome-terminal --full-screen -- bash -c 'date; pwd; echo; ./3party/renode_portable/renode --port 4444 app/stm32f0-arithmetic-renode/stm32f0-arithmetic-renode.resc; echo; echo Renode exited; exec bash'",
+			"command": "clear; gnome-terminal --full-screen -- bash -c 'date; pwd; echo; ./3party/renode_portable/renode --console app/stm32f0-arithmetic-renode/stm32f0-arithmetic-renode.resc; echo; echo Renode exited; exec bash'",
+		},
+		// =========================================================================================
 		{
 			"label": "python3: Run this file locally.",
 			"type": "shell",

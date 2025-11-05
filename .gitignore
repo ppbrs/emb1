@@ -10,3 +10,5 @@ tmp/
 scripts/*bin
 
 *.log
+
+3party/renode_portable
