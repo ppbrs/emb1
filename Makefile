@@ -69,6 +69,7 @@ common_ldflags += --fatal-warnings
 -include app/stm32h743-sbx/stm32h743-sbx.mk
 -include app/stm32f051-sbx/stm32f051-sbx.mk
 -include app/riga-comm-00/riga-comm-00.mk
+-include app/stm32f0-arithmetic-renode/stm32f0-arithmetic-renode.mk
 
 -include host-tests/host-tests.mk
 

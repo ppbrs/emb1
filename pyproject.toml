@@ -1,3 +1,9 @@
+[project]
+name = "emb1"
+dependencies = [
+	"pyelftools == 0.32",
+]
+
 [tool.isort]
 # https://pycqa.github.io/isort/docs/configuration/options.html
 

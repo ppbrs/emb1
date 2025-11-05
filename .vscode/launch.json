@@ -116,5 +116,18 @@
 			"preLaunchTask": "HOST-TESTS: LLVM: Make.",
 		},
 		// =========================================================================================
+		{
+			"name": "STM32F0-ARITHMETIC-RENODE: GNU: Debug application.",
+			"type": "cppdbg",
+			"request": "launch",
+			// "preLaunchTask": "Run Renode",
+			// "postDebugTask": "Close Renode",
+			"miDebuggerServerAddress": "localhost:3333",
+			"miDebuggerPath": "gdb-multiarch",
+			"cwd": "${workspaceFolder}",
+			"program": "${workspaceFolder}/bin/stm32f0-arithmetic-renode.gnu.elf",
+			"stopAtEntry": true,
+		}
+		// =========================================================================================
 	],
 }
