@@ -120,7 +120,7 @@
 			"name": "stm32f0-arithmetic-renode: GNU-14.3: Debug application.",
 			"type": "cppdbg",
 			"request": "launch",
-			// "preLaunchTask": "Run Renode",
+			// "preLaunchTask": "stm32f0-arithmetic-renode: GNU-14.3: Start Renode in console.",
 			// "postDebugTask": "Close Renode",
 			"miDebuggerServerAddress": "localhost:3333",
 			"miDebuggerPath": "gdb-multiarch",

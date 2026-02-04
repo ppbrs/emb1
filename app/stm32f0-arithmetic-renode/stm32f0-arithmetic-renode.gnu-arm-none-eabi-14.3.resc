@@ -16,9 +16,6 @@ sysbus LoadELF @bin/stm32f0-arithmetic-renode.gnu-arm-none-eabi-14.3.elf
 # Enable GDB
 machine StartGdbServer 3333
 
-# sysbus.cpu LogFunctionNames True
-logFile @app/stm32f0-arithmetic-renode/renode.log
-
 log "IsStarted:"
 sysbus.cpu IsStarted
 

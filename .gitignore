@@ -14,5 +14,3 @@ scripts/*bin
 *.s
 
 *.log
-
-3party/renode_portable

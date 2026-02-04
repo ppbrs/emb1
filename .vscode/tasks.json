@@ -188,7 +188,7 @@
 			"options": {
 				"cwd": "${workspaceFolder}",
 			},
-			"command": "clear; gnome-terminal --full-screen -- bash -c 'date; pwd; echo; ./3party/renode_portable/renode -p --port 4444 app/stm32f0-arithmetic-renode/stm32f0-arithmetic-renode.gnu-arm-none-eabi-14.3.resc; echo; echo Renode exited; exec bash'",
+			"command": "clear; gnome-terminal --full-screen -- bash -c 'date; pwd; echo; ./../emb1-tools-infra/renode/renode-1.16.0+20260123gita3e74b5fa/renode -p --port 4444 app/stm32f0-arithmetic-renode/stm32f0-arithmetic-renode.gnu-arm-none-eabi-14.3.resc; echo; echo Renode exited; exec bash'",
 		},
 		{
 			"label": "stm32f0-arithmetic-renode: GNU-14.3: Start Renode in console.",
@@ -197,7 +197,7 @@
 			"options": {
 				"cwd": "${workspaceFolder}",
 			},
-			"command": "clear; gnome-terminal --full-screen -- bash -c 'date; pwd; echo; ./3party/renode_portable/renode -p --console app/stm32f0-arithmetic-renode/stm32f0-arithmetic-renode.gnu-arm-none-eabi-14.3.resc; echo; echo Renode exited; exec bash'",
+			"command": "clear; gnome-terminal --full-screen -- bash -c 'date; pwd; echo; ./../emb1-tools-infra/renode/renode-1.16.0+20260123gita3e74b5fa/renode -p --console app/stm32f0-arithmetic-renode/stm32f0-arithmetic-renode.gnu-arm-none-eabi-14.3.resc; echo; echo Renode exited; exec bash'",
 		},
 		{
 			"label": "stm32f0-arithmetic-renode: GNU-14.3: Renode simulation.",
