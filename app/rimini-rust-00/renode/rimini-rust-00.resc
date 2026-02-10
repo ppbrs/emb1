@@ -1,0 +1,24 @@
+# This script is run in emb1/app/rimini-rust-00
+
+$name?="rimini-rust-00"
+
+# Create a machine:
+mach create $name
+# Once a machine is created, it contains only one peripheral - the system bus called simply sysbus.
+# There is no memory or CPU, so the machine is not yet ready to execute any code.
+
+# Load a predefined platform
+machine LoadPlatformDescription @./renode/stm32h743.repl
+
+# Load a binary
+sysbus LoadELF @target/thumbv7em-none-eabihf/debug/main
+
+# showAnalyzer sysbus.cpu.uart
+
+# Enable GDB
+machine StartGdbServer 3333
+
+log "IsStarted:"
+sysbus.cpu IsStarted
+
+# sysbus.cpu Start

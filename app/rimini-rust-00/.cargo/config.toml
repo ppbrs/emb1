@@ -1,0 +1,11 @@
+
+[target.thumbv7em-none-eabihf]
+rustflags = [
+  # This instructs the linker to use the link.x file as the linker script.
+  # The cortex-m-rt crate uses a default link.x script that looks for memory.x file.
+  "-C",
+  "link-arg=-Tlink.x",
+]
+
+[build]
+target = "thumbv7em-none-eabihf" # Cortex-M7F

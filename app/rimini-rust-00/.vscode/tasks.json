@@ -1,0 +1,67 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		// -----------------------------------------------------------------------------------------
+		{
+			"label": "RIMINI-RUST-00: Cargo build --dev",
+			"type": "shell",
+			"group": "build",
+			"command": "clear; cargo build"
+		},
+		{
+			"label": "RIMINI-RUST-00: Cargo build --release",
+			"type": "shell",
+			"group": "build",
+			"command": "clear; cargo build --release"
+		},
+		// -----------------------------------------------------------------------------------------
+		{
+			"label": "RIMINI-RUST-00: Build, start Renode (EXTERNAL terminal).",
+			"type": "shell",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"command": "clear; date; pwd; echo; gnome-terminal --full-screen -- bash -c 'date; pwd; echo; ./start-renode.sh; exec bash'"
+		},
+		// -----------------------------------------------------------------------------------------
+		{
+			"label": "RIMINI: Start OpenOCD.",
+			"type": "shell",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"command": "clear; date; pwd; echo; gnome-terminal --full-screen -- bash -c 'date; pwd; echo; openocd -f ../../boards/rimini/rimini.openocd.cfg; exec bash'",
+		},
+		// -----------------------------------------------------------------------------------------
+		{
+			"label": "bash: script: Run in INTEGRATED Terminal.",
+			"type": "shell",
+			"group": "build",
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"command": "clear; date; echo; ${file}"
+		},
+		{
+			"label": "bash: script: Run in EXTERNAL terminal.",
+			"type": "shell",
+			"group": "build",
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"command": "clear; date; pwd; echo; gnome-terminal --full-screen -- bash -c 'date; pwd; echo; ${file}; exec bash'"
+		},
+		{
+			"label": "bash: script: Make executable.",
+			"type": "shell",
+			"group": "build",
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"command": "clear; date; echo; chmod +x ${file}"
+		},
+		// -----------------------------------------------------------------------------------------
+	]
+}
