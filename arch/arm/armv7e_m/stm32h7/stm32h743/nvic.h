@@ -1,11 +1,22 @@
 #pragma once
 
+#include <array>
+#include <if/mcu/nvic.h>
+
 
 namespace stm32h743 {
 namespace nvic {
 
-enum InterruptNumber : uint8_t {
+using ExceptionVectors = std::array<::nvic::ExceptionHandlerType, 15>;
+static_assert(sizeof(ExceptionVectors) == 4 * 15);
 
+/* External Interrupts (IRQ0 ... IRQ239) */
+using InterruptVectors = std::array<::nvic::ExceptionHandlerType, 150>;
+static_assert(sizeof(InterruptVectors) == 4 * 150);
+
+constexpr ::nvic::ExceptionHandlerType reservedHandler = nullptr;
+
+enum InterruptNumber /*: uint8_t*/ {
 	WWDG /*_IRQn*/ /*= 0*/, /*!< Window WatchDog Interrupt ( wwdg1_it, wwdg2_it)                   */
 	PVD_AVD /*_IRQn*/ /*= 1*/, /*!< PVD/AVD through EXTI Line detection Interrupt                     */
 	TAMP_STAMP /*_IRQn*/ /*= 2*/, /*!< Tamper and TimeStamp interrupts through the EXTI line             */
@@ -48,6 +59,7 @@ enum InterruptNumber : uint8_t {
 	USART3 /*_IRQn*/ /*= 39*/, /*!< USART3 global Interrupt                                           */
 	EXTI15_10 /*_IRQn*/ /*= 40*/, /*!< External Line[15:10] Interrupts                                   */
 	RTC_Alarm /*_IRQn*/ /*= 41*/, /*!< RTC Alarm (A and B) through EXTI Line Interrupt                   */
+	_RESERVED_42,
 	TIM8_BRK_TIM12 /*_IRQn*/ /*= 43*/, /*!< TIM8 Break Interrupt and TIM12 global interrupt                   */
 	TIM8_UP_TIM13 /*_IRQn*/ /*= 44*/, /*!< TIM8 Update Interrupt and TIM13 global interrupt                  */
 	TIM8_TRG_COM_TIM14 /*_IRQn*/ /*= 45*/, /*!< TIM8 Trigger and Commutation Interrupt and TIM14 global interrupt */
@@ -69,6 +81,10 @@ enum InterruptNumber : uint8_t {
 	ETH /*_IRQn*/ /*= 61*/, /*!< Ethernet global Interrupt                                         */
 	ETH_WKUP /*_IRQn*/ /*= 62*/, /*!< Ethernet Wakeup through EXTI line Interrupt                       */
 	FDCAN_CAL /*_IRQn*/ /*= 63*/, /*!< FDCAN Calibration unit Interrupt                                  */
+	_RESERVED_64,
+	_RESERVED_65,
+	_RESERVED_66,
+	_RESERVED_67,
 	DMA2_Stream5 /*_IRQn*/ /*= 68*/, /*!< DMA2 Stream 5 global interrupt                                    */
 	DMA2_Stream6 /*_IRQn*/ /*= 69*/, /*!< DMA2 Stream 6 global interrupt                                    */
 	DMA2_Stream7 /*_IRQn*/ /*= 70*/, /*!< DMA2 Stream 7 global interrupt                                    */
@@ -80,6 +96,7 @@ enum InterruptNumber : uint8_t {
 	OTG_HS_WKUP /*_IRQn*/ /*= 76*/, /*!< USB OTG HS Wakeup through EXTI interrupt                          */
 	OTG_HS /*_IRQn*/ /*= 77*/, /*!< USB OTG HS global interrupt                                       */
 	DCMI /*_IRQn*/ /*= 78*/, /*!< DCMI global interrupt                                             */
+	_RESERVED_79,
 	RNG /*_IRQn*/ /*= 80*/, /*!< RNG global interrupt                                              */
 	FPU /*_IRQn*/ /*= 81*/, /*!< FPU global interrupt                                              */
 	UART7 /*_IRQn*/ /*= 82*/, /*!< UART7 global interrupt                                            */
@@ -123,8 +140,10 @@ enum InterruptNumber : uint8_t {
 	MDIOS /*_IRQn*/ /*= 120*/, /*!< MDIOS global Interrupt                                            */
 	JPEG /*_IRQn*/ /*= 121*/, /*!< JPEG global Interrupt                                             */
 	MDMA /*_IRQn*/ /*= 122*/, /*!< MDMA global Interrupt                                             */
+	_RESERVED_123,
 	SDMMC2 /*_IRQn*/ /*= 124*/, /*!< SDMMC2 global Interrupt                                           */
 	HSEM1 /*_IRQn*/ /*= 125*/, /*!< HSEM1 global Interrupt                                            */
+	_RESERVED_126,
 	ADC3 /*_IRQn*/ /*= 127*/, /*!< ADC3 global Interrupt                                             */
 	DMAMUX2_OVR /*_IRQn*/ /*= 128*/, /*!<DMAMUX2 Overrun interrupt                                          */
 	BDMA_Channel0 /*_IRQn*/ /*= 129*/, /*!< BDMA Channel 0 global Interrupt                                   */
@@ -141,12 +160,17 @@ enum InterruptNumber : uint8_t {
 	LPTIM4 /*_IRQn*/ /*= 140*/, /*!< LP TIM4 global interrupt                                          */
 	LPTIM5 /*_IRQn*/ /*= 141*/, /*!< LP TIM5 global interrupt                                          */
 	LPUART1 /*_IRQn*/ /*= 142*/, /*!< LP UART1 interrupt                                                */
+	_RESERVED_143,
 	CRS /*_IRQn*/ /*= 144*/, /*!< Clock Recovery Global Interrupt                                   */
 	ECC /*_IRQn*/ /*= 145*/, /*!< ECC diagnostic Global Interrupt                                   */
 	SAI4 /*_IRQn*/ /*= 146*/, /*!< SAI4 global interrupt                                             */
+	_RESERVED_147,
+	_RESERVED_148,
 	WAKEUP_PIN /*_IRQn*/ /*= 149*/, /*!< Interrupt for all 6 wake-up pins                                  */
 
 	NUMBER,
 };
+
+static_assert(InterruptNumber::NUMBER == 150);
 }
 }

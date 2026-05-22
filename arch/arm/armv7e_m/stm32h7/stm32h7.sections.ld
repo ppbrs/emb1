@@ -7,14 +7,26 @@ This file is supposed to be included from within a SECTIONS block of a linker sc
 /* =========================================================================*/
 
 /* The startup code goes first into FLASH */
-.isr_vector : ALIGN(4) {
-	/* 
-	The KEEP statement instructs the linker to keep the specified section,
-	even if no symbols inside it are referenced.
-	Without this directive the vector table, which might not be referenced
-	explicitly in code, may be pruned out.
-	*/
-	KEEP(*(.isr_vector))
+
+/* 
+The KEEP statement instructs the linker to keep the specified section,
+even if no symbols inside it are referenced.
+Without this directive the vector table, which might not be referenced
+explicitly in code, may be pruned out.
+*/
+
+.initial_sp_value : ALIGN(4) {
+	KEEP(*(.initial_sp_value))
+	. = ALIGN(4);
+} >flash_region
+
+.exception_vectors : ALIGN(4) {
+	KEEP(*(.exception_vectors))
+	. = ALIGN(4);
+} >flash_region
+
+.interrupt_vectors : ALIGN(4) {
+	KEEP(*(.interrupt_vectors))
 	. = ALIGN(4);
 } >flash_region
 

@@ -100,7 +100,6 @@ DATE_TIME := $(shell date)
 DATE_TIME_HEADER := GENERATED $(DATE_TIME)
 
 disasm_options := --disassemble
-disasm_options += --disassemble
 disasm_options += --demangle
 disasm_options += --wide  # no wrapping
 disasm_options += --line-numbers

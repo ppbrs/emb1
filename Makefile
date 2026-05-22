@@ -91,10 +91,11 @@ common_ldflags += --fatal-warnings
 #
 
 ifneq ($(EMB1_TOOLCHAIN),)
-	-include app/stm32h743-sbx/stm32h743-sbx.mk
-	-include app/stm32f051-sbx/stm32f051-sbx.mk
 	-include app/riga-comm-00/riga-comm-00.mk
 	-include app/stm32f0-arithmetic-renode/stm32f0-arithmetic-renode.mk
+	-include app/stm32f051-sbx/stm32f051-sbx.mk
+	-include app/stm32h7-arithmetic-renode/stm32h7-arithmetic-renode.mk
+	-include app/stm32h743-sbx/stm32h743-sbx.mk
 endif
 
 ifneq ($(EMB1_HOST_TOOLCHAIN),)

@@ -84,24 +84,40 @@ stm32h743_sbx_cxxflags += -march=armv7e-m
 stm32h743_sbx_cxxflags += -ffreestanding  # Note: This defines __STDC_HOSTED__ > 0
 
 # ------------------------------------------------------------------------------
-
 #
 # Getting additional information from the ELF file
 #
+# DATE_TIME := $(shell date)
+# DATE_TIME_HEADER := GENERATED $(DATE_TIME)
+
+disasm_options := --disassemble
+disasm_options += --demangle
+disasm_options += --wide  # no wrapping
+disasm_options += --line-numbers
+disasm_options += --source
+disasm_options += -x
+disasm_options += -M reg-names-std
+# disasm_options += -M reg-names-apcs  # to show registers as a1-a4, v1-v6, ...
+
 $(app_name): $(stm32h743_sbx_elf) Makefile
 	@echo
 	$(info INFO: POST-BUILDING `$@`.)
 
 # Disassemble executable sections:
-	@$(stm32_toolchain_objdump) -d $(stm32h743_sbx_elf) > $(stm32h743_sbx_disasm)
+# 	@echo $(DATE_TIME_HEADER) > $(stm32h743_sbx_disasm)
+	@$(stm32_toolchain_objdump) $(disasm_options) $(stm32h743_sbx_elf) > $(stm32h743_sbx_disasm)
+
 # Create files with sections and symbols:
 	@$(stm32_toolchain_readelf) --segments $(stm32h743_sbx_elf) > $(stm32h743_sbx_segments)
 	@$(stm32_toolchain_readelf) --sections --wide $(stm32h743_sbx_elf) > $(stm32h743_sbx_sections)
-	@$(stm32_toolchain_readelf) --symbols --wide $(stm32h743_sbx_elf) > $(stm32h743_sbx_symbols)
+	@$(stm32_toolchain_readelf) --symbols --wide --demangle $(stm32h743_sbx_elf) > $(stm32h743_sbx_symbols)
+
 # Make HEX file:
 	@$(stm32_toolchain_objcopy) -O ihex $(stm32h743_sbx_elf) $(stm32h743_sbx_ihex)
+
 # List contents of ihex file in a human-readable form:
 	@$(stm32_toolchain_objdump) -s $(stm32h743_sbx_elf) > $(stm32h743_sbx_ihex).txt
+
 # Print size:
 	@$(stm32_toolchain_size) $(stm32h743_sbx_elf)
 	$(info INFO: BUILDING `$@` DONE.)
@@ -114,9 +130,12 @@ $(stm32h743_sbx_elf): $(stm32h743_sbx_objs) Makefile
 	$(info INFO: LINKING `$(stm32h743_sbx_elf)`)
 	@mkdir -p $(shell dirname $@)
 
+# 	$(info D: cxxflags: $(stm32f0_arithmetic_renode_cxxflags))
+	$(info D: ldflags: $(stm32h743_sbx_ldflags))
+
 	@$(stm32_toolchain_ld) \
 		$(stm32h743_sbx_objs) \
-		$(foreach D, $(stm32h743_sbx_lds), -T$(D)) \
+		$(foreach LinkerScript, $(stm32h743_sbx_lds), -T$(LinkerScript)) \
 		-Map=$(stm32h743_sbx_map) \
 		$(stm32h743_sbx_ldflags) \
 		-o $(stm32h743_sbx_elf)

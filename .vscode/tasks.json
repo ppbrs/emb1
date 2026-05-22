@@ -209,6 +209,20 @@
 			},
 		},
 		// =========================================================================================
+		//
+		// stm32h7-arithmetic-renode
+		//
+		// =========================================================================================
+		{
+			"label": "stm32h7-arithmetic-renode: GNU-10.3: Make.",
+			"type": "shell",
+			"command": "clear; make -B stm32h7-arithmetic-renode EMB1_TOOLCHAIN=gnu-arm-none-eabi-10.3",
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		// =========================================================================================
 		{
 			"label": "python3: Run this file locally.",
 			"type": "shell",

@@ -5,6 +5,9 @@ app_name := riga-comm-00
 app_dir := ./app/$(app_name)
 toolchain := $(EMB1_TOOLCHAIN)
 
+-include 3party/freertos-kernel-1051.mk
+-include arch/arm/stm32/stm32.mk
+
 # ------------------------------------------------------------------------------
 # include directories
 

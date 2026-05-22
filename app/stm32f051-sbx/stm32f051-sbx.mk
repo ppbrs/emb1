@@ -5,6 +5,9 @@ app_name := stm32f051-sbx
 app_dir := ./app/$(app_name)
 toolchain := $(EMB1_TOOLCHAIN)
 
+-include 3party/freertos-kernel-1051.mk
+-include arch/arm/stm32/stm32.mk
+
 # ------------------------------------------------------------------------------
 # include directories
 
@@ -128,6 +131,8 @@ $(stm32f051_sbx_elf): $(stm32f051_sbx_objs) Makefile
 $(stm32f051_sbx_build_dir)/%.cpp.o: %.cpp Makefile
 	@echo
 	$(info INFO: BUILDING `$@` FROM `$<`.)
+	$(info D: includes: $(stm32f051_sbx_incs))
+
 	@mkdir -p $(shell dirname $@)
 	@$(stm32_toolchain_cpp) \
 		$(stm32f051_sbx_cxxflags) \
