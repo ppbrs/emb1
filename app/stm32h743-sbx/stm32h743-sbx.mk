@@ -61,34 +61,40 @@ stm32h743_sbx_build_dir := $(objects_dir)/$(app_name)/$(toolchain)
 stm32h743_sbx_lds := $(app_dir)/$(app_name).ld
 
 stm32h743_sbx_ldflags := $(stm32_ldflags)
+# For verbose linking:
+# stm32h743_sbx_ldflags += --verbose
 
-stm32h743_sbx_ldflags += -L$(stm32_toolchain_root_dir)/arm-none-eabi/lib/thumb/v7e-m+fp/hard/
-stm32h743_sbx_ldflags += -L$(stm32_toolchain_root_dir)/lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+fp/hard/
+# stm32h743_sbx_ldflags += -L$(stm32_toolchain_root_dir)/arm-none-eabi/lib/thumb/v7e-m+fp/hard/
+# stm32h743_sbx_ldflags += -L$(stm32_toolchain_root_dir)/lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+fp/hard/
+stm32h743_sbx_ldflags += -L$(stm32_libgcc_dir)/thumb/v7e-m+fp/hard/
+# stm32h743_sbx_ldflags += -L$(stm32_libgcc_dir)/thumb/v7e-m+fp/hard/
+
+
 
 # ------------------------------------------------------------------------------
 # compiling
 
+stm32h743_sbx_c_cxx_flags := -mfloat-abi=hard
+stm32h743_sbx_c_cxx_flags += -mcpu=cortex-m7
+stm32h743_sbx_c_cxx_flags += -mfpu=fpv5-d16
+stm32h743_sbx_c_cxx_flags += -march=armv7e-m
+stm32h743_sbx_c_cxx_flags += -ffreestanding  # Note: This defines __STDC_HOSTED__ > 0
+
+# stm32h743_sbx_c_cxx_flags += -nodefaultlibs
+
+
 stm32h743_sbx_cflags := $(stm32_cflags)
+stm32h743_sbx_cflags += $(stm32h743_sbx_c_cxx_flags)
+
 stm32h743_sbx_cxxflags := $(stm32_cxxflags)
-
-stm32h743_sbx_cflags += -mfloat-abi=hard
-stm32h743_sbx_cflags += -mcpu=cortex-m7
-stm32h743_sbx_cflags += -mfpu=fpv5-d16
-stm32h743_sbx_cflags += -march=armv7e-m
-stm32h743_sbx_cflags += -ffreestanding  # Note: This defines __STDC_HOSTED__ > 0
-
-stm32h743_sbx_cxxflags += -mfloat-abi=hard
-stm32h743_sbx_cxxflags += -mcpu=cortex-m7
-stm32h743_sbx_cxxflags += -mfpu=fpv5-d16
-stm32h743_sbx_cxxflags += -march=armv7e-m
-stm32h743_sbx_cxxflags += -ffreestanding  # Note: This defines __STDC_HOSTED__ > 0
+stm32h743_sbx_cxxflags += $(stm32h743_sbx_c_cxx_flags)
 
 # ------------------------------------------------------------------------------
 #
 # Getting additional information from the ELF file
 #
-# DATE_TIME := $(shell date)
-# DATE_TIME_HEADER := GENERATED $(DATE_TIME)
+DATE_TIME := $(shell date)
+DATE_TIME_HEADER := GENERATED $(DATE_TIME)
 
 disasm_options := --disassemble
 disasm_options += --demangle
@@ -104,12 +110,16 @@ $(app_name): $(stm32h743_sbx_elf) Makefile
 	$(info INFO: POST-BUILDING `$@`.)
 
 # Disassemble executable sections:
-# 	@echo $(DATE_TIME_HEADER) > $(stm32h743_sbx_disasm)
+	@echo $(DATE_TIME_HEADER) > $(stm32h743_sbx_disasm)
 	@$(stm32_toolchain_objdump) $(disasm_options) $(stm32h743_sbx_elf) > $(stm32h743_sbx_disasm)
 
 # Create files with sections and symbols:
+	@echo $(DATE_TIME_HEADER) > $(stm32h743_sbx_segments)
 	@$(stm32_toolchain_readelf) --segments $(stm32h743_sbx_elf) > $(stm32h743_sbx_segments)
+
+	@echo $(DATE_TIME_HEADER) > $(stm32h743_sbx_sections)
 	@$(stm32_toolchain_readelf) --sections --wide $(stm32h743_sbx_elf) > $(stm32h743_sbx_sections)
+	@echo $(DATE_TIME_HEADER) > $(stm32h743_sbx_symbols)
 	@$(stm32_toolchain_readelf) --symbols --wide --demangle $(stm32h743_sbx_elf) > $(stm32h743_sbx_symbols)
 
 # Make HEX file:
@@ -120,48 +130,76 @@ $(app_name): $(stm32h743_sbx_elf) Makefile
 
 # Print size:
 	@$(stm32_toolchain_size) $(stm32h743_sbx_elf)
+
+# Check ELF contents:
+# 	@python3 app/stm32f0-arithmetic-renode/integration-tests/check_elf.py $(stm32h7_arithmetic_renode_elf)
+
 	$(info INFO: BUILDING `$@` DONE.)
 
+# --------------------------------------------------------------------------------------------------
 #
 # Linking
 #
 $(stm32h743_sbx_elf): $(stm32h743_sbx_objs) Makefile
 	@echo
-	$(info INFO: LINKING `$(stm32h743_sbx_elf)`)
+	$(info I: LINKING `$(stm32h743_sbx_elf)`)
 	@mkdir -p $(shell dirname $@)
 
 # 	$(info D: cxxflags: $(stm32f0_arithmetic_renode_cxxflags))
 	$(info D: ldflags: $(stm32h743_sbx_ldflags))
 
-	@$(stm32_toolchain_ld) \
+# 	@$(stm32_toolchain_ld) \
+# 		$(stm32h743_sbx_objs) \
+# 		$(foreach LinkerScript, $(stm32h743_sbx_lds), -T$(LinkerScript)) \
+# 		-Map=$(stm32h743_sbx_map) \
+# 		$(stm32h743_sbx_ldflags) \
+# 		-o $(stm32h743_sbx_elf)
+
+	@$(stm32_toolchain_cpp_ld) \
 		$(stm32h743_sbx_objs) \
-		$(foreach LinkerScript, $(stm32h743_sbx_lds), -T$(LinkerScript)) \
-		-Map=$(stm32h743_sbx_map) \
-		$(stm32h743_sbx_ldflags) \
+		$(stm32h743_sbx_cxxflags) \
+		$(foreach LinkerScript, $(stm32h743_sbx_lds), -Wl,-T$(stm32h743_sbx_lds)) \
+		$(foreach LinkerFlag, $(stm32h743_sbx_ldflags), -Wl,$(LinkerFlag)) \
+		-Wl,-Map=$(stm32h743_sbx_map) \
 		-o $(stm32h743_sbx_elf)
 
+# --------------------------------------------------------------------------------------------------
 #
 # Building C++ source files
 #
 $(stm32h743_sbx_build_dir)/%.cpp.o: %.cpp Makefile
 	@echo
-	$(info INFO: BUILDING `$@` FROM `$<`.)
+	$(info I: BUILDING `$@` FROM `$<`.)
 	@mkdir -p $(shell dirname $@)
+
+	$(info D: cxxflags: $(stm32h743_sbx_cxxflags))
+
 	@$(stm32_toolchain_cpp) \
 		$(stm32h743_sbx_cxxflags) \
 		$(foreach D, $(stm32h743_sbx_incs), -I$(D)) \
 		-c $< -o $@
 
+	@$(stm32_toolchain_objdump) $(disasm_options) $@ > $@.disasm
+	$(info I: OK)
+
+
+# --------------------------------------------------------------------------------------------------
 #
 # Building C source files
 #
 $(stm32h743_sbx_build_dir)/%.c.o: %.c Makefile
 	@echo
-	$(info INFO: BUILDING `$@` FROM `$<`.)
+	$(info I: BUILDING `$@` FROM `$<`.)
 	@mkdir -p $(shell dirname $@)
+
+
 	@$(stm32_toolchain_c) \
 		$(stm32h743_sbx_cflags) \
 		$(foreach D, $(stm32h743_sbx_incs), -I$(D)) \
 		-c $< -o $@
+
+	$(info I: OK)
+
+# --------------------------------------------------------------------------------------------------
 
 -include $(stm32h743_sbx_deps)

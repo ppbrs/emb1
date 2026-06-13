@@ -15,45 +15,45 @@ stm32_ldflags := $(common_ldflags)
 # --------------------------------------------------------------------------------------------------
 # LLVM
 
-ifeq ($(EMB1_TOOLCHAIN),llvm-18)
+# ifeq ($(EMB1_TOOLCHAIN),llvm-18)
 
-# 	stm32_toolchain_root_dir := 
-	stm32_toolchain_cpp := /usr/bin/clang++-18
-	stm32_toolchain_c := /usr/bin/clang-18
-	stm32_toolchain_objdump := /usr/bin/llvm-objdump-18
-	stm32_toolchain_readelf := /usr/bin/llvm-readelf-18
-	stm32_toolchain_objcopy := /usr/bin/llvm-objcopy-18
-	stm32_toolchain_size := /usr/bin/llvm-size-18
+# # 	stm32_toolchain_root_dir := 
+# 	stm32_toolchain_cpp := /usr/bin/clang++-18
+# 	stm32_toolchain_c := /usr/bin/clang-18
+# 	stm32_toolchain_objdump := /usr/bin/llvm-objdump-18
+# 	stm32_toolchain_readelf := /usr/bin/llvm-readelf-18
+# 	stm32_toolchain_objcopy := /usr/bin/llvm-objcopy-18
+# 	stm32_toolchain_size := /usr/bin/llvm-size-18
 
-# Clang is often a "bare" compiler without a built-in C library.
-# We need usually borrow it from the GNU Arm Toolchain.
-	stm32_toolchain_gnu_root_dir := ../emb1-tools-infra/toolchains/gnu-arm-none-eabi-14.3/
+# # Clang is often a "bare" compiler without a built-in C library.
+# # We need usually borrow it from the GNU Arm Toolchain.
+# 	stm32_toolchain_gnu_root_dir := ../emb1-tools-infra/toolchains/gnu-arm-none-eabi-14.3/
 
-	stm32_libgcc_dir = $(stm32_toolchain_gnu_root_dir)/lib/gcc/arm-none-eabi/14.3.1/
+# 	stm32_libgcc_dir = $(stm32_toolchain_gnu_root_dir)/lib/gcc/arm-none-eabi/14.3.1/
 
-	stm32_c_cxx_flags := --target=arm-none-eabi
+# 	stm32_c_cxx_flags := --target=arm-none-eabi
 
-#	How to find my GNU sysroot?
-#	$ ./arm-none-eabi-c++ -print-sysroot
-#		emb1-tools-infra/toolchains/gnu-arm-none-eabi-14.3/bin/../arm-none-eabi
-	stm32_c_cxx_flags += --sysroot=$(stm32_toolchain_gnu_root_dir)/arm-none-eabi/
+# #	How to find my GNU sysroot?
+# #	$ ./arm-none-eabi-c++ -print-sysroot
+# #		emb1-tools-infra/toolchains/gnu-arm-none-eabi-14.3/bin/../arm-none-eabi
+# 	stm32_c_cxx_flags += --sysroot=$(stm32_toolchain_gnu_root_dir)/arm-none-eabi/
 
-	stm32_incs += $(stm32_toolchain_gnu_root_dir)/arm-none-eabi/include/c++/14.3.1
-#	The following is needed because <cstdint> (residing in the directory above)
-#	uses <bits/c++config.h>:
-	stm32_incs += $(stm32_toolchain_gnu_root_dir)/arm-none-eabi/include/c++/14.3.1/arm-none-eabi
+# 	stm32_incs += $(stm32_toolchain_gnu_root_dir)/arm-none-eabi/include/c++/14.3.1
+# #	The following is needed because <cstdint> (residing in the directory above)
+# #	uses <bits/c++config.h>:
+# 	stm32_incs += $(stm32_toolchain_gnu_root_dir)/arm-none-eabi/include/c++/14.3.1/arm-none-eabi
 
-	stm32_cflags += $(stm32_c_cxx_flags)
-	stm32_cxxflags += $(stm32_c_cxx_flags)
+# 	stm32_cflags += $(stm32_c_cxx_flags)
+# 	stm32_cxxflags += $(stm32_c_cxx_flags)
 
-# Linking with GCC 14.3:
-	stm32_toolchain_cpp_ld := $(stm32_toolchain_gnu_root_dir)/bin/arm-none-eabi-g++
+# # Linking with GCC 14.3:
+# 	stm32_toolchain_cpp_ld := $(stm32_toolchain_gnu_root_dir)/bin/arm-none-eabi-g++
 
-# 	stm32_cxxflags += -fuse-ld=lld
-# 	stm32_toolchain_ld := /usr/bin/ld.lld-18
-# 	stm32_toolchain_ld := arm-none-eabi-14.3-ld
+# # 	stm32_cxxflags += -fuse-ld=lld
+# # 	stm32_toolchain_ld := /usr/bin/ld.lld-18
+# # 	stm32_toolchain_ld := arm-none-eabi-14.3-ld
 
-endif
+# endif
 # --------------------------------------------------------------------------------------------------
 # GNU
 
@@ -68,6 +68,7 @@ ifeq ($(EMB1_TOOLCHAIN),gnu-arm-none-eabi-10.3)
 	stm32_toolchain_size := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-size
 	stm32_toolchain_ld := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-ld
 	stm32_libgcc_dir = $(stm32_toolchain_root_dir)/lib/gcc/arm-none-eabi/10.3.1
+	stm32_libc_dir = $(stm32_toolchain_root_dir)/arm-none-eabi/lib/
 endif
 
 ifeq ($(EMB1_TOOLCHAIN),gnu-arm-none-eabi-14.3)
@@ -81,6 +82,7 @@ ifeq ($(EMB1_TOOLCHAIN),gnu-arm-none-eabi-14.3)
 	stm32_toolchain_size := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-size
 	stm32_toolchain_ld := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-ld
 	stm32_libgcc_dir = $(stm32_toolchain_root_dir)/lib/gcc/arm-none-eabi/14.3.1
+	stm32_libc_dir = $(stm32_toolchain_root_dir)/arm-none-eabi/lib/
 endif
 
 # TODO: fix this generic gnu
@@ -94,22 +96,20 @@ ifeq ($(EMB1_TOOLCHAIN),gnu)
 endif
 # --------------------------------------------------------------------------------------------------
 
-stm32_cflags += -mabi=aapcs
-stm32_cflags += -fstack-usage
-stm32_cflags += -nostdlib
-stm32_cflags += -fno-exceptions
-stm32_cflags += -ggdb -g3
-stm32_cflags += -ffunction-sections  # Instructs the compiler to place each function into its own linker section.
-stm32_cflags += -fdata-sections  # Instructs the compiler to place each data variable into its own linker section.
+stm32_c_cxx_flags :=
+stm32_c_cxx_flags += -mabi=aapcs
+stm32_c_cxx_flags += -fstack-usage
+stm32_c_cxx_flags += -nostdlib
+# stm32_c_cxx_flags += -nodefaultlibs
+stm32_c_cxx_flags += -fno-exceptions
+stm32_c_cxx_flags += -ggdb -g3
+stm32_c_cxx_flags += -ffunction-sections  # Instructs the compiler to place each function into its own linker section.
+stm32_c_cxx_flags += -fdata-sections  # Instructs the compiler to place each data variable into its own linker section.
 
-stm32_cxxflags += -mabi=aapcs  # Use ARM Procedure Call Standard (AAPCS)
-stm32_cxxflags += -fstack-usage
-stm32_cxxflags += -nostdlib
-stm32_cxxflags += -fno-exceptions
+stm32_cflags := $(stm32_c_cxx_flags)
+
+stm32_cxxflags := $(stm32_c_cxx_flags)
 stm32_cxxflags += -fno-rtti
-stm32_cxxflags += -ggdb -g3
-stm32_cxxflags += -ffunction-sections  # Instructs the compiler to place each function into its own linker section.
-stm32_cxxflags += -fdata-sections  # Instructs the compiler to place each data variable into its own linker section.
 
 
 # TODO: check https://blog.aureliocolosimo.it/posts/stm32-bare-metal-made-easy

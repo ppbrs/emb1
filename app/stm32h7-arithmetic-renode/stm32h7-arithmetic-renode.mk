@@ -3,12 +3,11 @@
 #
 # This file is included in the main Makefile.
 # ==============================================================================
-
--include arch/arm/stm32/stm32.mk
-
 app_name := stm32h7-arithmetic-renode
 app_dir := ./app/$(app_name)
 toolchain := $(EMB1_TOOLCHAIN)
+
+-include arch/arm/stm32/stm32.mk
 
 # ------------------------------------------------------------------------------
 # include directories
@@ -27,7 +26,15 @@ stm32h7_arithmetic_renode_srcs += $(app_dir)/nvic.cpp
 # stm32h7_arithmetic_renode_srcs += $(app_dir)/test_imult.cpp
 # stm32h7_arithmetic_renode_srcs += $(app_dir)/test.cpp
 stm32h7_arithmetic_renode_srcs += ./arch/arm/armv7e_m/stm32h7/stm32h743/startup.cpp
-stm32h7_arithmetic_renode_srcs += $(stm32h743_srcs)
+# stm32h7_arithmetic_renode_srcs += $(stm32h743_srcs)
+
+# stm32h743_srcs += ./if/mcu/mcu-init.cpp
+# stm32h743_srcs += ./arch/arm/stm32/dio.cpp
+# stm32h743_srcs += ./arch/arm/armv7e_m/systick.cpp
+# stm32h743_srcs += ./arch/arm/armv7e_m/debug.cpp
+stm32h7_arithmetic_renode_srcs += $(wildcard ./arch/arm/armv7e_m/mmreg/*.cpp)
+stm32h7_arithmetic_renode_srcs += $(wildcard ./arch/arm/armv7e_m/stm32h7/mmreg/*.cpp)
+
 
 stm32h7_arithmetic_renode_objs =  $(patsubst %.c,   $(stm32h7_arithmetic_renode_build_dir)/%.c.o,   $(filter %.c,   $(stm32h7_arithmetic_renode_srcs)))
 stm32h7_arithmetic_renode_objs += $(patsubst %.cpp, $(stm32h7_arithmetic_renode_build_dir)/%.cpp.o, $(filter %.cpp, $(stm32h7_arithmetic_renode_srcs)))
@@ -149,15 +156,13 @@ $(stm32h7_arithmetic_renode_elf): $(stm32h7_arithmetic_renode_objs) Makefile
 
 # Using the C++ compiler for linking instead of stm32_toolchain_ld.
 # Every option in stm32h7_arithmetic_renode_ldflags must be prepended by -Wl.
+# Using g++ to link is preferred because it automatically injects required C/C++ startup routines,
+# runtime libraries, and handles architecture-specific flags that ld cannot resolve on its own.
 
 	@$(stm32_toolchain_cpp_ld) \
 		$(stm32h7_arithmetic_renode_objs) \
+		$(stm32h7_arithmetic_renode_cxxflags) \
 		$(foreach LinkerScript, $(stm32h7_arithmetic_renode_lds), -Wl,-T$(LinkerScript)) \
-		-mthumb \
-		-ffreestanding \
-		-mcpu=cortex-m7 \
-		-mfloat-abi=hard \
-		-mfpu=fpv5-d16 \
 		-Wl,-Map=$(stm32h7_arithmetic_renode_map) \
 		$(foreach LinkerFlag, $(stm32h7_arithmetic_renode_ldflags), -Wl,$(LinkerFlag)) \
 		-o $(stm32h7_arithmetic_renode_elf)
@@ -180,7 +185,6 @@ $(stm32h7_arithmetic_renode_build_dir)/%.cpp.o: %.cpp Makefile
 		-c $< -o $@
 
 	@$(stm32_toolchain_objdump) $(disasm_options) $@ > $@.disasm
-
 	$(info I: OK)
 
 # --------------------------------------------------------------------------------------------------

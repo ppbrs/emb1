@@ -327,11 +327,13 @@ void nvic::usageFaultHandler() {
 	}
 }
 
-// void SVC_Handler() {
-//     while(1) {
-//         __asm("nop");
-//     }
-// }
+[[gnu::weak]] void nvic::svcISR() {
+	nvic::defaultHandler();
+}
+
+[[gnu::weak]] void nvic::pendsvISR() {
+	nvic::defaultHandler();
+}
 
 void nvic::debugMonHandler() {
 	nvic::defaultHandler();

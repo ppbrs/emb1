@@ -1,6 +1,6 @@
-#include "../../if/mcu/nvic.h"
-#include "arch/arm/armv7e_m/stm32h7/stm32h743/nvic.h"
-#include "if/mcu/chrono.h"
+#include <arch/arm/armv7e_m/stm32h7/stm32h743/nvic.h>
+#include <if/mcu/chrono.h>
+#include <if/mcu/nvic.h>
 
 extern "C" void resetHandler();
 

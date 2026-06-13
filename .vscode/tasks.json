@@ -118,18 +118,9 @@
 		//
 		// =========================================================================================
 		{
-			"label": "stm32h743-sbx: GNU-10.3: Make.",
+			"label": "stm32h743-sbx: GNU-14.3: Rebuild.",
 			"type": "shell",
-			"command": "clear; make stm32h743-sbx EMB1_TOOLCHAIN=gnu-arm-none-eabi-10.3",
-			"group": "build",
-			"options": {
-				"cwd": "${workspaceFolder}"
-			},
-		},
-		{
-			"label": "stm32h743-sbx: GNU-10.3: Rebuild.",
-			"type": "shell",
-			"command": "clear; make -B stm32h743-sbx EMB1_TOOLCHAIN=gnu-arm-none-eabi-10.3",
+			"command": "clear; make -B stm32h743-sbx EMB1_TOOLCHAIN=gnu-arm-none-eabi-14.3",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"
@@ -140,15 +131,6 @@
 		// riga-comm-00
 		//
 		// =========================================================================================
-		{
-			"label": "riga-comm-00: GNU-10.3: Make.",
-			"type": "shell",
-			"command": "clear; make riga-comm-00 EMB1_TOOLCHAIN=gnu-arm-none-eabi-10.3",
-			"group": "build",
-			"options": {
-				"cwd": "${workspaceFolder}"
-			},
-		},
 		{
 			"label": "riga-comm-00: GNU-14.3: Make.",
 			"type": "shell",
@@ -163,15 +145,6 @@
 		// stm32f0-arithmetic-renode
 		//
 		// =========================================================================================
-		{
-			"label": "stm32f0-arithmetic-renode: GNU-10.3: Make.",
-			"type": "shell",
-			"command": "clear; make -B stm32f0-arithmetic-renode EMB1_TOOLCHAIN=gnu-arm-none-eabi-10.3",
-			"group": "build",
-			"options": {
-				"cwd": "${workspaceFolder}"
-			},
-		},
 		{
 			"label": "stm32f0-arithmetic-renode: GNU-14.3: Make.",
 			"type": "shell",
@@ -214,9 +187,9 @@
 		//
 		// =========================================================================================
 		{
-			"label": "stm32h7-arithmetic-renode: GNU-10.3: Make.",
+			"label": "stm32h7-arithmetic-renode: GNU-14.3: Make.",
 			"type": "shell",
-			"command": "clear; make -B stm32h7-arithmetic-renode EMB1_TOOLCHAIN=gnu-arm-none-eabi-10.3",
+			"command": "clear; make -B stm32h7-arithmetic-renode EMB1_TOOLCHAIN=gnu-arm-none-eabi-14.3",
 			"group": "build",
 			"options": {
 				"cwd": "${workspaceFolder}"
