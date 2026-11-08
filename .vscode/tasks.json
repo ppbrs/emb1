@@ -202,5 +202,27 @@
 			"command": "cd ${fileDirname} && python3 -u ${file}",
 			"group": "build",
 		},
+		// =========================================================================================
+		// BASH
+		// =========================================================================================
+		{
+			"label": "bash: script: Run in Integrated Terminal.",
+			"type": "shell",
+			"group": "build",
+			"options": {
+				"cwd": "${fileDirname}",
+			},
+			"command": "clear; date; echo; ${file}",
+		},
+		{
+			"label": "bash: script: Make executable.",
+			"type": "shell",
+			"group": "build",
+			"options": {
+				"cwd": "${fileDirname}",
+			},
+			"command": "clear; date; echo; chmod +x ${file}",
+		},
+		// =========================================================================================
 	]
 }

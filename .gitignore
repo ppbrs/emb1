@@ -14,3 +14,6 @@ scripts/*bin
 *.s
 
 *.log
+
+infra/toolchains/*
+infra/downloads/*
