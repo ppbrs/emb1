@@ -53,8 +53,8 @@ function inspect {
 	echo; echo ► Inspect done.
 }
 
-download
+# download
 
-install
+# install
 
 inspect

@@ -3,6 +3,8 @@
 
 source install-common.sh
 
+URL_PREFIX="https://builds.renode.io/"
+
 RENODE_NAME="renode-1.16.0+20260123gita3e74b5fa"
 
 RENODE_GZ="$RENODE_NAME.linux-portable.tar.gz"
@@ -26,8 +28,9 @@ function unpack {
 
 # download
 
-unpack
+# unpack
 
+# inspect:
 echo
 $RENODE_DEST/renode --version
 echo

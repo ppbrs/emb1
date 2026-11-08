@@ -17,3 +17,4 @@ scripts/*bin
 
 infra/toolchains/*
 infra/downloads/*
+infra/renode/*

@@ -20,7 +20,7 @@ from integration_tests.build import build_helper
 from renode import Connection, sim_check, sim_read, sim_talk
 
 RENODE_EXEC_PATH = pathlib.PosixPath(
-    "./../emb1-tools-infra/renode/renode-1.16.0+20260123gita3e74b5fa/renode"
+    "./infra/renode/renode-1.16.0+20260123gita3e74b5fa/renode"
 ).resolve()
 
 EMB1_TOOLCHAINS = ["gnu-arm-none-eabi-14.3"]

@@ -58,7 +58,7 @@ stm32_ldflags := $(common_ldflags)
 # GNU
 
 ifeq ($(EMB1_TOOLCHAIN),gnu-arm-none-eabi-10.3)
-	stm32_toolchain_root_dir := ../emb1-tools-infra/toolchains/gnu-arm-none-eabi-10.3
+	stm32_toolchain_root_dir := infra/toolchains/gnu-arm-none-eabi-10.3
 	stm32_toolchain_cpp := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-g++
 	stm32_toolchain_cpp_ld := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-g++
 	stm32_toolchain_c := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-gcc
@@ -72,7 +72,7 @@ ifeq ($(EMB1_TOOLCHAIN),gnu-arm-none-eabi-10.3)
 endif
 
 ifeq ($(EMB1_TOOLCHAIN),gnu-arm-none-eabi-14.3)
-	stm32_toolchain_root_dir := ../emb1-tools-infra/toolchains/gnu-arm-none-eabi-14.3
+	stm32_toolchain_root_dir := infra/toolchains/gnu-arm-none-eabi-14.3
 	stm32_toolchain_cpp := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-g++
 	stm32_toolchain_cpp_ld := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-g++
 	stm32_toolchain_c := $(stm32_toolchain_root_dir)/bin/arm-none-eabi-gcc
